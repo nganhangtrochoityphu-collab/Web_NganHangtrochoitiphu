@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V5.1 (Bản Hoàn Chỉnh)</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V5.2 (Bản Hoàn Chỉnh Nhất)</title>
     <style>
-        /* BIẾN MÀU SẮC */
+        /* =========================================
+           BIẾN MÀU SẮC (SÁNG / TỐI)
+           ========================================= */
         :root {
             --bg-body: #f0f2f5; --text-main: #333; --text-muted: #7f8c8d;
             --card-bg: #ffffff; --card-border: #e1e8ed; --nav-bg: #1a252f;
@@ -78,17 +80,19 @@
         .land-card.sold { filter: grayscale(100%); opacity: 0.6; pointer-events: none; }
         .land-card.owned-by-me { border: 2px solid #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
+        /* Lịch Sử Giao Dịch */
         .history-list { list-style: none; padding: 0; margin: 0; }
         .history-list li { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--card-border); align-items: center; background: var(--card-bg); border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px var(--shadow-color); transition: 0.3s; }
         .history-list li:hover { background: var(--history-hover); }
         .history-time { color: var(--text-muted); font-size: 13px; width: 60px; }
         .history-desc { flex: 1; font-weight: 500; color: var(--text-main); }
 
-        /* Bảng điều khiển riêng cho các Role */
+        /* Bảng điều khiển Role */
         .my-role-box { color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
         .my-role-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .role-panel { border-top: 2px dashed var(--card-border); padding-top: 20px; margin-top: 20px; display: none; }
         
+        /* Form */
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--text-main); }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--input-border); border-radius: 6px; font-size: 16px; box-sizing: border-box; background-color: var(--input-bg); color: var(--text-main); transition: 0.3s; }
@@ -178,14 +182,10 @@
                 <div class="form-group"><label>1. Chọn Khu Đất / Dịch Vụ:</label><select id="coDat_LandSelect"></select></div>
                 <div class="form-group"><label>2. Chọn Người Nhận Sổ Đỏ:</label>
                     <select id="coDat_UserSelect">
-                        <option value="The_Demo_1">Thẻ ID 1</option>
-                        <option value="The_Demo_2">Thẻ ID 2</option>
-                        <option value="The_Demo_3">Thẻ ID 3</option>
-                        <option value="The_Demo_4">Thẻ ID 4</option>
-                        <option value="The_Demo_5">Thẻ ID 5</option>
-                        <option value="The_Demo_6">Thẻ ID 6</option>
-                        <option value="The_Demo_7">Thẻ ID 7</option>
-                        <option value="The_Demo_8">Thẻ ID 8</option>
+                        <option value="The_Demo_1">Thẻ ID 1 (Ngân hàng)</option><option value="The_Demo_2">Thẻ ID 2 (Cò Đất)</option>
+                        <option value="The_Demo_3">Thẻ ID 3 (Nhân sự)</option><option value="The_Demo_4">Thẻ ID 4</option>
+                        <option value="The_Demo_5">Thẻ ID 5</option><option value="The_Demo_6">Thẻ ID 6</option>
+                        <option value="The_Demo_7">Thẻ ID 7</option><option value="The_Demo_8">Thẻ ID 8</option>
                     </select>
                 </div>
                 <button class="btn-action" style="background-color: #27ae60;" onclick="coDatThucHienGiaoDich()">THỰC HIỆN SANG TÊN & TRỪ TIỀN</button>
@@ -212,7 +212,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        /* MẢNG DỮ LIỆU ĐẤT ĐẦY ĐỦ 36 Ô ĐẤT VÀ 6 TIỆN ÍCH */
+        /* MẢNG DỮ LIỆU ĐẦY ĐỦ 100% CÁC KHU ĐẤT TỪ FILE EXCEL CỦA BẠN */
         const danhSachDat = [
           { id: "L1", stt: 1, ten: "Chợ nổi cái răng", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
           { id: "L2", stt: 2, ten: "Bến Ninh Kiều", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
@@ -225,9 +225,9 @@
           { id: "L9", stt: 9, ten: "Đảo Nam Du", tinh: "Kiên Giang", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
           { id: "L10", stt: 10, ten: "Núi Bà Đen", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
           { id: "L11", stt: 11, ten: "Hồ Dầu Tiếng", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L12", stt: 12, ten: "Côn Đảo Resort", tinh: "Bà Rịa - Vũng Tàu", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "Bà Rịa - Vũng Tàu", mau: "#FFFACD", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
-          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#FFFACD", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L12", stt: 12, ten: "Côn Đảo Resort", tinh: "BR-VT", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
+          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "BR-VT", mau: "#D4AC0D", nhom: "Vàng (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#D4AC0D", nhom: "Vàng (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
           { id: "L15", stt: 15, ten: "Landmark 81", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
           { id: "L16", stt: 16, ten: "Phố Đi Bộ Nguyễn Huệ", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
           { id: "L17", stt: 17, ten: "Chợ Bến Thành", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
@@ -240,8 +240,8 @@
           { id: "L24", stt: 24, ten: "Phố Cổ Hội An", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
           { id: "L25", stt: 25, ten: "Thánh Địa Mỹ Sơn", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
           { id: "L26", stt: 26, ten: "Tràng An", tinh: "Ninh Bình", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L27", stt: 27, ten: "Chùa Thiên Mụ", tinh: "Thừa Thiên Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L28", stt: 28, ten: "Cố Đô Huế", tinh: "Thừa Thiên Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
+          { id: "L27", stt: 27, ten: "Chùa Thiên Mụ", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
+          { id: "L28", stt: 28, ten: "Cố Đô Huế", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
           { id: "L29", stt: 29, ten: "Cầu Hiền Lương", tinh: "Quảng Trị", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
           { id: "L30", stt: 30, ten: "Chùa Tam Chúc", tinh: "Hà Nam", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
           { id: "L31", stt: 31, ten: "Vịnh Hạ Long", tinh: "Quảng Ninh", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
@@ -251,7 +251,7 @@
           { id: "L35", stt: 35, ten: "Lăng Bác", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           { id: "L36", stt: 36, ten: "Hồ Gươm", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           
-          { id: "T1", ten: "Bến Xe Miền Đông", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
+          { id: "T1", ten: "Bến Xe Miền Tây", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
           { id: "T2", ten: "Cảng Hải Phòng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚢", loai: "benxe" },
           { id: "T3", ten: "Ga Đà Nẵng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚆", loai: "benxe" },
           { id: "T4", ten: "Sân Bay Nội Bài", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "✈️", loai: "benxe" },
@@ -259,7 +259,9 @@
           { id: "U2", ten: "Nhà Máy Nước", tinh: "Tiện Ích Công Cộng", mau: "#2980b9", nhom: "Tiện Ích", giaMua: 1500, icon: "💧", loai: "tienich" }
         ];
 
-        /* LOGIC SÁNG/TỐI */
+        /* =======================================
+           CHẾ ĐỘ SÁNG TỐI
+        ======================================= */
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('themeToggleBtn');
@@ -268,12 +270,19 @@
         }
         if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeToggleBtn').innerText = '☀️ Nền Sáng'; }
 
-        // FIREBASE
-        const firebaseConfig = { databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" };
-        firebase.initializeApp(firebaseConfig); const database = firebase.database(); 
+        /* =======================================
+           CẤU HÌNH FIREBASE
+        ======================================= */
+        const firebaseConfig = { 
+            databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+        };
+        firebase.initializeApp(firebaseConfig); 
+        const database = firebase.database(); 
         let theHienTai = ""; let bangDatToanCau = {};
 
-        // 🚀 TẠO MỚI DỮ LIỆU SẠCH 100% (Khắc phục lỗi Null)
+        /* =======================================
+           CHỨC NĂNG ADMIN: RESET DỮ LIỆU
+        ======================================= */
         function khoiTaoDuLieuSach() {
             let xacNhan = confirm("⚠️ ADMIN: Thao tác này sẽ XÓA SẠCH toàn bộ dữ liệu Cờ Tỷ Phú trên Firebase và tạo lại 8 ID mới. Bạn có chắc chắn?");
             if(!xacNhan) return;
@@ -296,6 +305,9 @@
             database.ref('/').set(dataMoi).then(() => { alert("✅ Tạo dữ liệu thành công! Hãy nhập tên và đăng nhập."); });
         }
 
+        /* =======================================
+           LOGIC CHUYỂN TRANG
+        ======================================= */
         function switchPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active'));
@@ -313,7 +325,9 @@
             danhSachDat.forEach(dat => { select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`; });
         }
 
-        // VẼ GIAO DIỆN (ĐỒNG BỘ SỔ ĐỎ TỪ FIREBASE)
+        /* =======================================
+           VẼ THẺ ĐẤT (SHOP & ĐẤT SỞ HỮU)
+        ======================================= */
         function renderLands() {
             document.getElementById('shopGridLand').innerHTML = ''; document.getElementById('shopGridService').innerHTML = '';
             document.getElementById('myLandGridLand').innerHTML = ''; document.getElementById('myLandGridService').innerHTML = '';
@@ -323,4 +337,200 @@
                 let isMyLand = (ownerUID === theHienTai);
                 let isOwnedByOthers = (ownerUID !== null && ownerUID !== theHienTai);
                 
-                let cardClass = "land-card";
+                let cardClass = "land-card"; let stampHTML = "";
+                if (isOwnedByOthers) { cardClass += " sold"; stampHTML = `<div class="stamp">ĐÃ BÁN</div>`; } 
+                else if (isMyLand) { cardClass += " owned-by-me"; stampHTML = `<div class="stamp" style="color:#27ae60; border-color:#27ae60;">CỦA BẠN</div>`; }
+
+                let cardHTML = "";
+
+                if(dat.loai === "dat") {
+                    cardHTML = `
+                    <div class="${cardClass}">
+                        <div class="land-header" style="background: linear-gradient(135deg, ${dat.mau}, #34495e); justify-content:center; padding:15px 10px;"></div>
+                        <div style="text-align:center; margin-top:10px;"><span class="land-group" style="background:${dat.mau}; color: ${(dat.nhom.includes('Vàng') || dat.nhom.includes('Phấn')) ? '#333' : '#fff'};">${dat.nhom}</span></div>
+                        <div class="land-title">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="house-indicator"></div>
+                        <div class="land-body">
+                            <div class="land-prices">
+                                <div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div><div class="price-col"><strong>Xây Nhà</strong> ${dat.giaXay}$/Căn</div>
+                            </div>
+                            <div class="land-rent">
+                                <div style="text-align: left; padding-left: 5px;">Thuê đất: ${dat.thueDat}$<br>Thuê 1 căn: ${dat.thue1}$<br>Thuê 2 căn: ${dat.thue2}$</div>
+                                <div style="border-left: 1px solid var(--card-border); font-weight: bold; padding-top: 15px;">Khách Sạn<br>${dat.thueKS}$</div>
+                            </div>
+                        </div>
+                        ${stampHTML}
+                    </div>`;
+                    document.getElementById('shopGridLand').innerHTML += cardHTML;
+                    if(isMyLand) document.getElementById('myLandGridLand').innerHTML += cardHTML;
+                } 
+                else if (dat.loai === "benxe") {
+                    cardHTML = `
+                    <div class="${cardClass}">
+                        <div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div>
+                        <div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div>
+                        <div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div>
+                        <div class="land-body">
+                            <div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cảng/Bến</strong> ${dat.giaMua}$</div></div>
+                            <div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">
+                                Thuê 1 Bến: <strong>250$</strong><br>Thuê 2 Bến: <strong>500$</strong><br>Thuê 3 Bến: <strong>1000$</strong><br>Thuê 4 Bến: <strong>2000$</strong>
+                            </div>
+                        </div>
+                        ${stampHTML}
+                    </div>`;
+                    document.getElementById('shopGridService').innerHTML += cardHTML;
+                    if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
+                } else {
+                    cardHTML = `
+                    <div class="${cardClass}">
+                        <div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div>
+                        <div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div>
+                        <div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div>
+                        <div class="land-body">
+                            <div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cổ Phần</strong> ${dat.giaMua}$</div></div>
+                            <div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">
+                                Có 1 Trạm: Trả <strong>100$ x (Số Xúc Xắc)</strong><br>Có 2 Trạm: Trả <strong>250$ x (Số Xúc Xắc)</strong>
+                            </div>
+                        </div>
+                        ${stampHTML}
+                    </div>`;
+                    document.getElementById('shopGridService').innerHTML += cardHTML;
+                    if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
+                }
+            });
+        }
+
+        /* =======================================
+           ĐĂNG NHẬP VÀ ĐỒNG BỘ DỮ LIỆU
+        ======================================= */
+        function dangNhap() {
+            let ten = document.getElementById("playerName").value;
+            theHienTai = document.getElementById("cardSelect").value;
+            if(ten.trim() === "") { alert("Vui lòng nhập tên!"); return; }
+
+            document.getElementById("uiCardId").innerText = theHienTai; 
+            database.ref('/Users/' + theHienTai).update({ Ten: ten });
+            
+            document.getElementById("loginScreen").style.display = "none"; document.getElementById("topNavbar").style.display = "flex"; 
+            
+            loadDanhSachDatChoCoDat();
+            switchPage('pageHome'); batDauLangNgheDuLieu();
+        }
+
+        function batDauLangNgheDuLieu() {
+            // Nghe Ngân Hàng (MÃ BẢO VỆ CHỐNG LỖI NULL)
+            database.ref('/NganHang').on('value', (snap) => {
+                let data = snap.val();
+                if(data && typeof data === 'object' && data.TongTien !== undefined) {
+                    document.getElementById('bankMoney').innerText = data.TongTien + " $";
+                } else {
+                    document.getElementById('bankMoney').innerText = "0 $"; // Tránh báo lỗi đỏ nếu DB rỗng
+                }
+            });
+
+            // Nghe Đất
+            database.ref('/Lands').on('value', (snap) => {
+                bangDatToanCau = snap.val() || {};
+                renderLands(); 
+            });
+
+            // Nghe Bảng Xếp Hạng (MÃ BẢO VỆ)
+            database.ref('/Users').on('value', (snap) => {
+                let users = [];
+                snap.forEach((child) => { 
+                    let d = child.val(); 
+                    if (d && d.Ten) users.push({ name: d.Ten, money: d.Tien !== undefined ? d.Tien : 0 }); 
+                });
+                users.sort((a, b) => b.money - a.money);
+                const lb = document.getElementById('leaderboardContainer'); lb.innerHTML = ''; 
+                users.forEach((u, i) => { let icon = i===0 ? '👑' : (i===1 ? '🥈' : (i===2 ? '🥉' : '👤')); lb.innerHTML += `<div class="lb-item"><span>${icon} ${u.name}</span> <strong style="color: #27ae60;">${u.money} $</strong></div>`; });
+            });
+
+            // Nghe dữ liệu cá nhân (MÃ BẢO VỆ)
+            database.ref('/Users/' + theHienTai).on('value', (snap) => {
+                let data = snap.val();
+                if(data && typeof data === 'object') {
+                    if(data.Ten) document.getElementById('uiName').innerText = data.Ten;
+                    if(data.Tien !== undefined) document.getElementById('uiBalance').innerText = data.Tien + " $";
+                    
+                    let congViec = data.CongViec ? data.CongViec : "Vô công rồi Nghề";
+                    document.getElementById('uiJob').innerText = congViec;
+                    document.getElementById('roleTitleBox').innerText = "CHỨC VỤ: " + congViec;
+                    
+                    // PHÂN QUYỀN
+                    document.getElementById('coDatPanel').style.display = "none";
+                    document.getElementById('nhanSuPanel').style.display = "none";
+                    document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #7f8c8d, #95a5a6)";
+
+                    if(congViec.toLowerCase() === "cò đất" || theHienTai === "The_Demo_2") {
+                        document.getElementById('roleDescBox').innerText = "Bạn nắm giữ Sàn Giao Dịch. Bạn có quyền phân bổ đất đai cho mọi người.";
+                        document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #27ae60, #2ecc71)";
+                        document.getElementById('coDatPanel').style.display = "block";
+                    } 
+                    else if(congViec.toLowerCase() === "nhân sự" || theHienTai === "The_Demo_3") {
+                        document.getElementById('roleDescBox').innerText = "Bạn là Trưởng Phòng Nhân Sự. Bạn quyết định nghề nghiệp của người chơi ID 4 đến 8.";
+                        document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #8e44ad, #9b59b6)";
+                        document.getElementById('nhanSuPanel').style.display = "block";
+                    } else {
+                        document.getElementById('roleDescBox').innerText = "Bạn là người chơi. Chờ Nhân Sự phát nghề và Cò Đất phát sổ đỏ nhé!";
+                    }
+                }
+            });
+
+            // Nghe Lịch sử
+            database.ref('/Users/' + theHienTai + '/LichSu').on('value', (snapshot) => {
+                const histContainer = document.getElementById('historyContainer'); histContainer.innerHTML = '';
+                if(snapshot.exists() && snapshot.val()) {
+                    snapshot.forEach(child => {
+                        let item = child.val(); let isMinus = item.Tien < 0;
+                        histContainer.innerHTML += `<li><span class="history-time">${item.ThoiGian||"Now"}</span><span class="history-desc">${item.MoTa}</span><span class="money ${isMinus?'minus':''}">${isMinus?'':'+'}${item.Tien}$</span></li>`;
+                    });
+                } else { histContainer.innerHTML = `<li style="justify-content: center; color: var(--text-muted);">Chưa có giao dịch.</li>`; }
+            });
+        }
+
+        /* =======================================
+           CÒ ĐẤT GIAO DỊCH
+        ======================================= */
+        function coDatThucHienGiaoDich() {
+            let landId = document.getElementById("coDat_LandSelect").value;
+            let targetUID = document.getElementById("coDat_UserSelect").value;
+            let landObj = danhSachDat.find(d => d.id === landId);
+
+            if(bangDatToanCau[landId] && bangDatToanCau[landId].Owner) {
+                alert("❌ Lỗi: Mảnh đất này đã có chủ (Đã Bán). Vui lòng chọn mảnh khác!");
+                return;
+            }
+
+            database.ref('/Users/' + targetUID + '/Tien').once('value').then(snap => {
+                let tienHienTai = snap.val() || 0;
+                let tienMoi = tienHienTai - landObj.giaMua;
+
+                database.ref('/Users/' + targetUID + '/Tien').set(tienMoi);
+                database.ref('/Lands/' + landId).set({ Owner: targetUID });
+                
+                let now = new Date();
+                database.ref('/Users/' + targetUID + '/LichSu').push().set({
+                    ThoiGian: now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes(),
+                    MoTa: "Mua " + landObj.ten + " (Cò Đất thao tác)",
+                    Tien: -landObj.giaMua
+                });
+                alert("✅ Đã cấp sổ đỏ " + landObj.ten + " cho " + targetUID + " và trừ " + landObj.giaMua + "$");
+            });
+        }
+
+        /* =======================================
+           NHÂN SỰ BỔ NHIỆM
+        ======================================= */
+        function nhanSuBoNhiem() {
+            let targetUID = document.getElementById("nhanSu_UserSelect").value;
+            let newJob = document.getElementById("nhanSu_JobInput").value;
+            if(newJob.trim() === "") { alert("Vui lòng nhập tên nghề nghiệp!"); return; }
+
+            database.ref('/Users/' + targetUID + '/CongViec').set(newJob).then(() => {
+                alert("✅ Đã bổ nhiệm " + targetUID + " làm " + newJob);
+                document.getElementById("nhanSu_JobInput").value = "";
+            });
+        }
+    </script>
+</body>
+</html>
