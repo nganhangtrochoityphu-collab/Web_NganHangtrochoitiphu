@@ -3,58 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V3.1 (Bảo Mật Cá Nhân)</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V3.2 (Dark Mode)</title>
     <style>
+        /* =========================================
+           BIẾN MÀU SẮC (CHO CHẾ ĐỘ SÁNG TỐI)
+           ========================================= */
+        :root {
+            --bg-body: #f0f2f5;
+            --text-main: #333;
+            --text-muted: #7f8c8d;
+            --card-bg: #ffffff;
+            --card-border: #e1e8ed;
+            --nav-bg: #1a252f;
+            --nav-text: #bdc3c7;
+            --input-bg: #ffffff;
+            --input-border: #bdc3c7;
+            --shadow-color: rgba(0,0,0,0.05);
+            --shadow-hover: rgba(0,0,0,0.15);
+            --lb-top1: linear-gradient(to right, #fff9c4, var(--card-bg));
+            --history-hover: #f1f2f6;
+        }
+
+        /* Khi body có class dark-mode, các biến này sẽ được áp dụng */
+        body.dark-mode {
+            --bg-body: #18191a;
+            --text-main: #e4e6eb;
+            --text-muted: #b0b3b8;
+            --card-bg: #242526;
+            --card-border: #3a3b3c;
+            --nav-bg: #242526;
+            --nav-text: #e4e6eb;
+            --input-bg: #3a3b3c;
+            --input-border: #555;
+            --shadow-color: rgba(0,0,0,0.3);
+            --shadow-hover: rgba(0,0,0,0.6);
+            --lb-top1: linear-gradient(to right, #504010, var(--card-bg));
+            --history-hover: #3a3b3c;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* THANH ĐIỀU HƯỚNG CỐ ĐỊNH */
         .navbar {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            background-color: #1a252f;
-            padding: 10px 0;
-            display: none; 
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: sticky; top: 0; width: 100%;
+            background-color: var(--nav-bg); padding: 10px 0;
+            display: none; justify-content: center; flex-wrap: wrap; gap: 10px;
+            z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s;
         }
         .navbar button {
-            background-color: transparent;
-            color: #bdc3c7;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            background-color: transparent; color: var(--nav-text);
+            border: none; padding: 10px 15px; border-radius: 6px;
+            font-size: 15px; font-weight: bold; cursor: pointer; transition: all 0.3s;
         }
         .navbar button:hover, .navbar button.active {
-            background-color: #2c3e50;
-            color: #fff;
-            box-shadow: 0 2px 0 #3498db;
+            background-color: #2c3e50; color: #fff; box-shadow: 0 2px 0 #3498db;
         }
         .nav-logout { color: #e74c3c !important; }
         .nav-logout:hover { background-color: #c0392b !important; color: white !important; }
+        
+        /* Nút Theme Toggle */
+        .theme-toggle-btn { background-color: #f39c12 !important; color: #fff !important; margin-left: 10px;}
+        .theme-toggle-btn:hover { background-color: #d68910 !important; }
+        body.dark-mode .theme-toggle-btn { background-color: #34495e !important; }
 
-        h1.main-title { color: #2c3e50; text-align: center; margin: 25px 0 15px 0; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;}
+        h1.main-title { color: var(--text-main); text-align: center; margin: 25px 0 15px 0; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;}
         
         .container {
-            background: white; padding: 25px; border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;
+            background: var(--card-bg); padding: 25px; border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow-color); box-sizing: border-box;
             width: 100%; max-width: 1100px; margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+            transition: background-color 0.3s, border-color 0.3s;
         }
         
         /* CÁC TRANG CON */
@@ -66,12 +93,12 @@
         .main-wrapper { display: flex; gap: 20px; align-items: flex-start; }
         .left-panel { flex: 1; min-width: 300px; }
         .left-panel h2 { color: #e67e22; font-size: 20px; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-top: 0; text-align: center;}
-        .lb-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #f1f2f6; font-size: 16px; align-items: center; }
-        .lb-item:nth-child(1) { background: linear-gradient(to right, #fff9c4, #fff); font-weight: bold; border-radius: 6px; border-left: 4px solid #f1c40f;}
+        .lb-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid var(--card-border); font-size: 16px; align-items: center; }
+        .lb-item:nth-child(1) { background: var(--lb-top1); font-weight: bold; border-radius: 6px; border-left: 4px solid #f1c40f;}
         
         .right-panel { flex: 2; width: 100%; }
-        .card { background: #fff; border: 1px solid #e1e8ed; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
-        .card h2 { margin-top: 0; color: #34495e; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+        .card { background: var(--card-bg); border: 1px solid var(--card-border); padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); transition: background-color 0.3s;}
+        .card h2 { margin-top: 0; color: var(--text-main); font-size: 18px; border-bottom: 1px solid var(--card-border); padding-bottom: 10px;}
         .data-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 16px; align-items: center; }
         .money { font-size: 24px; font-weight: bold; color: #27ae60; }
         .money.minus { color: #e74c3c; }
@@ -82,30 +109,30 @@
             gap: 25px; margin-top: 20px; padding-bottom: 40px;
         }
         .land-card {
-            background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            overflow: hidden; border: 1px solid #dcdde1; position: relative;
+            background: var(--card-bg); border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color);
+            overflow: hidden; border: 1px solid var(--card-border); position: relative;
             display: flex; flex-direction: column; transition: all 0.3s ease;
         }
-        .land-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); border-color: #3498db; }
+        .land-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px var(--shadow-hover); border-color: #3498db; }
         
-        .land-header { display: flex; align-items: center; background: linear-gradient(135deg, #8e44ad, #9b59b6); padding: 10px; color: white; }
+        .land-header { display: flex; align-items: center; padding: 10px; color: white; }
         .land-num { background: white; color: #333; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .land-title { text-align: center; font-weight: bold; font-size: 22px; margin-top: 15px; text-transform: uppercase; color: #2c3e50; }
-        .land-subtitle { text-align: center; font-size: 13px; color: #7f8c8d; margin-bottom: 10px; }
+        .land-title { text-align: center; font-weight: bold; font-size: 22px; margin-top: 15px; text-transform: uppercase; color: var(--text-main); }
+        .land-subtitle { text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
         .house-indicator { text-align: center; font-size: 18px; margin-bottom: 10px; min-height: 24px; }
         
         .land-body { padding: 0 15px 15px 15px; }
-        .land-prices { display: flex; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; padding: 10px 0; margin-bottom: 10px; background: #f8f9fa; border-radius: 4px; }
-        .price-col { flex: 1; font-size: 13px; text-align: center; color: #34495e; }
-        .price-col:first-child { border-right: 1px solid #ccc; }
-        .price-col strong { color: #2c3e50; display: block; margin-bottom: 4px; font-size: 14px;}
-        .land-rent { display: flex; font-size: 13px; color: #34495e; }
+        .land-prices { display: flex; border-top: 1px dashed var(--card-border); border-bottom: 1px dashed var(--card-border); padding: 10px 0; margin-bottom: 10px; background: var(--bg-body); border-radius: 4px; transition: background-color 0.3s;}
+        .price-col { flex: 1; font-size: 13px; text-align: center; color: var(--text-muted); }
+        .price-col:first-child { border-right: 1px solid var(--card-border); }
+        .price-col strong { color: var(--text-main); display: block; margin-bottom: 4px; font-size: 14px;}
+        .land-rent { display: flex; font-size: 13px; color: var(--text-muted); }
         
         .stamp {
             position: absolute; bottom: 15px; right: 10px; color: #e74c3c; border: 3px solid #e74c3c;
             border-radius: 8px; padding: 5px 10px; font-weight: 900; font-size: 14px; 
             transform: rotate(-15deg); letter-spacing: 1px;
-            background: rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+            background: var(--card-bg); box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
         }
         .land-card.sold { filter: grayscale(100%); opacity: 0.6; pointer-events: none; }
         .land-card.owned-by-me { border: 2px solid #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
@@ -114,12 +141,13 @@
         .history-list { list-style: none; padding: 0; margin: 0; }
         .history-list li {
             display: flex; justify-content: space-between; padding: 15px;
-            border-bottom: 1px solid #eee; align-items: center; background: #fff;
-            border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--card-border); align-items: center; background: var(--card-bg);
+            border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px var(--shadow-color);
+            transition: background-color 0.3s;
         }
-        .history-list li:hover { background: #f1f2f6; }
-        .history-time { color: #95a5a6; font-size: 13px; width: 60px; }
-        .history-desc { flex: 1; font-weight: 500; color: #2c3e50; }
+        .history-list li:hover { background: var(--history-hover); }
+        .history-time { color: var(--text-muted); font-size: 13px; width: 60px; }
+        .history-desc { flex: 1; font-weight: 500; color: var(--text-main); }
 
         /* Thiết kế hiển thị chức vụ cá nhân */
         .my-role-box {
@@ -134,8 +162,13 @@
         /* Form Đăng Nhập */
         .login-box { width: 100%; max-width: 500px; margin-top: 50px; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #bdc3c7; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--text-main); }
+        .form-group input, .form-group select { 
+            width: 100%; padding: 12px; border: 1px solid var(--input-border); 
+            border-radius: 6px; font-size: 16px; box-sizing: border-box; 
+            background-color: var(--input-bg); color: var(--text-main);
+            transition: background-color 0.3s, color 0.3s;
+        }
         .btn-login { background-color: #27ae60; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-login:hover { background-color: #219150; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);}
 
@@ -153,6 +186,7 @@
         <button id="navMyLand" onclick="switchPage('pageMyLand')">🏠 Đất Của Tôi</button>
         <button id="navHistory" onclick="switchPage('pageHistory')">📜 Lịch Sử</button>
         <button id="navRoles" onclick="switchPage('pageRoles')">💼 Chức Vụ Của Tôi</button>
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()">🌙 Nền Tối</button>
         <button class="nav-logout" onclick="location.reload()">Thoát</button>
     </nav>
 
@@ -204,7 +238,7 @@
 
     <div class="page-section" id="pageShop">
         <h1 class="main-title">🛒 CỬA HÀNG BẤT ĐỘNG SẢN</h1>
-        <p style="text-align: center; color: #7f8c8d;">Bản đồ 48 khu đất. Đất mờ xám là đất người khác đã mua.</p>
+        <p style="text-align: center; color: var(--text-muted);">Bản đồ 48 khu đất. Đất mờ xám là đất người khác đã mua.</p>
         <div class="shop-grid" id="shopGridContainer"></div>
     </div>
 
@@ -219,7 +253,7 @@
         <div class="container" style="max-width: 800px; margin: 0 auto;">
             <p style="text-align: center; color: #3498db; font-weight: bold; margin-bottom: 20px;">Lịch sử này chỉ hiển thị giao dịch của ID thẻ: <span id="historyCardId">...</span></p>
             <ul class="history-list" id="historyContainer">
-                <li style="justify-content: center; color: #95a5a6;">Đang tải dữ liệu từ máy chủ...</li>
+                <li style="justify-content: center; color: var(--text-muted);">Đang tải dữ liệu từ máy chủ...</li>
             </ul>
         </div>
     </div>
@@ -233,10 +267,10 @@
                 <div class="my-role-desc" id="roleDescBox">Vui lòng chờ hệ thống tải dữ liệu từ trung tâm.</div>
             </div>
 
-            <div id="adminPanel" style="display: none; border-top: 2px dashed #bdc3c7; padding-top: 20px; margin-top: 20px;">
-                <h3 style="color: #c0392b; text-align: center;">👑 QUẢN TRỊ TRUNG ƯƠNG (Dành cho Ngân Hàng)</h3>
+            <div id="adminPanel" style="display: none; border-top: 2px dashed var(--card-border); padding-top: 20px; margin-top: 20px;">
+                <h3 style="color: #e74c3c; text-align: center;">👑 QUẢN TRỊ TRUNG ƯƠNG (Dành cho Ngân Hàng)</h3>
                 <p style="text-align: center;">Bạn có toàn quyền cấp phát nghề nghiệp và đất đai cho người chơi khác.</p>
-                </div>
+            </div>
         </div>
     </div>
 
@@ -244,6 +278,34 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        /* =========================================
+           LOGIC CHUYỂN ĐỔI CHẾ ĐỘ SÁNG / TỐI
+           ========================================= */
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeToggleBtn');
+            
+            body.classList.toggle('dark-mode');
+            
+            if(body.classList.contains('dark-mode')) {
+                btn.innerText = '☀️ Nền Sáng';
+                localStorage.setItem('theme', 'dark'); // Lưu vào bộ nhớ máy duyệt
+            } else {
+                btn.innerText = '🌙 Nền Tối';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Tự động kiểm tra sở thích màu nền khi vừa load web
+        function checkSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeToggleBtn').innerText = '☀️ Nền Sáng';
+            }
+        }
+        checkSavedTheme(); // Chạy ngay khi mở web
+
         // Cấu hình Firebase
         const firebaseConfig = {
             databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -266,7 +328,7 @@
             if(pageId === 'pageRoles') document.getElementById('navRoles').classList.add('active');
         }
 
-        // HÀM VẼ THẺ ĐẤT (SHOP & ĐẤT CỦA TÔI)
+        // HÀM VẼ THẺ ĐẤT
         function renderLands() {
             const shopContainer = document.getElementById('shopGridContainer');
             const myLandContainer = document.getElementById('myLandGridContainer');
@@ -282,7 +344,6 @@
                 let color = colors[i % colors.length];
                 if(i === 2) { ten = "Bến Lức"; tinh = "Long An"; color = "#5c4033"; } 
 
-                // Giả lập Đất CỦA MÌNH (Ví dụ thẻ đăng nhập sở hữu ô 2 và 15)
                 let isOwnedByOthers = (i === 3 || i === 7 || i === 25);
                 let isMyLand = (i === 2 || i === 15);
                 
@@ -303,7 +364,7 @@
 
                 let cardHTML = `
                 <div class="${cardClass}">
-                    <div class="land-header" style="background: ${color};">
+                    <div class="land-header" style="background: linear-gradient(135deg, ${color}, #34495e);">
                         <div class="land-num">${i < 10 ? '0'+i : i}</div>
                     </div>
                     <div class="land-title">${ten}</div>
@@ -318,7 +379,7 @@
                             <div class="price-col" style="text-align: left; padding-left: 5px;">
                                 Thuê đất: 100$<br>Thuê 1 căn: 300$<br>Thuê 2 căn: 500$
                             </div>
-                            <div class="price-col" style="border-left: 1px solid #ccc; font-weight: bold; padding-top: 15px;">
+                            <div class="price-col" style="border-left: 1px solid var(--card-border); font-weight: bold; padding-top: 15px;">
                                 Khách Sạn<br>1000$
                             </div>
                         </div>
@@ -331,7 +392,7 @@
             }
         }
 
-        // ĐĂNG NHẬP VÀ ĐỒNG BỘ DỮ LIỆU CÁ NHÂN HÓA
+        // ĐĂNG NHẬP VÀ ĐỒNG BỘ DỮ LIỆU
         function dangNhap() {
             tenNguoiChoi = document.getElementById("playerName").value;
             theHienTai = document.getElementById("cardSelect").value;
@@ -339,7 +400,7 @@
             if(tenNguoiChoi.trim() === "") { alert("Vui lòng nhập tên!"); return; }
 
             document.getElementById("uiCardId").innerText = theHienTai;
-            document.getElementById("historyCardId").innerText = theHienTai; // Cập nhật ID trên trang Lịch sử
+            document.getElementById("historyCardId").innerText = theHienTai; 
             
             database.ref('/Users/' + theHienTai).update({ Ten: tenNguoiChoi });
 
@@ -353,7 +414,6 @@
         }
 
         function batDauLangNgheDuLieuCaNhan() {
-            // Nghe Quỹ Ngân Hàng Chung
             database.ref('/NganHang').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if(data && data.TongTien !== undefined) {
@@ -361,14 +421,12 @@
                 }
             });
 
-            // Nghe Dữ Liệu CỦA RIÊNG ID ĐANG ĐĂNG NHẬP
             database.ref('/Users/' + theHienTai).on('value', (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
                     if(data.Ten) document.getElementById('uiName').innerText = data.Ten;
                     if(data.Tien !== undefined) document.getElementById('uiBalance').innerText = data.Tien + " $";
                     
-                    // CÁ NHÂN HÓA TRANG CHỨC VỤ
                     let congViec = data.CongViec ? data.CongViec : "Dân Thường";
                     document.getElementById('uiJob').innerText = congViec;
                     document.getElementById('roleTitleBox').innerText = "CHỨC VỤ CỦA BẠN: " + congViec;
@@ -376,8 +434,8 @@
                     let roleDesc = "Bạn là người chơi bình thường. Hãy đổ xúc xắc, mua đất và cố gắng trở thành Tỷ Phú!";
                     if(congViec.toLowerCase() === "ngân hàng") {
                         roleDesc = "Bạn là NGÂN HÀNG TRUNG ƯƠNG. Bạn có quyền cấp phát đất đai, nhà cửa và trả lương cho người khác.";
-                        document.getElementById('adminPanel').style.display = "block"; // Mở khóa bảng Admin
-                        document.querySelector('.my-role-box').style.background = "linear-gradient(135deg, #c0392b, #e74c3c)"; // Đổi màu ngầu hơn
+                        document.getElementById('adminPanel').style.display = "block"; 
+                        document.querySelector('.my-role-box').style.background = "linear-gradient(135deg, #c0392b, #e74c3c)"; 
                     } else if(congViec.toLowerCase() === "cảnh sát") {
                         roleDesc = "Quyền lợi Cảnh Sát: Bạn có quyền thu các khoản tiền phạt vi phạm tốc độ và tiền bảo lãnh ra tù của người khác.";
                     } else if(congViec.toLowerCase() === "bác sĩ") {
@@ -389,13 +447,11 @@
                 }
             });
 
-            // TẢI LỊCH SỬ GIAO DỊCH CỦA RIÊNG MÌNH
             database.ref('/Users/' + theHienTai + '/LichSu').on('value', (snapshot) => {
                 const histContainer = document.getElementById('historyContainer');
                 histContainer.innerHTML = '';
                 
                 if(snapshot.exists()) {
-                    // Nếu trên Firebase có nhánh Lịch Sử của ID này
                     snapshot.forEach(child => {
                         let item = child.val();
                         let isMinus = item.Tien < 0;
@@ -410,7 +466,6 @@
                         </li>`;
                     });
                 } else {
-                    // Tạo một vài dòng giả lập tạm thời nếu Firebase trống
                     histContainer.innerHTML = `
                         <li><span class="history-time">Mới đây</span><span class="history-desc">Nhận lương đi qua điểm Bắt Đầu</span><span class="money">+2000$</span></li>
                         <li><span class="history-time">10 phút</span><span class="history-desc">Mua đất Bến Lức - Long An</span><span class="money minus">-500$</span></li>
