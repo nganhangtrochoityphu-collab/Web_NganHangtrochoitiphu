@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V2.0</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V3.0</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #f0f2f5;
             color: #333;
             margin: 0;
-            padding: 0; /* Bỏ padding body để navbar sát viền */
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,112 +21,158 @@
             position: sticky;
             top: 0;
             width: 100%;
-            background-color: #2c3e50;
+            background-color: #1a252f;
             padding: 10px 0;
-            display: none; /* Ẩn lúc chưa đăng nhập */
+            display: none; 
             justify-content: center;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
             z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .navbar button {
             background-color: transparent;
-            color: white;
-            border: 2px solid transparent;
-            padding: 10px 20px;
+            color: #bdc3c7;
+            border: none;
+            padding: 10px 15px;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
         .navbar button:hover, .navbar button.active {
-            background-color: #34495e;
-            border-bottom: 2px solid #3498db;
+            background-color: #2c3e50;
+            color: #fff;
+            box-shadow: 0 2px 0 #3498db;
         }
-        .nav-logout { background-color: #e74c3c !important; }
-        .nav-logout:hover { background-color: #c0392b !important; }
+        .nav-logout { color: #e74c3c !important; }
+        .nav-logout:hover { background-color: #c0392b !important; color: white !important; }
 
-        h1.main-title { color: #2c3e50; text-align: center; margin: 20px 0; font-size: 28px; }
+        h1.main-title { color: #2c3e50; text-align: center; margin: 25px 0 15px 0; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;}
         
         .container {
             background: white; padding: 25px; border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); box-sizing: border-box;
-            width: 100%; max-width: 1000px; margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;
+            width: 100%; max-width: 1100px; margin-bottom: 20px;
         }
         
         /* CÁC TRANG CON (SUB-PAGES) */
-        .page-section { display: none; width: 100%; max-width: 1000px; padding: 0 15px; box-sizing: border-box; }
-        .page-section.active { display: block; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .page-section { display: none; width: 100%; max-width: 1100px; padding: 0 15px; box-sizing: border-box; }
+        .page-section.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Bố cục Trang Chủ (2 Cột) */
+        /* Bố cục Trang Chủ */
         .main-wrapper { display: flex; gap: 20px; align-items: flex-start; }
         .left-panel { flex: 1; min-width: 300px; }
-        .left-panel h2 { color: #d35400; font-size: 20px; border-bottom: 2px solid #e67e22; padding-bottom: 10px; margin-top: 0; text-align: center;}
-        .lb-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #eee; font-size: 16px; align-items: center; }
-        .lb-item:nth-child(1) { background-color: #fff9c4; font-weight: bold; border-radius: 6px; }
+        .left-panel h2 { color: #e67e22; font-size: 20px; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-top: 0; text-align: center;}
+        .lb-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #f1f2f6; font-size: 16px; align-items: center; }
+        .lb-item:nth-child(1) { background: linear-gradient(to right, #fff9c4, #fff); font-weight: bold; border-radius: 6px; border-left: 4px solid #f1c40f;}
+        
         .right-panel { flex: 2; width: 100%; }
-        .card { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .card h2 { margin-top: 0; color: #2980b9; font-size: 18px; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px;}
-        .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; align-items: center; }
-        .money { font-size: 22px; font-weight: bold; color: #e74c3c; }
+        .card { background: #fff; border: 1px solid #e1e8ed; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .card h2 { margin-top: 0; color: #34495e; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 16px; align-items: center; }
+        .money { font-size: 24px; font-weight: bold; color: #27ae60; }
+        .money.minus { color: #e74c3c; }
 
-        /* THIẾT KẾ THẺ ĐẤT (Giống hình mẫu Bến Lức) */
+        /* =========================================
+           THIẾT KẾ THẺ ĐẤT (ĐẸP HƠN, 3D HƠN)
+           ========================================= */
         .shop-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
             margin-top: 20px;
+            padding-bottom: 40px;
         }
         .land-card {
-            border: 2px solid #333;
             background: white;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.8); /* Phong cách thẻ giấy */
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden; /* Cắt góc tròn cho mượt */
+            border: 1px solid #dcdde1;
             position: relative;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
-        .land-header { display: flex; align-items: center; border: 2px solid #333; margin-bottom: 10px; background: #5c4033;}
-        .land-num { background: white; border-right: 2px solid #333; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 2px; }
-        .land-color-bar { flex: 1; height: 100%; }
+        .land-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
         
-        .land-title { text-align: center; font-weight: bold; font-size: 20px; text-transform: uppercase; }
-        .land-subtitle { text-align: center; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        /* Tiêu đề thẻ đất có Gradient */
+        .land-header { 
+            display: flex; align-items: center; 
+            background: linear-gradient(135deg, #8e44ad, #9b59b6); /* Đổi màu tùy ý */
+            padding: 10px;
+            color: white;
+        }
+        .land-num { 
+            background: white; color: #333; border-radius: 50%; 
+            width: 32px; height: 32px; display: flex; align-items: center; 
+            justify-content: center; font-weight: bold; margin-right: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
         
-        .land-prices { display: flex; border-bottom: 1px solid #333; margin-bottom: 5px; padding-bottom: 5px; }
-        .price-col { flex: 1; font-size: 13px; text-align: center; }
-        .price-col:first-child { border-right: 1px solid #333; }
+        .land-title { text-align: center; font-weight: bold; font-size: 22px; margin-top: 15px; text-transform: uppercase; color: #2c3e50; }
+        .land-subtitle { text-align: center; font-size: 13px; color: #7f8c8d; margin-bottom: 10px; }
         
-        .land-rent { display: flex; font-size: 13px; text-align: center; }
+        /* Hiển thị số nhà đang có */
+        .house-indicator {
+            text-align: center; font-size: 18px; margin-bottom: 10px; min-height: 24px;
+        }
+
+        .land-body { padding: 0 15px 15px 15px; }
+        .land-prices { display: flex; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; padding: 10px 0; margin-bottom: 10px; background: #f8f9fa; border-radius: 4px; }
+        .price-col { flex: 1; font-size: 13px; text-align: center; color: #34495e; }
+        .price-col:first-child { border-right: 1px solid #ccc; }
+        .price-col strong { color: #2c3e50; display: block; margin-bottom: 4px; font-size: 14px;}
+        
+        .land-rent { display: flex; font-size: 13px; color: #34495e; }
+        
+        /* Dấu mộc Đã Bán */
         .stamp {
-            position: absolute; bottom: 5px; right: 5px;
-            color: #e74c3c; border: 3px dashed #e74c3c; border-radius: 50%;
-            width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 12px; transform: rotate(-20deg); text-align: center;
+            position: absolute; bottom: 15px; right: 10px;
+            color: #e74c3c; border: 3px solid #e74c3c; border-radius: 8px;
+            padding: 5px 10px; font-weight: 900; font-size: 14px; 
+            transform: rotate(-15deg); letter-spacing: 1px;
+            background: rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
         }
 
-        /* Trạng thái Đất Đã Bán (Mờ xám) */
-        .land-card.sold {
-            filter: grayscale(100%);
-            opacity: 0.5;
-            pointer-events: none;
+        /* Trạng thái bị làm mờ (Đất của người khác) */
+        .land-card.sold { filter: grayscale(100%); opacity: 0.6; pointer-events: none; }
+        
+        /* Thẻ đất của chính mình (Viền phát sáng) */
+        .land-card.owned-by-me {
+            border: 2px solid #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
         }
 
-        /* Đăng nhập */
+        /* Lịch Sử Giao Dịch */
+        .history-list { list-style: none; padding: 0; margin: 0; }
+        .history-list li {
+            display: flex; justify-content: space-between; padding: 15px;
+            border-bottom: 1px solid #eee; align-items: center; background: #fff;
+            border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .history-list li:hover { background: #f1f2f6; }
+        .history-time { color: #95a5a6; font-size: 13px; width: 60px; }
+        .history-desc { flex: 1; font-weight: 500; color: #2c3e50; }
+
+        /* Form Đăng Nhập */
         .login-box { width: 100%; max-width: 500px; margin-top: 50px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
-        .btn-login { background-color: #27ae60; color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .btn-login:hover { background-color: #219150; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #bdc3c7; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+        .btn-login { background-color: #27ae60; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+        .btn-login:hover { background-color: #219150; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);}
 
         @media (max-width: 768px) {
             .main-wrapper { flex-direction: column-reverse; }
-            .navbar { flex-wrap: wrap; padding: 5px; }
-            .navbar button { padding: 8px 10px; font-size: 14px; }
+            .navbar { justify-content: flex-start; padding: 10px; overflow-x: auto; white-space: nowrap; flex-wrap: nowrap;}
         }
     </style>
 </head>
@@ -134,28 +180,28 @@
 
     <nav class="navbar" id="topNavbar">
         <button id="navHome" onclick="switchPage('pageHome')" class="active">Trang Chủ</button>
-        <button id="navShop" onclick="switchPage('pageShop')">Shop Nhà Đất</button>
-        <button id="navRoles" onclick="switchPage('pageRoles')">Chức Vụ</button>
-        <button id="navRules" onclick="switchPage('pageRules')">Cách Chơi</button>
-        <button class="nav-logout" onclick="location.reload()">Đăng Xuất</button>
+        <button id="navShop" onclick="switchPage('pageShop')">🛒 Mua Đất</button>
+        <button id="navMyLand" onclick="switchPage('pageMyLand')">🏠 Đất Của Tôi</button>
+        <button id="navHistory" onclick="switchPage('pageHistory')">📜 Lịch Sử</button>
+        <button id="navRoles" onclick="switchPage('pageRoles')">💼 Chức Vụ</button>
+        <button class="nav-logout" onclick="location.reload()">Thoát</button>
     </nav>
 
     <div class="container login-box" id="loginScreen">
         <h1 class="main-title">🏦 NGÂN HÀNG CỜ TỶ PHÚ</h1>
-        <h2 style="text-align: center; color: #2980b9;">Đăng Nhập Quản Lý Thẻ</h2>
         <div class="form-group">
             <label>1. Nhập tên hiển thị:</label>
             <input type="text" id="playerName" placeholder="Ví dụ: Khang, Nam...">
         </div>
         <div class="form-group">
-            <label>2. Chọn thẻ của bạn:</label>
+            <label>2. Chọn thẻ định danh (ID):</label>
             <select id="cardSelect">
-                <option value="The_Demo_1">Thẻ ID 1</option>
+                <option value="The_Demo_1">Thẻ ID 1 (Khang)</option>
                 <option value="The_Demo_2">Thẻ ID 2</option>
                 <option value="The_Demo_3">Thẻ ID 3</option>
             </select>
         </div>
-        <button class="btn-login" onclick="dangNhap()">KẾT NỐI HỆ THỐNG</button>
+        <button class="btn-login" onclick="dangNhap()">KẾT NỐI VÀO GAME</button>
     </div>
 
     <div class="page-section" id="pageHome">
@@ -167,18 +213,20 @@
             </div>
 
             <div class="right-panel">
-                <div class="container card" style="background: white;">
-                    <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
-                    <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Hệ thống</strong></div>
+                <div class="container card">
+                    <h2>🏦 QUỸ NGÂN HÀNG</h2>
+                    <div class="data-row"><span>Người quản lý:</span> <strong>Hệ thống / Admin</strong></div>
                     <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
                 </div>
 
-                <div class="container card" style="background: white;">
-                    <h2>👤 HỒ SƠ CÁ NHÂN</h2>
+                <div class="container card">
+                    <h2>👤 HỒ SƠ CỦA BẠN</h2>
                     <div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div>
                     <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
-                    <div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div>
-                    <div class="data-row"><span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span></div>
+                    <div class="data-row"><span>Thẻ ID đang dùng:</span> <strong><span id="uiCardId">...</span></strong></div>
+                    <div class="data-row" style="margin-top: 15px;">
+                        <span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -186,29 +234,48 @@
 
     <div class="page-section" id="pageShop">
         <h1 class="main-title">🛒 CỬA HÀNG BẤT ĐỘNG SẢN</h1>
-        <p style="text-align: center; color: #7f8c8d;">Danh sách 48 khu đất. Các khu đất đã có chủ sẽ bị làm mờ.</p>
-        <div class="shop-grid" id="shopGridContainer">
-            </div>
+        <p style="text-align: center; color: #7f8c8d;">Bản đồ 48 khu đất. Đất mờ xám là đất người khác đã mua.</p>
+        <div class="shop-grid" id="shopGridContainer"></div>
+    </div>
+
+    <div class="page-section" id="pageMyLand">
+        <h1 class="main-title">🏠 BẤT ĐỘNG SẢN CỦA TÔI</h1>
+        <p style="text-align: center; color: #27ae60; font-weight: bold;">Bạn đang xem tài sản thuộc quyền sở hữu của riêng bạn.</p>
+        <div class="shop-grid" id="myLandGridContainer"></div>
+    </div>
+
+    <div class="page-section" id="pageHistory">
+        <h1 class="main-title">📜 NHẬT KÝ GIAO DỊCH</h1>
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <ul class="history-list" id="historyContainer">
+                <li>
+                    <span class="history-time">10:05</span>
+                    <span class="history-desc">Nhận lương đi qua điểm Bắt Đầu</span>
+                    <span class="money">+2000$</span>
+                </li>
+                <li>
+                    <span class="history-time">10:15</span>
+                    <span class="history-desc">Mua đất Bến Lức - Long An</span>
+                    <span class="money minus">-500$</span>
+                </li>
+                <li>
+                    <span class="history-time">10:30</span>
+                    <span class="history-desc">Nam trả tiền thuê nhà cho bạn</span>
+                    <span class="money">+300$</span>
+                </li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; color: #95a5a6; font-size: 14px;"><i>(Tính năng lưu lịch sử thực tế lên Firebase sẽ được tích hợp sau)</i></p>
+        </div>
     </div>
 
     <div class="page-section" id="pageRoles">
         <div class="container">
             <h1 class="main-title">💼 DANH SÁCH CHỨC VỤ</h1>
             <ul>
-                <li><strong>Ngân Hàng:</strong> Quản lý cấp phát đất, nâng cấp nhà, trả lương qua máy POS.</li>
-                <li><strong>Cảnh Sát:</strong> Thu tiền phạt tốc độ, tiền bảo lãnh từ người chơi khác.</li>
+                <li style="margin-bottom: 10px;"><strong>Ngân Hàng:</strong> Quản lý cấp phát đất, nâng cấp nhà, trả lương qua máy POS.</li>
+                <li style="margin-bottom: 10px;"><strong>Cảnh Sát:</strong> Thu tiền phạt tốc độ, tiền bảo lãnh từ người chơi khác.</li>
                 <li><strong>Bác Sĩ:</strong> Nhận tiền bảo hiểm viện phí từ người khác khi họ bốc trúng thẻ xui xẻo.</li>
             </ul>
-        </div>
-    </div>
-
-    <div class="page-section" id="pageRules">
-        <div class="container">
-            <h1 class="main-title">📖 HƯỚNG DẪN CÁCH CHƠI</h1>
-            <p>1. Mỗi người chơi sẽ được phát 1 thẻ RFID vật lý tương ứng với ID đăng nhập trên web.</p>
-            <p>2. Khi đến lượt, đổ xúc xắc và di chuyển quân cờ.</p>
-            <p>3. Khi muốn mua đất hoặc trả tiền phạt, cầm thẻ quẹt vào máy POS (mạch ESP32).</p>
-            <p>4. Mọi giao dịch sẽ lập tức đồng bộ lên trang web này theo thời gian thực.</p>
         </div>
     </div>
 
@@ -223,98 +290,119 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         let theHienTai = "";
+        let tenNguoiChoi = "";
 
-        // HÀM CHUYỂN TRANG (Single Page Application Logic)
+        // CHUYỂN TRANG
         function switchPage(pageId) {
-            // 1. Ẩn tất cả các trang
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(p => p.classList.remove('active'));
-            
-            // 2. Xóa trạng thái active của tất cả nút Menu
-            const navButtons = document.querySelectorAll('.navbar button');
-            navButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active'));
 
-            // 3. Hiển thị trang được chọn và làm nổi bật nút Menu tương ứng
             document.getElementById(pageId).classList.add('active');
             
             if(pageId === 'pageHome') document.getElementById('navHome').classList.add('active');
             if(pageId === 'pageShop') document.getElementById('navShop').classList.add('active');
+            if(pageId === 'pageMyLand') document.getElementById('navMyLand').classList.add('active');
+            if(pageId === 'pageHistory') document.getElementById('navHistory').classList.add('active');
             if(pageId === 'pageRoles') document.getElementById('navRoles').classList.add('active');
-            if(pageId === 'pageRules') document.getElementById('navRules').classList.add('active');
         }
 
-        // HÀM VẼ 48 THẺ ĐẤT
-        function renderShopItems() {
+        // VẼ THẺ ĐẤT (SHOP TỔNG VÀ ĐẤT CỦA TÔI)
+        function renderLands() {
             const shopContainer = document.getElementById('shopGridContainer');
-            shopContainer.innerHTML = ''; // Xóa rỗng trước khi vẽ
+            const myLandContainer = document.getElementById('myLandGridContainer');
+            shopContainer.innerHTML = ''; 
+            myLandContainer.innerHTML = '';
 
-            // Giả lập danh sách đất (có thể đổi tên sau)
             const diaDanh = ["Hà Nội", "Hải Phòng", "Quảng Ninh", "Hải Dương", "Bến Lức", "Long An", "Đà Nẵng", "Huế", "Nha Trang", "Đà Lạt", "TP.HCM", "Cần Thơ"];
+            const colors = ['#8e44ad', '#2980b9', '#27ae60', '#e67e22', '#c0392b', '#16a085'];
             
             for (let i = 1; i <= 48; i++) {
-                // Random tên và số liệu cho sinh động (Sau này đồng bộ Firebase)
                 let ten = diaDanh[i % diaDanh.length];
                 let tinh = "Việt Nam";
-                if(i === 2) { ten = "Bến Lức"; tinh = "Long An"; } // Cố định ô số 2 giống ảnh mẫu
+                let color = colors[i % colors.length]; // Đổi màu tự động cho đẹp
                 
-                // Giả lập ô số 3, 7, 12, 25 đã có người mua -> Thêm class 'sold'
-                let soldClass = (i === 3 || i === 7 || i === 12 || i === 25) ? "sold" : "";
+                if(i === 2) { ten = "Bến Lức"; tinh = "Long An"; color = "#5c4033"; } 
+
+                // GIẢ LẬP DỮ LIỆU SỞ HỮU: 
+                // Ô 3, 7 là người khác mua (Mờ đi)
+                // Ô 2, 15 là CỦA MÌNH mua (Sáng rực lên + Có nhà)
+                let isOwnedByOthers = (i === 3 || i === 7 || i === 25);
+                let isMyLand = (i === 2 || i === 15);
                 
-                // Mã HTML của 1 thẻ đất
+                let houses = ""; // Số nhà (1 icon 🏠 = 1 nhà)
+                if(i === 2) houses = "🏠🏠"; // Giả sử Bến Lức mình xây 2 nhà
+                if(i === 15) houses = "🏢"; // Giả sử ô 15 mình xây Khách sạn
+
+                let cardClass = "land-card";
+                let stampHTML = "";
+
+                if (isOwnedByOthers) {
+                    cardClass += " sold";
+                    stampHTML = `<div class="stamp">ĐÃ BÁN</div>`;
+                } else if (isMyLand) {
+                    cardClass += " owned-by-me";
+                    stampHTML = `<div class="stamp" style="color:#27ae60; border-color:#27ae60;">ĐẤT CỦA BẠN</div>`;
+                }
+
                 let cardHTML = `
-                <div class="land-card ${soldClass}">
-                    <div class="land-header">
-                        <span class="land-num">${i < 10 ? '0'+i : i}</span>
-                        <span class="land-color-bar" style="background:#5c4033;"></span>
+                <div class="${cardClass}">
+                    <div class="land-header" style="background: ${color};">
+                        <div class="land-num">${i < 10 ? '0'+i : i}</div>
                     </div>
+                    
                     <div class="land-title">${ten}</div>
                     <div class="land-subtitle">${tinh}</div>
-                    
-                    <div class="land-prices">
-                        <div class="price-col">giá mua: 500<br>giá bán: 200</div>
-                        <div class="price-col">giá xây mỗi 1<br>căn: 300</div>
-                    </div>
-                    
-                    <div class="land-rent">
-                        <div class="price-col" style="text-align: left; padding-left: 5px;">
-                            giá thuê<br><br>
-                            đất: 100<br><br>
-                            1 căn: 300<br><br>
-                            2 căn: 500
+                    <div class="house-indicator">${houses}</div> <div class="land-body">
+                        <div class="land-prices">
+                            <div class="price-col"><strong>Giá Mua</strong> 500$</div>
+                            <div class="price-col"><strong>Xây Nhà</strong> 300$/Căn</div>
                         </div>
-                        <div class="price-col" style="border-left: 1px solid #333;">
-                            giá thuê<br>khách sạn<br>1000
+                        
+                        <div class="land-rent">
+                            <div class="price-col" style="text-align: left; padding-left: 5px;">
+                                Thuê đất: 100$<br>
+                                Thuê 1 căn: 300$<br>
+                                Thuê 2 căn: 500$
+                            </div>
+                            <div class="price-col" style="border-left: 1px solid #ccc; font-weight: bold; padding-top: 15px;">
+                                Khách Sạn<br>1000$
+                            </div>
                         </div>
                     </div>
-                    
-                    ${soldClass ? `<div class="stamp">ĐÃ CÓ<br>CHỦ</div>` : ``}
+                    ${stampHTML}
                 </div>
                 `;
+                
+                // Vẽ vào Shop tổng (Hiển thị cả 48 ô)
                 shopContainer.innerHTML += cardHTML;
+
+                // NẾU LÀ ĐẤT CỦA MÌNH -> Vẽ thêm vào trang "Đất Của Tôi"
+                if(isMyLand) {
+                    myLandContainer.innerHTML += cardHTML;
+                }
             }
         }
 
-        // HÀM ĐĂNG NHẬP
+        // ĐĂNG NHẬP
         function dangNhap() {
-            const ten = document.getElementById("playerName").value;
-            const the = document.getElementById("cardSelect").value;
-            if(ten.trim() === "") { alert("Vui lòng nhập tên!"); return; }
-
-            theHienTai = the;
-            document.getElementById("uiCardId").innerText = theHienTai;
-            database.ref('/Users/' + theHienTai).update({ Ten: ten });
-
-            // Chuyển diện mạo
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("topNavbar").style.display = "flex"; // Hiện thanh menu
+            tenNguoiChoi = document.getElementById("playerName").value;
+            theHienTai = document.getElementById("cardSelect").value;
             
-            switchPage('pageHome'); // Mở trang chủ làm mặc định
-            renderShopItems(); // Vẽ shop
+            if(tenNguoiChoi.trim() === "") { alert("Vui lòng nhập tên!"); return; }
+
+            document.getElementById("uiCardId").innerText = theHienTai;
+            database.ref('/Users/' + theHienTai).update({ Ten: tenNguoiChoi });
+
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("topNavbar").style.display = "flex"; 
+            
+            switchPage('pageHome'); 
+            renderLands(); // Vẽ toàn bộ thẻ đất
             batDauLangNgheDuLieu();
             langNgheBangXepHang();
         }
 
-        // ĐỒNG BỘ DỮ LIỆU
+        // LẮNG NGHE DỮ LIỆU
         function batDauLangNgheDuLieu() {
             database.ref('/NganHang').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -338,13 +426,7 @@
                 const usersArray = [];
                 snapshot.forEach((child) => {
                     const data = child.val();
-                    if (data.Ten) {
-                        usersArray.push({
-                            id: child.key,
-                            name: data.Ten,
-                            money: data.Tien !== undefined ? data.Tien : 0
-                        });
-                    }
+                    if (data.Ten) usersArray.push({ name: data.Ten, money: data.Tien !== undefined ? data.Tien : 0 });
                 });
 
                 usersArray.sort((a, b) => b.money - a.money);
@@ -353,14 +435,8 @@
 
                 usersArray.forEach((user, index) => {
                     let icon = '👤';
-                    if(index === 0) icon = '👑'; 
-                    else if(index === 1) icon = '🥈'; 
-                    else if(index === 2) icon = '🥉'; 
-
-                    const div = document.createElement('div');
-                    div.className = 'lb-item';
-                    div.innerHTML = `<span>${icon} ${user.name}</span> <strong style="color: #27ae60;">${user.money} $</strong>`;
-                    lbContainer.appendChild(div);
+                    if(index === 0) icon = '👑'; else if(index === 1) icon = '🥈'; else if(index === 2) icon = '🥉'; 
+                    lbContainer.innerHTML += `<div class="lb-item"><span>${icon} ${user.name}</span> <strong style="color: #27ae60;">${user.money} $</strong></div>`;
                 });
             });
         }
