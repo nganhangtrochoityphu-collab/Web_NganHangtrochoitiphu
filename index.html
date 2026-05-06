@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V5.0 (Role-Play System)</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V5.1 (Bản Hoàn Chỉnh)</title>
     <style>
         /* BIẾN MÀU SẮC */
         :root {
@@ -130,7 +130,7 @@
             </select>
         </div>
         <button class="btn-action" onclick="dangNhap()">KẾT NỐI VÀO GAME</button>
-        <button class="btn-reset" onclick="khoiTaoDuLieuSach()">⚠️ ADMIN: RESET TOÀN BỘ DỮ LIỆU</button>
+        <button class="btn-reset" onclick="khoiTaoDuLieuSach()">⚠️ ADMIN: RESET TOÀN BỘ DỮ LIỆU SẠCH</button>
     </div>
 
     <div class="page-section" id="pageHome">
@@ -138,7 +138,7 @@
         <div class="main-wrapper">
             <div class="container left-panel"><h2>🏆 BẢNG VÀNG TỶ PHÚ</h2><div id="leaderboardContainer"><div style="text-align: center;">Đang tải...</div></div></div>
             <div class="right-panel">
-                <div class="container card"><h2>🏦 QUỸ NGÂN HÀNG</h2><div class="data-row"><span>Người quản lý:</span> <strong>Thẻ ID 1</strong></div><div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div></div>
+                <div class="container card"><h2>🏦 QUỸ NGÂN HÀNG</h2><div class="data-row"><span>Người quản lý:</span> <strong>Hệ Thống (ID 1)</strong></div><div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div></div>
                 <div class="container card"><h2>👤 HỒ SƠ CỦA BẠN</h2><div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div><div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div><div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div><div class="data-row" style="margin-top: 15px;"><span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span></div></div>
             </div>
         </div>
@@ -174,17 +174,13 @@
 
             <div id="coDatPanel" class="role-panel">
                 <h3 style="color: #27ae60; text-align: center;">🏡 SÀN GIAO DỊCH BẤT ĐỘNG SẢN (Dành cho Cò Đất)</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Lựa chọn đất và ép người chơi khác mua. Hệ thống sẽ tự động trừ tiền và sang tên sổ đỏ.</p>
-                <div class="form-group">
-                    <label>1. Chọn Khu Đất / Dịch Vụ:</label>
-                    <select id="coDat_LandSelect"></select>
-                </div>
-                <div class="form-group">
-                    <label>2. Chọn Người Nhận (Người Mua):</label>
+                <p style="text-align: center; margin-bottom: 20px;">Lựa chọn đất và ép người chơi mua. Hệ thống sẽ tự động trừ tiền và cấp sổ đỏ.</p>
+                <div class="form-group"><label>1. Chọn Khu Đất / Dịch Vụ:</label><select id="coDat_LandSelect"></select></div>
+                <div class="form-group"><label>2. Chọn Người Nhận Sổ Đỏ:</label>
                     <select id="coDat_UserSelect">
-                        <option value="The_Demo_1">Thẻ ID 1 (Ngân Hàng)</option>
-                        <option value="The_Demo_2">Thẻ ID 2 (Cò Đất)</option>
-                        <option value="The_Demo_3">Thẻ ID 3 (Nhân Sự)</option>
+                        <option value="The_Demo_1">Thẻ ID 1</option>
+                        <option value="The_Demo_2">Thẻ ID 2</option>
+                        <option value="The_Demo_3">Thẻ ID 3</option>
                         <option value="The_Demo_4">Thẻ ID 4</option>
                         <option value="The_Demo_5">Thẻ ID 5</option>
                         <option value="The_Demo_6">Thẻ ID 6</option>
@@ -198,20 +194,14 @@
             <div id="nhanSuPanel" class="role-panel">
                 <h3 style="color: #8e44ad; text-align: center;">👔 PHÒNG NHÂN SỰ TRUNG ƯƠNG</h3>
                 <p style="text-align: center; margin-bottom: 20px;">Bổ nhiệm nghề nghiệp cho người chơi. (Chỉ áp dụng cho Thẻ ID 4 đến 8).</p>
-                <div class="form-group">
-                    <label>1. Chọn Người Cần Bổ Nhiệm:</label>
+                <div class="form-group"><label>1. Chọn Người Cần Bổ Nhiệm:</label>
                     <select id="nhanSu_UserSelect">
-                        <option value="The_Demo_4">Thẻ ID 4</option>
-                        <option value="The_Demo_5">Thẻ ID 5</option>
-                        <option value="The_Demo_6">Thẻ ID 6</option>
-                        <option value="The_Demo_7">Thẻ ID 7</option>
+                        <option value="The_Demo_4">Thẻ ID 4</option><option value="The_Demo_5">Thẻ ID 5</option>
+                        <option value="The_Demo_6">Thẻ ID 6</option><option value="The_Demo_7">Thẻ ID 7</option>
                         <option value="The_Demo_8">Thẻ ID 8</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>2. Nhập Chức Vụ Mới:</label>
-                    <input type="text" id="nhanSu_JobInput" placeholder="Ví dụ: Bác sĩ, Cảnh sát, Ca sĩ...">
-                </div>
+                <div class="form-group"><label>2. Nhập Chức Vụ Mới:</label><input type="text" id="nhanSu_JobInput" placeholder="Ví dụ: Bác sĩ, Ca sĩ..."></div>
                 <button class="btn-action" style="background-color: #8e44ad;" onclick="nhanSuBoNhiem()">QUYẾT ĐỊNH BỔ NHIỆM</button>
             </div>
 
@@ -222,17 +212,51 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        /* MẢNG DỮ LIỆU ĐẤT RÚT GỌN (Giữ nguyên cấu trúc) */
+        /* MẢNG DỮ LIỆU ĐẤT ĐẦY ĐỦ 36 Ô ĐẤT VÀ 6 TIỆN ÍCH */
         const danhSachDat = [
           { id: "L1", stt: 1, ten: "Chợ nổi cái răng", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
           { id: "L2", stt: 2, ten: "Bến Ninh Kiều", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
-          { id: "L4", stt: 13, ten: "Hồ Tràm Strip", tinh: "BR-VT", mau: "#D4AC0D", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
-          { id: "L5", stt: 24, ten: "Phố Cổ Hội An", tinh: "Quảng Nam", mau: "#C0392B", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
-          { id: "L6", stt: 34, ten: "Văn Miếu Q.T.Giám", tinh: "Hà Nội", mau: "#1A252F", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
+          { id: "L3", stt: 3, ten: "Làng Hoa Sa Đéc", tinh: "Đồng Tháp", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
+          { id: "L4", stt: 4, ten: "Vườn QG Tràm Chim", tinh: "Đồng Tháp", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
+          { id: "L5", stt: 5, ten: "Rừng Tràm Trà Sư", tinh: "An Giang", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
+          { id: "L6", stt: 6, ten: "Chùa Dơi", tinh: "Sóc Trăng", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
+          { id: "L7", stt: 7, ten: "Nhà Công Tử Bạc Liêu", tinh: "Bạc Liêu", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
+          { id: "L8", stt: 8, ten: "Đất Mũi", tinh: "Cà Mau", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
+          { id: "L9", stt: 9, ten: "Đảo Nam Du", tinh: "Kiên Giang", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
+          { id: "L10", stt: 10, ten: "Núi Bà Đen", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
+          { id: "L11", stt: 11, ten: "Hồ Dầu Tiếng", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
+          { id: "L12", stt: 12, ten: "Côn Đảo Resort", tinh: "Bà Rịa - Vũng Tàu", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
+          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "Bà Rịa - Vũng Tàu", mau: "#FFFACD", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#FFFACD", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L15", stt: 15, ten: "Landmark 81", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
+          { id: "L16", stt: 16, ten: "Phố Đi Bộ Nguyễn Huệ", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
+          { id: "L17", stt: 17, ten: "Chợ Bến Thành", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
+          { id: "L18", stt: 18, ten: "Tiểu Vương Quốc Raumania", tinh: "Thanh Hóa", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
+          { id: "L19", stt: 19, ten: "Buôn Ma Thuột", tinh: "Đắk Lắk", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
+          { id: "L20", stt: 20, ten: "Tháp Chàm", tinh: "Ninh Thuận", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
+          { id: "L21", stt: 21, ten: "Vịnh Vĩnh Hy", tinh: "Ninh Thuận", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
+          { id: "L22", stt: 22, ten: "Tháp Bà Ponagar", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
+          { id: "L23", stt: 23, ten: "Vinpearl Nha Trang", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
+          { id: "L24", stt: 24, ten: "Phố Cổ Hội An", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
+          { id: "L25", stt: 25, ten: "Thánh Địa Mỹ Sơn", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
+          { id: "L26", stt: 26, ten: "Tràng An", tinh: "Ninh Bình", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
+          { id: "L27", stt: 27, ten: "Chùa Thiên Mụ", tinh: "Thừa Thiên Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
+          { id: "L28", stt: 28, ten: "Cố Đô Huế", tinh: "Thừa Thiên Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
+          { id: "L29", stt: 29, ten: "Cầu Hiền Lương", tinh: "Quảng Trị", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L30", stt: 30, ten: "Chùa Tam Chúc", tinh: "Hà Nam", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L31", stt: 31, ten: "Vịnh Hạ Long", tinh: "Quảng Ninh", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L32", stt: 32, ten: "Đảo Cát Bà", tinh: "Hải Phòng", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
+          { id: "L33", stt: 33, ten: "Đỉnh Fansipan", tinh: "Lào Cai", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
+          { id: "L34", stt: 34, ten: "Văn Miếu Q.T.Giám", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
+          { id: "L35", stt: 35, ten: "Lăng Bác", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
+          { id: "L36", stt: 36, ten: "Hồ Gươm", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           
-          { id: "T1", ten: "Bến Xe Miền Tây", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
+          { id: "T1", ten: "Bến Xe Miền Đông", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
+          { id: "T2", ten: "Cảng Hải Phòng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚢", loai: "benxe" },
+          { id: "T3", ten: "Ga Đà Nẵng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚆", loai: "benxe" },
           { id: "T4", ten: "Sân Bay Nội Bài", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "✈️", loai: "benxe" },
-          { id: "U1", ten: "Công Ty Điện Lực", tinh: "Tiện Ích", mau: "#8e44ad", nhom: "Tiện Ích", giaMua: 1500, icon: "⚡", loai: "tienich" }
+          { id: "U1", ten: "Công Ty Điện Lực", tinh: "Tiện Ích Công Cộng", mau: "#8e44ad", nhom: "Tiện Ích", giaMua: 1500, icon: "⚡", loai: "tienich" },
+          { id: "U2", ten: "Nhà Máy Nước", tinh: "Tiện Ích Công Cộng", mau: "#2980b9", nhom: "Tiện Ích", giaMua: 1500, icon: "💧", loai: "tienich" }
         ];
 
         /* LOGIC SÁNG/TỐI */
@@ -249,15 +273,15 @@
         firebase.initializeApp(firebaseConfig); const database = firebase.database(); 
         let theHienTai = ""; let bangDatToanCau = {};
 
-        // TẠO MỚI DỮ LIỆU
+        // 🚀 TẠO MỚI DỮ LIỆU SẠCH 100% (Khắc phục lỗi Null)
         function khoiTaoDuLieuSach() {
-            let xacNhan = confirm("⚠️ XÓA SẠCH DỮ LIỆU CŨ VÀ TẠO LẠI 8 ID? Mọi sổ đỏ và tiền bạc sẽ bị reset.");
+            let xacNhan = confirm("⚠️ ADMIN: Thao tác này sẽ XÓA SẠCH toàn bộ dữ liệu Cờ Tỷ Phú trên Firebase và tạo lại 8 ID mới. Bạn có chắc chắn?");
             if(!xacNhan) return;
-            const now = new Date(); const timeStr = now.getHours() + ":" + now.getMinutes();
+            const now = new Date(); const timeStr = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes();
 
             const dataMoi = {
                 "NganHang": { "TongTien": 5000000, "QuanLy": "Hệ thống Trung Ương" },
-                "Lands": {}, // Reset toàn bộ Đất (Xóa Sổ Đỏ)
+                "Lands": { "Reset_Mock": "1" }, 
                 "Users": {
                     "The_Demo_1": { "Ten": "ID 1", "CongViec": "Ngân Hàng", "Tien": 500000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Vốn điều hành", "Tien": 500000 } } },
                     "The_Demo_2": { "Ten": "ID 2", "CongViec": "Cò Đất", "Tien": 20000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Vốn sàn giao dịch", "Tien": 20000 } } },
@@ -269,7 +293,7 @@
                     "The_Demo_8": { "Ten": "ID 8", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } }
                 }
             };
-            database.ref('/').set(dataMoi).then(() => { alert("✅ Tạo dữ liệu thành công! Hãy đăng nhập ngay."); });
+            database.ref('/').set(dataMoi).then(() => { alert("✅ Tạo dữ liệu thành công! Hãy nhập tên và đăng nhập."); });
         }
 
         function switchPage(pageId) {
@@ -283,13 +307,10 @@
             if(pageId === 'pageRoles') document.getElementById('navRoles').classList.add('active');
         }
 
-        // Tải danh sách đất vào thẻ Select của Cò Đất
+        // Tải danh sách đất vào Select cho Cò Đất
         function loadDanhSachDatChoCoDat() {
-            let select = document.getElementById("coDat_LandSelect");
-            select.innerHTML = '';
-            danhSachDat.forEach(dat => {
-                select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`;
-            });
+            let select = document.getElementById("coDat_LandSelect"); select.innerHTML = '';
+            danhSachDat.forEach(dat => { select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`; });
         }
 
         // VẼ GIAO DIỆN (ĐỒNG BỘ SỔ ĐỎ TỪ FIREBASE)
@@ -298,122 +319,8 @@
             document.getElementById('myLandGridLand').innerHTML = ''; document.getElementById('myLandGridService').innerHTML = '';
 
             danhSachDat.forEach(dat => {
-                // TỰ ĐỘNG LẤY TÊN CHỦ SỞ HỮU TỪ FIREBASE
                 let ownerUID = bangDatToanCau[dat.id] ? bangDatToanCau[dat.id].Owner : null;
-                
                 let isMyLand = (ownerUID === theHienTai);
                 let isOwnedByOthers = (ownerUID !== null && ownerUID !== theHienTai);
                 
-                let cardClass = "land-card"; let stampHTML = "";
-                if (isOwnedByOthers) { cardClass += " sold"; stampHTML = `<div class="stamp">ĐÃ BÁN</div>`; } 
-                else if (isMyLand) { cardClass += " owned-by-me"; stampHTML = `<div class="stamp" style="color:#27ae60; border-color:#27ae60;">CỦA BẠN</div>`; }
-
-                let cardHTML = "";
-
-                if(dat.loai === "dat") {
-                    cardHTML = `
-                    <div class="${cardClass}">
-                        <div class="land-header" style="background: linear-gradient(135deg, ${dat.mau}, #34495e); justify-content:center; padding:15px 10px;"></div>
-                        <div style="text-align:center; margin-top:10px;"><span class="land-group" style="background:${dat.mau}; color: #fff;">${dat.nhom}</span></div>
-                        <div class="land-title">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="house-indicator"></div>
-                        <div class="land-body">
-                            <div class="land-prices">
-                                <div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div><div class="price-col"><strong>Xây Nhà</strong> ${dat.giaXay}$/Căn</div>
-                            </div>
-                        </div>
-                        ${stampHTML}
-                    </div>`;
-                    document.getElementById('shopGridLand').innerHTML += cardHTML;
-                    if(isMyLand) document.getElementById('myLandGridLand').innerHTML += cardHTML;
-                } 
-                else {
-                    cardHTML = `
-                    <div class="${cardClass}">
-                        <div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div>
-                        <div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div>
-                        <div class="land-title" style="margin-top: 0;">${dat.ten}</div>
-                        <div class="land-body"><div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua</strong> ${dat.giaMua}$</div></div></div>
-                        ${stampHTML}
-                    </div>`;
-                    document.getElementById('shopGridService').innerHTML += cardHTML;
-                    if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
-                }
-            });
-        }
-
-        function dangNhap() {
-            let ten = document.getElementById("playerName").value;
-            theHienTai = document.getElementById("cardSelect").value;
-            if(ten.trim() === "") { alert("Vui lòng nhập tên!"); return; }
-
-            document.getElementById("uiCardId").innerText = theHienTai; database.ref('/Users/' + theHienTai).update({ Ten: ten });
-            document.getElementById("loginScreen").style.display = "none"; document.getElementById("topNavbar").style.display = "flex"; 
-            
-            loadDanhSachDatChoCoDat();
-            switchPage('pageHome'); batDauLangNgheDuLieu();
-        }
-
-        function batDauLangNgheDuLieu() {
-            database.ref('/NganHang').on('value', (snap) => {
-                if(snap.val() && snap.val().TongTien !== undefined) document.getElementById('bankMoney').innerText = snap.val().TongTien + " $";
-            });
-
-            // NGHE SỰ THAY ĐỔI CỦA TẤT CẢ ĐẤT ĐAI
-            database.ref('/Lands').on('value', (snap) => {
-                bangDatToanCau = snap.val() || {};
-                renderLands(); // Vẽ lại thẻ ngay khi có người mua
-            });
-
-            // BẢNG XẾP HẠNG
-            database.ref('/Users').on('value', (snap) => {
-                let users = [];
-                snap.forEach((child) => { let d = child.val(); if (d.Ten) users.push({ name: d.Ten, money: d.Tien !== undefined ? d.Tien : 0 }); });
-                users.sort((a, b) => b.money - a.money);
-                const lb = document.getElementById('leaderboardContainer'); lb.innerHTML = ''; 
-                users.forEach((u, i) => { let icon = i===0 ? '👑' : (i===1 ? '🥈' : (i===2 ? '🥉' : '👤')); lb.innerHTML += `<div class="lb-item"><span>${icon} ${u.name}</span> <strong style="color: #27ae60;">${u.money} $</strong></div>`; });
-            });
-
-            database.ref('/Users/' + theHienTai).on('value', (snap) => {
-                let data = snap.val();
-                if(data) {
-                    if(data.Ten) document.getElementById('uiName').innerText = data.Ten;
-                    if(data.Tien !== undefined) document.getElementById('uiBalance').innerText = data.Tien + " $";
-                    
-                    let congViec = data.CongViec ? data.CongViec : "Vô công rồi Nghề";
-                    document.getElementById('uiJob').innerText = congViec;
-                    document.getElementById('roleTitleBox').innerText = "CHỨC VỤ: " + congViec;
-                    
-                    // PHÂN QUYỀN HIỂN THỊ BẢNG ĐIỀU KHIỂN
-                    document.getElementById('coDatPanel').style.display = "none";
-                    document.getElementById('nhanSuPanel').style.display = "none";
-                    document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #7f8c8d, #95a5a6)";
-
-                    if(congViec.toLowerCase() === "cò đất" || theHienTai === "The_Demo_2") {
-                        document.getElementById('roleDescBox').innerText = "Bạn nắm giữ Sàn Giao Dịch. Bạn có quyền phân bổ đất đai cho mọi người.";
-                        document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #27ae60, #2ecc71)";
-                        document.getElementById('coDatPanel').style.display = "block";
-                    } 
-                    else if(congViec.toLowerCase() === "nhân sự" || theHienTai === "The_Demo_3") {
-                        document.getElementById('roleDescBox').innerText = "Bạn là Trưởng Phòng Nhân Sự. Bạn quyết định nghề nghiệp của người chơi ID 4 đến 8.";
-                        document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #8e44ad, #9b59b6)";
-                        document.getElementById('nhanSuPanel').style.display = "block";
-                    } 
-                    else {
-                        document.getElementById('roleDescBox').innerText = "Bạn là người chơi. Chờ Nhân Sự phát nghề và Cò Đất phát sổ đỏ nhé!";
-                    }
-                }
-            });
-
-            database.ref('/Users/' + theHienTai + '/LichSu').on('value', (snapshot) => {
-                const histContainer = document.getElementById('historyContainer'); histContainer.innerHTML = '';
-                if(snapshot.exists()) {
-                    snapshot.forEach(child => {
-                        let item = child.val(); let isMinus = item.Tien < 0;
-                        histContainer.innerHTML += `<li><span class="history-time">${item.ThoiGian||"Now"}</span><span class="history-desc">${item.MoTa}</span><span class="money ${isMinus?'minus':''}">${isMinus?'':'+'}${item.Tien}$</span></li>`;
-                    });
-                } else { histContainer.innerHTML = `<li style="justify-content: center; color: var(--text-muted);">Chưa có giao dịch.</li>`; }
-            });
-        }
-
-        // ==========================================
-        // TÍNH NĂNG CÒ ĐẤT: ÉP MUA V
+                let cardClass = "land-card";
