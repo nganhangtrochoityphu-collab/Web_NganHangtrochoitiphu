@@ -3,81 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - Phiên Bản Xếp Hạng</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V2.0</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0; /* Bỏ padding body để navbar sát viền */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; font-size: 28px; }
+
+        /* THANH ĐIỀU HƯỚNG CỐ ĐỊNH (STICKY NAVBAR) */
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            padding: 10px 0;
+            display: none; /* Ẩn lúc chưa đăng nhập */
+            justify-content: center;
+            gap: 15px;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .navbar button {
+            background-color: transparent;
+            color: white;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .navbar button:hover, .navbar button.active {
+            background-color: #34495e;
+            border-bottom: 2px solid #3498db;
+        }
+        .nav-logout { background-color: #e74c3c !important; }
+        .nav-logout:hover { background-color: #c0392b !important; }
+
+        h1.main-title { color: #2c3e50; text-align: center; margin: 20px 0; font-size: 28px; }
         
-        /* Bố cục chính */
         .container {
             background: white; padding: 25px; border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1); box-sizing: border-box;
+            width: 100%; max-width: 1000px; margin-bottom: 20px;
         }
         
-        .main-wrapper {
-            display: flex; gap: 20px; width: 100%; max-width: 1000px;
-            justify-content: center; align-items: flex-start;
-        }
-        
-        /* CỘT TRÁI: Bảng Xếp Hạng */
+        /* CÁC TRANG CON (SUB-PAGES) */
+        .page-section { display: none; width: 100%; max-width: 1000px; padding: 0 15px; box-sizing: border-box; }
+        .page-section.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Bố cục Trang Chủ (2 Cột) */
+        .main-wrapper { display: flex; gap: 20px; align-items: flex-start; }
         .left-panel { flex: 1; min-width: 300px; }
         .left-panel h2 { color: #d35400; font-size: 20px; border-bottom: 2px solid #e67e22; padding-bottom: 10px; margin-top: 0; text-align: center;}
-        
-        .lb-item {
-            display: flex; justify-content: space-between; padding: 12px 10px;
-            border-bottom: 1px solid #eee; font-size: 16px; align-items: center;
-        }
-        .lb-item:nth-child(1) { background-color: #fff9c4; font-weight: bold; border-radius: 6px; } /* Top 1 */
-        .lb-item:nth-child(2) { background-color: #f5f5f5; font-weight: bold; } /* Top 2 */
-        .lb-item:nth-child(3) { background-color: #ffe0b2; font-weight: bold; } /* Top 3 */
-
-        /* CỘT PHẢI: Màn Hình Chính */
-        .right-panel { flex: 2; width: 100%; max-width: 650px; }
+        .lb-item { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid #eee; font-size: 16px; align-items: center; }
+        .lb-item:nth-child(1) { background-color: #fff9c4; font-weight: bold; border-radius: 6px; }
+        .right-panel { flex: 2; width: 100%; }
         .card { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .card h2 { margin-top: 0; color: #2980b9; font-size: 18px; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px;}
         .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; align-items: center; }
         .money { font-size: 22px; font-weight: bold; color: #e74c3c; }
 
-        /* Lưới 5 Nút Chức Năng */
-        .btn-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;
+        /* THIẾT KẾ THẺ ĐẤT (Giống hình mẫu Bến Lức) */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
-        .btn-grid .full-width { grid-column: span 2; }
+        .land-card {
+            border: 2px solid #333;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.8); /* Phong cách thẻ giấy */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .land-header { display: flex; align-items: center; border: 2px solid #333; margin-bottom: 10px; background: #5c4033;}
+        .land-num { background: white; border-right: 2px solid #333; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 2px; }
+        .land-color-bar { flex: 1; height: 100%; }
         
-        .btn-menu {
-            background-color: #34495e; color: white; border: none; padding: 12px;
-            border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .btn-menu:hover { background-color: #2c3e50; transform: translateY(-2px); }
-        .btn-shop { background-color: #f39c12; } .btn-shop:hover { background-color: #d68910; }
-        .btn-role { background-color: #8e44ad; } .btn-role:hover { background-color: #732d91; }
-        .btn-land-all { background-color: #16a085; } .btn-land-all:hover { background-color: #117a65; }
+        .land-title { text-align: center; font-weight: bold; font-size: 20px; text-transform: uppercase; }
+        .land-subtitle { text-align: center; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
         
-        /* Cửa sổ nổi (Modal) */
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
-            align-items: center; justify-content: center;
+        .land-prices { display: flex; border-bottom: 1px solid #333; margin-bottom: 5px; padding-bottom: 5px; }
+        .price-col { flex: 1; font-size: 13px; text-align: center; }
+        .price-col:first-child { border-right: 1px solid #333; }
+        
+        .land-rent { display: flex; font-size: 13px; text-align: center; }
+        .stamp {
+            position: absolute; bottom: 5px; right: 5px;
+            color: #e74c3c; border: 3px dashed #e74c3c; border-radius: 50%;
+            width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 12px; transform: rotate(-20deg); text-align: center;
         }
-        .modal-content {
-            background-color: white; padding: 20px; border-radius: 12px;
-            width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;
-            position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .modal-header { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .close { position: absolute; right: 20px; top: 15px; font-size: 24px; font-weight: bold; color: #aaa; cursor: pointer; }
-        .close:hover { color: red; }
 
-        /* Form Đăng nhập cơ bản */
+        /* Trạng thái Đất Đã Bán (Mờ xám) */
+        .land-card.sold {
+            filter: grayscale(100%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Đăng nhập */
+        .login-box { width: 100%; max-width: 500px; margin-top: 50px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
         .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
@@ -86,14 +125,23 @@
 
         @media (max-width: 768px) {
             .main-wrapper { flex-direction: column-reverse; }
+            .navbar { flex-wrap: wrap; padding: 5px; }
+            .navbar button { padding: 8px 10px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>🏦 NGÂN HÀNG CỜ TỶ PHÚ</h1>
+    <nav class="navbar" id="topNavbar">
+        <button id="navHome" onclick="switchPage('pageHome')" class="active">Trang Chủ</button>
+        <button id="navShop" onclick="switchPage('pageShop')">Shop Nhà Đất</button>
+        <button id="navRoles" onclick="switchPage('pageRoles')">Chức Vụ</button>
+        <button id="navRules" onclick="switchPage('pageRules')">Cách Chơi</button>
+        <button class="nav-logout" onclick="location.reload()">Đăng Xuất</button>
+    </nav>
 
-    <div class="container" id="loginScreen" style="width: 100%; max-width: 500px;">
+    <div class="container login-box" id="loginScreen">
+        <h1 class="main-title">🏦 NGÂN HÀNG CỜ TỶ PHÚ</h1>
         <h2 style="text-align: center; color: #2980b9;">Đăng Nhập Quản Lý Thẻ</h2>
         <div class="form-group">
             <label>1. Nhập tên hiển thị:</label>
@@ -105,108 +153,62 @@
                 <option value="The_Demo_1">Thẻ ID 1</option>
                 <option value="The_Demo_2">Thẻ ID 2</option>
                 <option value="The_Demo_3">Thẻ ID 3</option>
-                <option value="The_Demo_4">Thẻ ID 4</option>
-                <option value="The_Demo_5">Thẻ ID 5</option>
-                <option value="The_Demo_6">Thẻ ID 6</option>
-                <option value="The_Demo_7">Thẻ ID 7</option>
-                <option value="The_Demo_8">Thẻ ID 8</option>
             </select>
         </div>
         <button class="btn-login" onclick="dangNhap()">KẾT NỐI HỆ THỐNG</button>
     </div>
 
-    <div class="main-wrapper" id="mainScreen" style="display: none;">
-        
-        <div class="container left-panel">
-            <h2>🏆 BẢNG VÀNG TỶ PHÚ</h2>
-            <div id="leaderboardContainer">
-                <div style="text-align: center; color: #7f8c8d;">Đang tải dữ liệu...</div>
-            </div>
-        </div>
-
-        <div class="right-panel">
-            
-            <div class="container card" style="background: white;">
-                <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
-                <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Đang tải...</strong></div>
-                <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
-                <div class="data-row"><span>Số đất hiện có:</span> <strong id="bankLand">48 mảnh</strong></div>
+    <div class="page-section" id="pageHome">
+        <h1 class="main-title">BẢNG ĐIỀU KHIỂN TRUNG TÂM</h1>
+        <div class="main-wrapper">
+            <div class="container left-panel">
+                <h2>🏆 BẢNG VÀNG TỶ PHÚ</h2>
+                <div id="leaderboardContainer"><div style="text-align: center;">Đang tải...</div></div>
             </div>
 
-            <div class="container card" style="background: white;">
-                <h2>👤 HỒ SƠ CÁ NHÂN</h2>
-                <div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div>
-                <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
-                <div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div>
-                <div class="data-row"><span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span></div>
-                
-                <div class="btn-grid">
-                    <button class="btn-menu btn-shop" onclick="openModal('modalShop')">🛒 SHOP NHÀ ĐẤT</button>
-                    <button class="btn-menu btn-role" onclick="openModal('modalRole')">💼 CHỨC VỤ & NGHỀ</button>
-                    
-                    <button class="btn-menu btn-land-all full-width" onclick="openModal('modalAllLand')">🌍 BẢN ĐỒ ĐẤT ĐƯỢC SỞ HỮU</button>
-                    
-                    <button class="btn-menu" onclick="openModal('modalHistory')">📜 Lịch sử giao dịch</button>
-                    <button class="btn-menu" onclick="openModal('modalMyLand')">🏠 Đất đang có (Của tôi)</button>
+            <div class="right-panel">
+                <div class="container card" style="background: white;">
+                    <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
+                    <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Hệ thống</strong></div>
+                    <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
+                </div>
+
+                <div class="container card" style="background: white;">
+                    <h2>👤 HỒ SƠ CÁ NHÂN</h2>
+                    <div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div>
+                    <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
+                    <div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div>
+                    <div class="data-row"><span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span></div>
                 </div>
             </div>
-            
-            <button class="btn-login" style="background-color: #95a5a6; margin-top: 5px;" onclick="location.reload()">Đăng Xuất</button>
         </div>
     </div>
 
-    <div id="modalShop" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modalShop')">&times;</span>
-            <div class="modal-header">🛒 Cửa Hàng Bất Động Sản</div>
-            <p><i>(Khu vực hiển thị hình ảnh thẻ đất và giá tiền. Sẽ cập nhật hình ảnh sau...)</i></p>
-            <div style="padding: 10px; background: #f9f9f9; border-radius: 8px; margin-bottom: 10px;">
-                <strong>🏡 Đất Hà Nội:</strong> 5.000$ <br>
-                <strong>🏡 Đất TP.HCM:</strong> 6.000$ <br>
-                <strong>🏗️ Chi phí xây nhà:</strong> 1.500$/Căn
+    <div class="page-section" id="pageShop">
+        <h1 class="main-title">🛒 CỬA HÀNG BẤT ĐỘNG SẢN</h1>
+        <p style="text-align: center; color: #7f8c8d;">Danh sách 48 khu đất. Các khu đất đã có chủ sẽ bị làm mờ.</p>
+        <div class="shop-grid" id="shopGridContainer">
             </div>
-        </div>
     </div>
 
-    <div id="modalRole" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modalRole')">&times;</span>
-            <div class="modal-header">💼 Danh Sách Chức Vụ</div>
+    <div class="page-section" id="pageRoles">
+        <div class="container">
+            <h1 class="main-title">💼 DANH SÁCH CHỨC VỤ</h1>
             <ul>
-                <li><strong>Ngân Hàng:</strong> Cấp phát đất, nâng cấp nhà, trả lương.</li>
-                <li><strong>Cảnh Sát:</strong> Thu tiền phạt tốc độ, tiền bảo lãnh.</li>
-                <li><strong>Bác Sĩ:</strong> Nhận tiền bảo hiểm viện phí từ người khác.</li>
+                <li><strong>Ngân Hàng:</strong> Quản lý cấp phát đất, nâng cấp nhà, trả lương qua máy POS.</li>
+                <li><strong>Cảnh Sát:</strong> Thu tiền phạt tốc độ, tiền bảo lãnh từ người chơi khác.</li>
+                <li><strong>Bác Sĩ:</strong> Nhận tiền bảo hiểm viện phí từ người khác khi họ bốc trúng thẻ xui xẻo.</li>
             </ul>
         </div>
     </div>
 
-    <div id="modalAllLand" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modalAllLand')">&times;</span>
-            <div class="modal-header">🌍 Bản Đồ Đất Đã Có Chủ</div>
-            <p>Danh sách các khu đất đã được mua trên bàn cờ:</p>
-            <ul>
-                <li><strong>Khang:</strong> Đất Hà Nội (2 Nhà), Đất Đà Nẵng (1 Nhà)</li>
-                <li><strong>Nam:</strong> Đất Hải Phòng (0 Nhà)</li>
-                <li><i>(Tính năng này sẽ được đồng bộ từ Firebase trong tương lai)</i></li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="modalHistory" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modalHistory')">&times;</span>
-            <div class="modal-header">📜 Lịch Sử Giao Dịch</div>
-            <p style="color: #7f8c8d;">Chưa có giao dịch nào được ghi nhận.</p>
-        </div>
-    </div>
-
-    <div id="modalMyLand" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('modalMyLand')">&times;</span>
-            <div class="modal-header">🏠 Tài Sản Của Tôi</div>
-            <p>Số đất bạn đang sở hữu: <strong>0 mảnh</strong></p>
-            <p>Số nhà bạn đang sở hữu: <strong>0 căn</strong></p>
+    <div class="page-section" id="pageRules">
+        <div class="container">
+            <h1 class="main-title">📖 HƯỚNG DẪN CÁCH CHƠI</h1>
+            <p>1. Mỗi người chơi sẽ được phát 1 thẻ RFID vật lý tương ứng với ID đăng nhập trên web.</p>
+            <p>2. Khi đến lượt, đổ xúc xắc và di chuyển quân cờ.</p>
+            <p>3. Khi muốn mua đất hoặc trả tiền phạt, cầm thẻ quẹt vào máy POS (mạch ESP32).</p>
+            <p>4. Mọi giao dịch sẽ lập tức đồng bộ lên trang web này theo thời gian thực.</p>
         </div>
     </div>
 
@@ -222,15 +224,77 @@
         const database = firebase.database();
         let theHienTai = "";
 
-        // Mở / Đóng Modal
-        function openModal(id) { document.getElementById(id).style.display = "flex"; }
-        function closeModal(id) { document.getElementById(id).style.display = "none"; }
-        
-        // Đóng Modal khi click ra ngoài
-        window.onclick = function(event) {
-            if (event.target.className === "modal") { event.target.style.display = "none"; }
+        // HÀM CHUYỂN TRANG (Single Page Application Logic)
+        function switchPage(pageId) {
+            // 1. Ẩn tất cả các trang
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(p => p.classList.remove('active'));
+            
+            // 2. Xóa trạng thái active của tất cả nút Menu
+            const navButtons = document.querySelectorAll('.navbar button');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. Hiển thị trang được chọn và làm nổi bật nút Menu tương ứng
+            document.getElementById(pageId).classList.add('active');
+            
+            if(pageId === 'pageHome') document.getElementById('navHome').classList.add('active');
+            if(pageId === 'pageShop') document.getElementById('navShop').classList.add('active');
+            if(pageId === 'pageRoles') document.getElementById('navRoles').classList.add('active');
+            if(pageId === 'pageRules') document.getElementById('navRules').classList.add('active');
         }
 
+        // HÀM VẼ 48 THẺ ĐẤT
+        function renderShopItems() {
+            const shopContainer = document.getElementById('shopGridContainer');
+            shopContainer.innerHTML = ''; // Xóa rỗng trước khi vẽ
+
+            // Giả lập danh sách đất (có thể đổi tên sau)
+            const diaDanh = ["Hà Nội", "Hải Phòng", "Quảng Ninh", "Hải Dương", "Bến Lức", "Long An", "Đà Nẵng", "Huế", "Nha Trang", "Đà Lạt", "TP.HCM", "Cần Thơ"];
+            
+            for (let i = 1; i <= 48; i++) {
+                // Random tên và số liệu cho sinh động (Sau này đồng bộ Firebase)
+                let ten = diaDanh[i % diaDanh.length];
+                let tinh = "Việt Nam";
+                if(i === 2) { ten = "Bến Lức"; tinh = "Long An"; } // Cố định ô số 2 giống ảnh mẫu
+                
+                // Giả lập ô số 3, 7, 12, 25 đã có người mua -> Thêm class 'sold'
+                let soldClass = (i === 3 || i === 7 || i === 12 || i === 25) ? "sold" : "";
+                
+                // Mã HTML của 1 thẻ đất
+                let cardHTML = `
+                <div class="land-card ${soldClass}">
+                    <div class="land-header">
+                        <span class="land-num">${i < 10 ? '0'+i : i}</span>
+                        <span class="land-color-bar" style="background:#5c4033;"></span>
+                    </div>
+                    <div class="land-title">${ten}</div>
+                    <div class="land-subtitle">${tinh}</div>
+                    
+                    <div class="land-prices">
+                        <div class="price-col">giá mua: 500<br>giá bán: 200</div>
+                        <div class="price-col">giá xây mỗi 1<br>căn: 300</div>
+                    </div>
+                    
+                    <div class="land-rent">
+                        <div class="price-col" style="text-align: left; padding-left: 5px;">
+                            giá thuê<br><br>
+                            đất: 100<br><br>
+                            1 căn: 300<br><br>
+                            2 căn: 500
+                        </div>
+                        <div class="price-col" style="border-left: 1px solid #333;">
+                            giá thuê<br>khách sạn<br>1000
+                        </div>
+                    </div>
+                    
+                    ${soldClass ? `<div class="stamp">ĐÃ CÓ<br>CHỦ</div>` : ``}
+                </div>
+                `;
+                shopContainer.innerHTML += cardHTML;
+            }
+        }
+
+        // HÀM ĐĂNG NHẬP
         function dangNhap() {
             const ten = document.getElementById("playerName").value;
             const the = document.getElementById("cardSelect").value;
@@ -240,25 +304,25 @@
             document.getElementById("uiCardId").innerText = theHienTai;
             database.ref('/Users/' + theHienTai).update({ Ten: ten });
 
+            // Chuyển diện mạo
             document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("mainScreen").style.display = "flex";
-
+            document.getElementById("topNavbar").style.display = "flex"; // Hiện thanh menu
+            
+            switchPage('pageHome'); // Mở trang chủ làm mặc định
+            renderShopItems(); // Vẽ shop
             batDauLangNgheDuLieu();
             langNgheBangXepHang();
         }
 
+        // ĐỒNG BỘ DỮ LIỆU
         function batDauLangNgheDuLieu() {
-            // Lắng nghe Ngân Hàng
             database.ref('/NganHang').on('value', (snapshot) => {
                 const data = snapshot.val();
-                if(data) {
-                    if(data.TongTien !== undefined) document.getElementById('bankMoney').innerText = data.TongTien + " $";
-                    if(data.QuanLy) document.getElementById('bankManager').innerText = data.QuanLy;
-                    if(data.SoDat) document.getElementById('bankLand').innerText = data.SoDat + " mảnh";
+                if(data && data.TongTien !== undefined) {
+                    document.getElementById('bankMoney').innerText = data.TongTien + " $";
                 }
             });
 
-            // Lắng nghe Cá Nhân
             database.ref('/Users/' + theHienTai).on('value', (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
@@ -269,13 +333,11 @@
             });
         }
 
-        // Logic xử lý Bảng Xếp Hạng Tỷ Phú
         function langNgheBangXepHang() {
             database.ref('/Users').on('value', (snapshot) => {
                 const usersArray = [];
                 snapshot.forEach((child) => {
                     const data = child.val();
-                    // Lấy ra tên và tiền. Nếu chưa có tiền thì mặc định là 0
                     if (data.Ten) {
                         usersArray.push({
                             id: child.key,
@@ -285,18 +347,15 @@
                     }
                 });
 
-                // Sắp xếp mảng từ tiền cao nhất xuống thấp nhất
                 usersArray.sort((a, b) => b.money - a.money);
-
-                // Vẽ ra HTML
                 const lbContainer = document.getElementById('leaderboardContainer');
                 lbContainer.innerHTML = ''; 
 
                 usersArray.forEach((user, index) => {
                     let icon = '👤';
-                    if(index === 0) icon = '👑'; // Top 1
-                    else if(index === 1) icon = '🥈'; // Top 2
-                    else if(index === 2) icon = '🥉'; // Top 3
+                    if(index === 0) icon = '👑'; 
+                    else if(index === 1) icon = '🥈'; 
+                    else if(index === 2) icon = '🥉'; 
 
                     const div = document.createElement('div');
                     div.className = 'lb-item';
