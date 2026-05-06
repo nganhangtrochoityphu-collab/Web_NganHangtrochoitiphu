@@ -16,55 +16,81 @@
             align-items: center;
         }
         h1 { color: #2c3e50; text-align: center; }
+        
+        /* Box cơ bản */
         .container {
-            width: 100%;
-            max-width: 600px;
             background: white;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-sizing: border-box;
         }
         
-        /* Form Đăng nhập */
+        /* Màn hình đăng nhập */
+        .login-box { width: 100%; max-width: 600px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
         .form-group input, .form-group select {
             width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box;
         }
+        
+        /* Nút bấm chung */
         .btn {
             background-color: #27ae60; color: white; border: none; padding: 12px 20px; width: 100%;
             border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
         .btn:hover { background-color: #219150; }
+
+        /* Bố cục Màn hình chính (Chia 2 cột) */
+        .main-wrapper {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            justify-content: center;
+            align-items: flex-start; /* Giữ các cột ở trên cùng */
+        }
         
-        /* Màn hình chính */
+        /* Cột Trái (Phần mở rộng) */
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            display: none; /* Ẩn mặc định */
+        }
+
+        /* Cột Phải (Bảng chính) */
+        .right-panel {
+            flex: 2;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Thẻ dữ liệu bên trong */
         .card { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         .card h2 { margin-top: 0; color: #2980b9; font-size: 20px; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px;}
         .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; }
         .money { font-size: 24px; font-weight: bold; color: #e74c3c; }
-        
-        /* Mũi tên ẩn hiện thông tin (Canh trái) */
+
+        /* Nút mũi tên đóng/mở */
         .arrow-toggle {
-            background: none; border: none; padding: 0; margin: 10px 0;
+            background: none; border: none; padding: 0; margin-bottom: 15px;
             display: flex; align-items: center; gap: 8px; cursor: pointer;
             font-size: 16px; font-weight: bold; color: #2c3e50; transition: color 0.3s;
         }
         .arrow-toggle:hover { color: #2980b9; }
-        .arrow-icon { font-size: 20px; }
 
-        /* Bảng điều khiển ẩn */
-        #extraDetails { display: none; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; }
-        .btn-action { background-color: #3498db; margin-top: 10px; width: 48%; display: inline-block; }
-        .btn-action:hover { background-color: #2980b9; }
-        .action-buttons { display: flex; justify-content: space-between; }
-        .edit-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        /* Responsive cho điện thoại */
+        @media (max-width: 768px) {
+            .main-wrapper { flex-direction: column-reverse; } /* Đẩy phần mở rộng xuống dưới nếu xem bằng điện thoại dọc */
+            .left-panel, .right-panel { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
 
     <h1>🏦 NGÂN HÀNG TRUNG ƯƠNG</h1>
 
-    <div class="container" id="loginScreen">
+    <div class="container login-box" id="loginScreen">
         <h2>Đăng Nhập Quản Lý Thẻ</h2>
         <div class="form-group">
             <label for="playerName">1. Nhập tên của bạn:</label>
@@ -86,53 +112,56 @@
         <button class="btn" onclick="dangNhap()">3. Vào Trang Chính</button>
     </div>
 
-    <div class="container" id="mainScreen" style="display: none;">
+    <div class="main-wrapper" id="mainScreen" style="display: none;">
         
-        <div class="card">
-            <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
-            <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Đang tải...</strong></div>
-            <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
-            <div class="data-row"><span>Số đất hiện có:</span> <strong id="bankLand">48 mảnh</strong></div>
+        <div class="container left-panel" id="extraDetails">
+            <h2 style="color: #e67e22; margin-top: 0; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px;">TRUNG TÂM ĐIỀU KHIỂN</h2>
+            <div class="data-row"><span>Khách Hàng:</span> <strong id="extName">...</strong></div>
+            <div class="data-row"><span>Số Dư:</span> <strong id="extBalance" style="color: #e74c3c;">0 $</strong></div>
+            
+            <label style="font-size: 14px; font-weight: bold; margin-top: 15px; display: block;">Chỉnh sửa Công việc:</label>
+            <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 20px;">
+                <input type="text" id="editJobInput" placeholder="Nhập công việc..." style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+                <button class="btn" style="width: 80px; padding: 8px;" onclick="luuCongViec()">Lưu</button>
+            </div>
+
+            <button class="btn" style="background-color: #3498db; margin-bottom: 10px;" onclick="alert('Đang phát triển tính năng Lịch Sử!')">Lịch sử giao dịch</button>
+            <button class="btn" style="background-color: #8e44ad;" onclick="alert('Đang phát triển tính năng Đất Đai!')">Đất Đai hiện có</button>
         </div>
 
-        <div class="card">
-            <h2>👤 THÔNG TIN NGƯỜI CHƠI</h2>
-            <div class="data-row"><span>Tên:</span> <strong id="uiName">...</strong></div>
-            <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
-            <div class="data-row"><span>Thẻ ID:</span> <strong id="uiCardId">...</strong></div>
-            <div class="data-row" style="align-items: center;">
-                <span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span>
-            </div>
+        <div class="container right-panel">
             
             <button class="arrow-toggle" onclick="toggleDetails()">
-                <span id="arrowIcon" class="arrow-icon">▶</span>
+                <span id="arrowIcon" style="font-size: 20px;">◀</span> <span id="toggleText">Mở rộng thông tin</span>
             </button>
-            
-            <div id="extraDetails">
-                <div class="data-row"><span>Tên Khách Hàng:</span> <strong id="extName">...</strong></div>
-                <div class="data-row"><span>Số Dư:</span> <strong id="extBalance" style="color: #e74c3c;">0 $</strong></div>
-                
-                <label style="font-size: 14px; font-weight: bold;">Chỉnh sửa Công việc:</label>
-                <div class="edit-group">
-                    <input type="text" id="editJobInput" placeholder="Nhập công việc mới...">
-                    <button class="btn" style="width: 80px;" onclick="luuCongViec()">Lưu</button>
-                </div>
 
-                <div class="action-buttons">
-                    <button class="btn btn-action" onclick="alert('Đang phát triển tính năng Lịch Sử!')">Lịch sử giao dịch</button>
-                    <button class="btn btn-action" style="background-color: #8e44ad;" onclick="alert('Đang phát triển tính năng Đất Đai!')">Đất Đai hiện có</button>
+            <div class="card">
+                <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
+                <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Đang tải...</strong></div>
+                <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
+                <div class="data-row"><span>Số đất hiện có:</span> <strong id="bankLand">48 mảnh</strong></div>
+            </div>
+
+            <div class="card">
+                <h2>👤 THÔNG TIN NGƯỜI CHƠI</h2>
+                <div class="data-row"><span>Tên:</span> <strong id="uiName">...</strong></div>
+                <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
+                <div class="data-row"><span>Thẻ ID:</span> <strong id="uiCardId">...</strong></div>
+                <div class="data-row" style="align-items: center;">
+                    <span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span>
                 </div>
             </div>
+            
+            <button class="btn" style="background-color: #95a5a6; margin-top: 10px;" onclick="dangXuat()">Đăng Xuất</button>
         </div>
         
-        <button class="btn" style="background-color: #95a5a6; margin-top: 10px;" onclick="dangXuat()">Đăng Xuất</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // Cấu hình Firebase của bạn
+        // Cấu hình Firebase
         const firebaseConfig = {
             databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
@@ -141,7 +170,7 @@
 
         let theHienTai = "";
 
-        // Hàm Đăng Nhập
+        // Đăng nhập
         function dangNhap() {
             const ten = document.getElementById("playerName").value;
             const the = document.getElementById("cardSelect").value;
@@ -154,50 +183,48 @@
             theHienTai = the;
             document.getElementById("uiCardId").innerText = theHienTai;
 
-            // Cập nhật Tên lên Firebase
-            database.ref('/Users/' + theHienTai).update({
-                Ten: ten
-            });
+            database.ref('/Users/' + theHienTai).update({ Ten: ten });
 
-            // Chuyển màn hình
             document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("mainScreen").style.display = "block";
+            // CHÚ Ý: Chuyển sang flex để hiển thị 2 cột
+            document.getElementById("mainScreen").style.display = "flex"; 
 
             batDauLangNgheDuLieu();
         }
 
-        // Hàm ẩn/hiện bằng mũi tên
+        // Đóng/Mở cột bên trái
         function toggleDetails() {
             const extra = document.getElementById("extraDetails");
             const icon = document.getElementById("arrowIcon");
+            const text = document.getElementById("toggleText");
             
             if (extra.style.display === "none" || extra.style.display === "") {
-                extra.style.display = "block";
-                icon.innerText = "▼"; // Mũi tên trỏ xuống khi mở
+                extra.style.display = "block"; // Mở bảng bên trái
+                icon.innerText = "▶"; // Mũi tên hướng vào
+                text.innerText = "Thu gọn thông tin";
             } else {
-                extra.style.display = "none";
-                icon.innerText = "▶"; // Mũi tên trỏ ngang khi đóng
+                extra.style.display = "none"; // Ẩn bảng bên trái
+                icon.innerText = "◀"; // Mũi tên hướng ra ngoài
+                text.innerText = "Mở rộng thông tin";
             }
         }
 
-        // Hàm Lưu thay đổi Công việc
+        // Lưu Công việc
         function luuCongViec() {
             const cvMoi = document.getElementById("editJobInput").value;
             if(cvMoi.trim() !== "") {
-                database.ref('/Users/' + theHienTai).update({
-                    CongViec: cvMoi
-                });
+                database.ref('/Users/' + theHienTai).update({ CongViec: cvMoi });
                 alert("Đã cập nhật công việc thành: " + cvMoi);
                 document.getElementById("editJobInput").value = ""; 
             }
         }
 
-        // Hàm Đăng Xuất
+        // Đăng xuất
         function dangXuat() {
             location.reload(); 
         }
 
-        // Hàm Lắng nghe dữ liệu Thời gian thực
+        // Lắng nghe dữ liệu
         function batDauLangNgheDuLieu() {
             database.ref('/NganHang').on('value', (snapshot) => {
                 const data = snapshot.val();
