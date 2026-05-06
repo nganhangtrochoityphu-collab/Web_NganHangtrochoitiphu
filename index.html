@@ -3,181 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - Holo Style</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Ngân Hàng Cờ Tỷ Phú</title>
     <style>
-        :root {
-            --primary-color: #00f3ff;
-            --secondary-color: #bc13fe;
-            --bg-glass: rgba(15, 23, 42, 0.65);
-            --border-glass: rgba(255, 255, 255, 0.15);
-        }
-
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
             margin: 0;
             padding: 20px;
-            color: #fff;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Hình nền phong cách Anime/Gaming - Bạn có thể thay link ảnh khác vào đây */
-            background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070') no-repeat center center fixed;
-            background-size: cover;
         }
-
-        h1 {
-            font-weight: 800;
-            font-size: 32px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px var(--primary-color);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        /* Hiệu ứng Kính mờ (Glassmorphism) */
-        .glass-panel {
-            background: var(--bg-glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 30px;
+        h1 { color: #2c3e50; text-align: center; }
+        .container {
             width: 100%;
-            max-width: 650px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--border-glass);
-            padding-bottom: 10px;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Form Đăng nhập */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #cbd5e1; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 12px; border: 1px solid var(--border-glass); 
-            border-radius: 8px; font-size: 16px; background: rgba(255,255,255,0.1); 
-            color: white; box-sizing: border-box; font-family: 'Montserrat', sans-serif;
-            transition: 0.3s;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-        .form-group option { background: #0f172a; color: white; } /* Sửa màu nền chữ cho select box */
-
-        /* Nút bấm Neon (Hover Animations) */
-        .btn {
-            background: linear-gradient(45deg, #00b4db, #0083b0);
-            color: white; border: none; padding: 14px 20px; width: 100%;
-            border-radius: 8px; font-size: 16px; font-weight: 800; text-transform: uppercase;
-            cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px var(--primary-color);
+            max-width: 600px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        .btn-toggle { background: linear-gradient(45deg, #f12711, #f5af19); margin-top: 15px; }
-        .btn-toggle:hover { box-shadow: 0 0 20px #f5af19; }
-
-        .btn-action { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--primary-color); width: 48%; margin-top: 15px; }
-        .btn-action:hover { background: var(--primary-color); color: #000; box-shadow: 0 0 15px var(--primary-color); }
-
-        .btn-logout { background: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 20px; }
-        .btn-logout:hover { background: #ff4757; color: #fff; box-shadow: 0 0 15px #ff4757; }
-
+        /* Form Đăng nhập */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box;
+        }
+        .btn {
+            background-color: #27ae60; color: white; border: none; padding: 12px 20px; width: 100%;
+            border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { background-color: #219150; }
+        
         /* Màn hình chính */
-        .card { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-glass); }
-        .data-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 16px; align-items: center;}
-        .money { font-size: 28px; font-weight: 800; color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
-        strong { color: #fff; }
+        .card { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .card h2 { margin-top: 0; color: #2980b9; font-size: 20px; border-bottom: 2px solid #bdc3c7; padding-bottom: 5px;}
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; }
+        .money { font-size: 24px; font-weight: bold; color: #e74c3c; }
+        
+        /* Mũi tên ẩn hiện thông tin (Canh trái) */
+        .arrow-toggle {
+            background: none; border: none; padding: 0; margin: 10px 0;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            font-size: 16px; font-weight: bold; color: #2c3e50; transition: color 0.3s;
+        }
+        .arrow-toggle:hover { color: #2980b9; }
+        .arrow-icon { font-size: 20px; }
 
-        /* Phần ẩn thông tin */
-        #extraDetails { display: none; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px; margin-top: 15px; border: 1px dashed var(--secondary-color); animation: fadeIn 0.4s ease-out;}
+        /* Bảng điều khiển ẩn */
+        #extraDetails { display: none; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #ccc; }
+        .btn-action { background-color: #3498db; margin-top: 10px; width: 48%; display: inline-block; }
+        .btn-action:hover { background-color: #2980b9; }
         .action-buttons { display: flex; justify-content: space-between; }
-        .edit-group { display: flex; gap: 10px; margin-top: 10px; }
+        .edit-group { display: flex; gap: 10px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <h1>🏦 NGÂN HÀNG TRUNG ƯƠNG</h1>
 
-    <div class="glass-panel" id="loginScreen">
+    <div class="container" id="loginScreen">
         <h2>Đăng Nhập Quản Lý Thẻ</h2>
         <div class="form-group">
-            <label for="playerName">TÊN NGƯỜI CHƠI:</label>
-            <input type="text" id="playerName" placeholder="Nhập tên của bạn (VD: Khang)">
+            <label for="playerName">1. Nhập tên của bạn:</label>
+            <input type="text" id="playerName" placeholder="Ví dụ: Khang, Nam...">
         </div>
         <div class="form-group">
-            <label for="cardSelect">CHỌN THẺ ID:</label>
+            <label for="cardSelect">2. Chọn thẻ của bạn:</label>
             <select id="cardSelect">
-                <option value="The_Demo_1">Thẻ ID 1 - Trắng</option>
-                <option value="The_Demo_2">Thẻ ID 2 - Đen</option>
-                <option value="The_Demo_3">Thẻ ID 3 - Đỏ</option>
-                <option value="The_Demo_4">Thẻ ID 4 - Xanh</option>
-                <option value="The_Demo_5">Thẻ ID 5 - Vàng</option>
-                <option value="The_Demo_6">Thẻ ID 6 - Lục</option>
-                <option value="The_Demo_7">Thẻ ID 7 - Tím</option>
-                <option value="The_Demo_8">Thẻ ID 8 - Cam</option>
+                <option value="The_Demo_1">Thẻ ID 1</option>
+                <option value="The_Demo_2">Thẻ ID 2</option>
+                <option value="The_Demo_3">Thẻ ID 3</option>
+                <option value="The_Demo_4">Thẻ ID 4</option>
+                <option value="The_Demo_5">Thẻ ID 5</option>
+                <option value="The_Demo_6">Thẻ ID 6</option>
+                <option value="The_Demo_7">Thẻ ID 7</option>
+                <option value="The_Demo_8">Thẻ ID 8</option>
             </select>
         </div>
-        <button class="btn" onclick="dangNhap()">KẾT NỐI HỆ THỐNG</button>
+        <button class="btn" onclick="dangNhap()">3. Vào Trang Chính</button>
     </div>
 
-    <div class="glass-panel" id="mainScreen" style="display: none;">
+    <div class="container" id="mainScreen" style="display: none;">
         
         <div class="card">
             <h2>🏦 THÔNG TIN NGÂN HÀNG</h2>
-            <div class="data-row"><span style="color: #94a3b8;">Người quản lý:</span> <strong id="bankManager">Đang tải...</strong></div>
-            <div class="data-row"><span style="color: #94a3b8;">Số đất hiện có:</span> <strong id="bankLand">48 mảnh</strong></div>
-            <div class="data-row" style="margin-top: 15px;"><span style="color: #94a3b8;">Quỹ tổng:</span> <span class="money" id="bankMoney">0 $</span></div>
+            <div class="data-row"><span>Người quản lý:</span> <strong id="bankManager">Đang tải...</strong></div>
+            <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div>
+            <div class="data-row"><span>Số đất hiện có:</span> <strong id="bankLand">48 mảnh</strong></div>
         </div>
 
         <div class="card">
-            <h2>👤 HỒ SƠ NGƯỜI CHƠI</h2>
-            <div class="data-row"><span style="color: #94a3b8;">Tên hiển thị:</span> <strong id="uiName" style="color: var(--primary-color); font-size: 18px;">...</strong></div>
-            <div class="data-row"><span style="color: #94a3b8;">Nghề nghiệp:</span> <strong id="uiJob">...</strong></div>
-            <div class="data-row"><span style="color: #94a3b8;">Mã định danh:</span> <strong id="uiCardId">...</strong></div>
-            <div class="data-row" style="margin-top: 15px;">
-                <span style="color: #94a3b8;">Số dư khả dụng:</span> <span class="money" id="uiBalance">0 $</span>
+            <h2>👤 THÔNG TIN NGƯỜI CHƠI</h2>
+            <div class="data-row"><span>Tên:</span> <strong id="uiName">...</strong></div>
+            <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
+            <div class="data-row"><span>Thẻ ID:</span> <strong id="uiCardId">...</strong></div>
+            <div class="data-row" style="align-items: center;">
+                <span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span>
             </div>
             
-            <button class="btn btn-toggle" onclick="toggleDetails()">✦ TRUNG TÂM ĐIỀU KHIỂN ✦</button>
+            <button class="arrow-toggle" onclick="toggleDetails()">
+                <span id="arrowIcon" class="arrow-icon">▶</span>
+            </button>
             
             <div id="extraDetails">
-                <div class="data-row"><span style="color: #94a3b8;">Khách Hàng:</span> <strong id="extName">...</strong></div>
-                <div class="data-row"><span style="color: #94a3b8;">Biến động số dư:</span> <strong id="extBalance" style="color: #ff4757; font-size: 20px;">0 $</strong></div>
+                <div class="data-row"><span>Tên Khách Hàng:</span> <strong id="extName">...</strong></div>
+                <div class="data-row"><span>Số Dư:</span> <strong id="extBalance" style="color: #e74c3c;">0 $</strong></div>
                 
-                <label style="font-size: 14px; font-weight: 600; color: var(--secondary-color); margin-top: 15px; display: block;">CẬP NHẬT NGHỀ NGHIỆP:</label>
+                <label style="font-size: 14px; font-weight: bold;">Chỉnh sửa Công việc:</label>
                 <div class="edit-group">
-                    <input type="text" id="editJobInput" placeholder="Ví dụ: Bác Sĩ, Ca Sĩ..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-glass); background: rgba(0,0,0,0.5); color: white;">
-                    <button class="btn" style="width: auto; padding: 0 20px;" onclick="luuCongViec()">LƯU</button>
+                    <input type="text" id="editJobInput" placeholder="Nhập công việc mới...">
+                    <button class="btn" style="width: 80px;" onclick="luuCongViec()">Lưu</button>
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-action" onclick="alert('Đang phát triển tính năng Lịch Sử!')">LỊCH SỬ GIAO DỊCH</button>
-                    <button class="btn btn-action" style="border-color: var(--secondary-color);" onclick="alert('Đang phát triển tính năng Đất Đai!')">TÀI SẢN BẤT ĐỘNG SẢN</button>
+                    <button class="btn btn-action" onclick="alert('Đang phát triển tính năng Lịch Sử!')">Lịch sử giao dịch</button>
+                    <button class="btn btn-action" style="background-color: #8e44ad;" onclick="alert('Đang phát triển tính năng Đất Đai!')">Đất Đai hiện có</button>
                 </div>
             </div>
         </div>
         
-        <button class="btn btn-logout" onclick="dangXuat()">[ THOÁT TÀI KHOẢN ]</button>
+        <button class="btn" style="background-color: #95a5a6; margin-top: 10px;" onclick="dangXuat()">Đăng Xuất</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -193,57 +141,74 @@
 
         let theHienTai = "";
 
+        // Hàm Đăng Nhập
         function dangNhap() {
             const ten = document.getElementById("playerName").value;
             const the = document.getElementById("cardSelect").value;
             
             if(ten.trim() === "") {
-                alert("Vui lòng nhập tên của bạn để hệ thống định danh!");
+                alert("Vui lòng nhập tên của bạn!");
                 return;
             }
 
             theHienTai = the;
             document.getElementById("uiCardId").innerText = theHienTai;
 
-            database.ref('/Users/' + theHienTai).update({ Ten: ten });
+            // Cập nhật Tên lên Firebase
+            database.ref('/Users/' + theHienTai).update({
+                Ten: ten
+            });
 
+            // Chuyển màn hình
             document.getElementById("loginScreen").style.display = "none";
             document.getElementById("mainScreen").style.display = "block";
 
             batDauLangNgheDuLieu();
         }
 
+        // Hàm ẩn/hiện bằng mũi tên
         function toggleDetails() {
             const extra = document.getElementById("extraDetails");
-            extra.style.display = (extra.style.display === "none" || extra.style.display === "") ? "block" : "none";
+            const icon = document.getElementById("arrowIcon");
+            
+            if (extra.style.display === "none" || extra.style.display === "") {
+                extra.style.display = "block";
+                icon.innerText = "▼"; // Mũi tên trỏ xuống khi mở
+            } else {
+                extra.style.display = "none";
+                icon.innerText = "▶"; // Mũi tên trỏ ngang khi đóng
+            }
         }
 
+        // Hàm Lưu thay đổi Công việc
         function luuCongViec() {
             const cvMoi = document.getElementById("editJobInput").value;
             if(cvMoi.trim() !== "") {
-                database.ref('/Users/' + theHienTai).update({ CongViec: cvMoi });
-                alert("Hệ thống đã ghi nhận nghề nghiệp: " + cvMoi);
+                database.ref('/Users/' + theHienTai).update({
+                    CongViec: cvMoi
+                });
+                alert("Đã cập nhật công việc thành: " + cvMoi);
                 document.getElementById("editJobInput").value = ""; 
             }
         }
 
+        // Hàm Đăng Xuất
         function dangXuat() {
             location.reload(); 
         }
 
+        // Hàm Lắng nghe dữ liệu Thời gian thực
         function batDauLangNgheDuLieu() {
-            // Lắng nghe Ngân Hàng
             database.ref('/NganHang').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
                     if(data.TongTien !== undefined) document.getElementById('bankMoney').innerText = data.TongTien + " $";
                     if(data.QuanLy) document.getElementById('bankManager').innerText = data.QuanLy;
-                    else document.getElementById('bankManager').innerText = "Hệ thống tự động (AI)";
+                    else document.getElementById('bankManager').innerText = "Hệ thống tự động";
                     if(data.SoDat) document.getElementById('bankLand').innerText = data.SoDat + " mảnh";
                 }
             });
 
-            // Lắng nghe Người Chơi hiện tại
             database.ref('/Users/' + theHienTai).on('value', (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
