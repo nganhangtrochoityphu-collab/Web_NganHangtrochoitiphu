@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V5.2 (Bản Hoàn Chỉnh Nhất)</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V7.0 (Role-Play Hoàn Chỉnh)</title>
     <style>
-        /* =========================================
-           BIẾN MÀU SẮC (SÁNG / TỐI)
-           ========================================= */
         :root {
             --bg-body: #f0f2f5; --text-main: #333; --text-muted: #7f8c8d;
             --card-bg: #ffffff; --card-border: #e1e8ed; --nav-bg: #1a252f;
@@ -26,7 +23,6 @@
 
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
 
-        /* THANH ĐIỀU HƯỚNG */
         .navbar { position: sticky; top: 0; width: 100%; background-color: var(--nav-bg); padding: 10px 0; display: none; justify-content: center; flex-wrap: wrap; gap: 10px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .navbar button { background-color: transparent; color: var(--nav-text); border: none; padding: 10px 15px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .navbar button:hover, .navbar button.active { background-color: #2c3e50; color: #fff; box-shadow: 0 2px 0 #3498db; }
@@ -43,7 +39,6 @@
         .page-section.active { display: block; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Bố cục Trang Chủ */
         .main-wrapper { display: flex; gap: 20px; align-items: flex-start; }
         .left-panel { flex: 1; min-width: 300px; }
         .left-panel h2 { color: #e67e22; font-size: 20px; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-top: 0; text-align: center;}
@@ -57,50 +52,49 @@
         .money { font-size: 24px; font-weight: bold; color: #27ae60; }
         .money.minus { color: #e74c3c; }
 
-        /* THIẾT KẾ THẺ ĐẤT & CƠ SỞ */
         .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; margin-top: 20px; padding-bottom: 20px; }
         .land-card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); overflow: hidden; border: 1px solid var(--card-border); position: relative; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .land-card:hover { transform: translateY(-8px); box-shadow: 0 12px 20px var(--shadow-hover); border-color: #3498db; }
-        
         .land-header { display: flex; align-items: center; padding: 10px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);}
         .land-num { background: white; color: #333; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); text-shadow: none; font-size: 16px;}
         .land-title { text-align: center; font-weight: bold; font-size: 20px; margin-top: 15px; text-transform: uppercase; color: var(--text-main); }
         .land-subtitle { text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
         .land-group { text-align: center; font-size: 12px; color: #fff; background: #34495e; display: inline-block; padding: 3px 10px; border-radius: 15px; margin: 0 auto 10px auto; }
         .house-indicator { text-align: center; font-size: 22px; margin-bottom: 10px; min-height: 24px; }
-        
         .land-body { padding: 0 15px 15px 15px; }
         .land-prices { display: flex; border-top: 1px dashed var(--card-border); border-bottom: 1px dashed var(--card-border); padding: 10px 0; margin-bottom: 10px; background: var(--bg-body); border-radius: 4px; transition: 0.3s;}
         .price-col { flex: 1; font-size: 13px; text-align: center; color: var(--text-muted); }
         .price-col:first-child { border-right: 1px solid var(--card-border); }
         .price-col strong { color: var(--text-main); display: block; margin-bottom: 4px; font-size: 14px;}
         .land-rent { display: flex; font-size: 13px; color: var(--text-muted); justify-content: space-between; padding: 0 10px;}
-        
         .stamp { position: absolute; bottom: 15px; right: 10px; color: #e74c3c; border: 3px solid #e74c3c; border-radius: 8px; padding: 5px 10px; font-weight: 900; font-size: 14px; transform: rotate(-15deg); letter-spacing: 1px; background: var(--card-bg); box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3); z-index: 10; }
         .land-card.sold { filter: grayscale(100%); opacity: 0.6; pointer-events: none; }
         .land-card.owned-by-me { border: 2px solid #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
-        /* Lịch Sử Giao Dịch */
         .history-list { list-style: none; padding: 0; margin: 0; }
         .history-list li { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--card-border); align-items: center; background: var(--card-bg); border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px var(--shadow-color); transition: 0.3s; }
         .history-list li:hover { background: var(--history-hover); }
         .history-time { color: var(--text-muted); font-size: 13px; width: 60px; }
         .history-desc { flex: 1; font-weight: 500; color: var(--text-main); }
 
-        /* Bảng điều khiển Role */
         .my-role-box { color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
         .my-role-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .role-panel { border-top: 2px dashed var(--card-border); padding-top: 20px; margin-top: 20px; display: none; }
         
-        /* Form */
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--text-main); }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--input-border); border-radius: 6px; font-size: 16px; box-sizing: border-box; background-color: var(--input-bg); color: var(--text-main); transition: 0.3s; }
         
         .btn-action { background-color: #27ae60; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-action:hover { opacity: 0.8;}
+        .btn-sub { background-color: #e74c3c; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;}
+        .btn-sub:hover { opacity: 0.8;}
         .btn-reset { background-color: transparent; color: #e74c3c; border: 1px solid #e74c3c; padding: 10px; width: 100%; border-radius: 6px; margin-top: 15px; cursor: pointer; font-weight: bold;}
         .btn-reset:hover { background-color: #e74c3c; color: white; }
+
+        .player-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .player-table th, .player-table td { padding: 10px; border-bottom: 1px solid var(--card-border); text-align: left; color: var(--text-main);}
+        .player-table th { background: var(--nav-bg); color: var(--nav-text); }
 
         .login-box { width: 100%; max-width: 500px; margin-top: 50px; }
         @media (max-width: 768px) { .main-wrapper { flex-direction: column-reverse; } .navbar { justify-content: flex-start; padding: 10px; overflow-x: auto; white-space: nowrap; flex-wrap: nowrap;} }
@@ -110,7 +104,7 @@
 
     <nav class="navbar" id="topNavbar">
         <button id="navHome" onclick="switchPage('pageHome')" class="active">Trang Chủ</button>
-        <button id="navShop" onclick="switchPage('pageShop')">🛒 Mua Đất & Cơ Sở</button>
+        <button id="navShop" onclick="switchPage('pageShop')">🛒 Mua Đất</button>
         <button id="navMyLand" onclick="switchPage('pageMyLand')">🏠 Đất Của Tôi</button>
         <button id="navHistory" onclick="switchPage('pageHistory')">📜 Lịch Sử</button>
         <button id="navRoles" onclick="switchPage('pageRoles')">💼 Chức Vụ & Quyền</button>
@@ -123,18 +117,26 @@
         <div class="form-group"><label>1. Nhập tên hiển thị:</label><input type="text" id="playerName" placeholder="Ví dụ: Khang, Nam..."></div>
         <div class="form-group"><label>2. Chọn thẻ định danh (ID):</label>
             <select id="cardSelect">
-                <option value="The_Demo_1">Thẻ ID 1 (Ngân Hàng)</option>
-                <option value="The_Demo_2">Thẻ ID 2 (Cò Đất)</option>
-                <option value="The_Demo_3">Thẻ ID 3 (Nhân Sự)</option>
-                <option value="The_Demo_4">Thẻ ID 4 (Người chơi)</option>
-                <option value="The_Demo_5">Thẻ ID 5 (Người chơi)</option>
-                <option value="The_Demo_6">Thẻ ID 6 (Người chơi)</option>
-                <option value="The_Demo_7">Thẻ ID 7 (Người chơi)</option>
-                <option value="The_Demo_8">Thẻ ID 8 (Người chơi)</option>
+                <option value="The_Demo_1">Thẻ ID 1</option><option value="The_Demo_2">Thẻ ID 2</option>
+                <option value="The_Demo_3">Thẻ ID 3</option><option value="The_Demo_4">Thẻ ID 4</option>
+                <option value="The_Demo_5">Thẻ ID 5</option><option value="The_Demo_6">Thẻ ID 6</option>
+                <option value="The_Demo_7">Thẻ ID 7</option><option value="The_Demo_8">Thẻ ID 8</option>
+            </select>
+        </div>
+        <div class="form-group"><label>3. Chọn Nghề Nghiệp Khởi Đầu:</label>
+            <select id="jobSelect">
+                <option value="Ngân Hàng">Ngân Hàng (Nắm giữ Quỹ, Thu Chi)</option>
+                <option value="Cò Đất">Cò Đất (Cấp sổ đỏ cho người chơi)</option>
+                <option value="Nhân Sự">Nhân Sự (Quyết định nghề của người khác)</option>
+                <option value="Cảnh Sát">Cảnh Sát</option>
+                <option value="Bác Sĩ">Bác Sĩ</option>
+                <option value="Thương Gia">Thương Gia</option>
+                <option value="Phi Công">Phi Công</option>
+                <option value="Vô công rồi Nghề">Vô công rồi Nghề (Đợi Nhân sự phân công)</option>
             </select>
         </div>
         <button class="btn-action" onclick="dangNhap()">KẾT NỐI VÀO GAME</button>
-        <button class="btn-reset" onclick="khoiTaoDuLieuSach()">⚠️ ADMIN: RESET TOÀN BỘ DỮ LIỆU SẠCH</button>
+        <button class="btn-reset" onclick="khoiTaoDuLieuSach()">⚠️ ADMIN: RESET SẠCH DỮ LIỆU GAME</button>
     </div>
 
     <div class="page-section" id="pageHome">
@@ -142,8 +144,19 @@
         <div class="main-wrapper">
             <div class="container left-panel"><h2>🏆 BẢNG VÀNG TỶ PHÚ</h2><div id="leaderboardContainer"><div style="text-align: center;">Đang tải...</div></div></div>
             <div class="right-panel">
-                <div class="container card"><h2>🏦 QUỸ NGÂN HÀNG</h2><div class="data-row"><span>Người quản lý:</span> <strong>Hệ Thống (ID 1)</strong></div><div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney">0 $</span></div></div>
-                <div class="container card"><h2>👤 HỒ SƠ CỦA BẠN</h2><div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div><div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div><div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div><div class="data-row" style="margin-top: 15px;"><span>Số dư hiện tại:</span> <span class="money" id="uiBalance">0 $</span></div></div>
+                <div class="container card" style="border: 2px solid #3498db; box-shadow: 0 0 15px rgba(52, 152, 219, 0.2);">
+                    <h2 style="color: #3498db;">🏦 QUỸ NGÂN HÀNG (DÙNG CHUNG)</h2>
+                    <div class="data-row"><span style="font-size: 14px; color: var(--text-muted);">Quỹ này chỉ dùng để Ngân Hàng phát thưởng hoặc thu thuế.</span></div>
+                    <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney" style="color: #3498db;">0 $</span></div>
+                </div>
+
+                <div class="container card">
+                    <h2>👤 VÍ TIỀN CÁ NHÂN CỦA BẠN</h2>
+                    <div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div>
+                    <div class="data-row"><span>Công việc:</span> <strong id="uiJob">...</strong></div>
+                    <div class="data-row"><span>Thẻ ID:</span> <strong><span id="uiCardId">...</span></strong></div>
+                    <div class="data-row" style="margin-top: 15px;"><span>Tiền túi hiện có:</span> <span class="money" id="uiBalance">0 $</span></div>
+                </div>
             </div>
         </div>
     </div>
@@ -161,14 +174,14 @@
     </div>
 
     <div class="page-section" id="pageHistory">
-        <h1 class="main-title">📜 NHẬT KÝ CỦA TÔI</h1>
+        <h1 class="main-title">📜 NHẬT KÝ CÁ NHÂN</h1>
         <div class="container" style="max-width: 800px; margin: 0 auto;">
             <ul class="history-list" id="historyContainer"><li style="justify-content: center; color: var(--text-muted);">Chưa có dữ liệu...</li></ul>
         </div>
     </div>
 
     <div class="page-section" id="pageRoles">
-        <h1 class="main-title">💼 THÔNG TIN VÀ ĐẶC QUYỀN</h1>
+        <h1 class="main-title">💼 BẢNG ĐIỀU KHIỂN QUYỀN HẠN</h1>
         <div class="container" style="max-width: 800px; margin: 0 auto;">
             
             <div class="my-role-box" id="roleMainBox" style="background: linear-gradient(135deg, #7f8c8d, #95a5a6);">
@@ -176,32 +189,54 @@
                 <div id="roleDescBox">Vui lòng chờ hệ thống tải dữ liệu.</div>
             </div>
 
-            <div id="coDatPanel" class="role-panel">
-                <h3 style="color: #27ae60; text-align: center;">🏡 SÀN GIAO DỊCH BẤT ĐỘNG SẢN (Dành cho Cò Đất)</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Lựa chọn đất và ép người chơi mua. Hệ thống sẽ tự động trừ tiền và cấp sổ đỏ.</p>
-                <div class="form-group"><label>1. Chọn Khu Đất / Dịch Vụ:</label><select id="coDat_LandSelect"></select></div>
-                <div class="form-group"><label>2. Chọn Người Nhận Sổ Đỏ:</label>
-                    <select id="coDat_UserSelect">
-                        <option value="The_Demo_1">Thẻ ID 1 (Ngân hàng)</option><option value="The_Demo_2">Thẻ ID 2 (Cò Đất)</option>
-                        <option value="The_Demo_3">Thẻ ID 3 (Nhân sự)</option><option value="The_Demo_4">Thẻ ID 4</option>
-                        <option value="The_Demo_5">Thẻ ID 5</option><option value="The_Demo_6">Thẻ ID 6</option>
-                        <option value="The_Demo_7">Thẻ ID 7</option><option value="The_Demo_8">Thẻ ID 8</option>
-                    </select>
+            <div id="nganHangPanel" class="role-panel">
+                <h3 style="color: #3498db; text-align: center;">🏦 TRUNG TÂM KIỂM SOÁT NGÂN HÀNG</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Bạn có quyền xem lén ví tiền của mọi người. Sử dụng 2 nút bên dưới để rút hoặc nạp tiền vào Quỹ Ngân Hàng.</p>
+                
+                <h4>🔍 Danh sách người chơi hiện tại:</h4>
+                <table class="player-table">
+                    <thead><tr><th>Tên Người Chơi</th><th>Nghề Nghiệp</th><th>Số Dư Hiện Tại</th></tr></thead>
+                    <tbody id="bank_PlayerList"><tr><td colspan="3">Đang tải...</td></tr></tbody>
+                </table>
+
+                <h4>💸 Giao dịch Quỹ Ngân Hàng:</h4>
+                <div class="form-group"><label>1. Chọn Người Chơi cần Giao Dịch:</label><select id="bank_UserSelect"></select></div>
+                <div class="form-group"><label>2. Nhập Số Tiền ($):</label><input type="number" id="bank_AmountInput" placeholder="Nhập số tiền..."></div>
+                <div class="form-group"><label>3. Lý do giao dịch:</label><input type="text" id="bank_ReasonInput" placeholder="Ví dụ: Thưởng đi qua trạm, Nộp thuế..."></div>
+                
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn-action" style="background-color: #3498db; flex: 1; min-width: 250px;" onclick="nganHangGiaoDich('add')">⬆️ CẤP TIỀN<br><small>(Trừ Quỹ -> Cộng Cho Người Chơi)</small></button>
+                    <button class="btn-sub" style="flex: 1; min-width: 250px; margin-top: 0;" onclick="nganHangGiaoDich('sub')">⬇️ THU TIỀN PHẠT<br><small>(Trừ Người Chơi -> Cộng Vào Quỹ)</small></button>
                 </div>
-                <button class="btn-action" style="background-color: #27ae60;" onclick="coDatThucHienGiaoDich()">THỰC HIỆN SANG TÊN & TRỪ TIỀN</button>
+            </div>
+
+            <div id="coDatPanel" class="role-panel">
+                <h3 style="color: #27ae60; text-align: center;">🏡 SÀN GIAO DỊCH BẤT ĐỘNG SẢN</h3>
+                <p style="text-align: center; margin-bottom: 20px;">Bạn là Cò Đất. Hãy chọn đất và ép người chơi mua. Hệ thống sẽ tự động trừ tiền trong ví cá nhân của họ và cấp sổ đỏ.</p>
+                <div class="form-group"><label>1. Chọn Khu Đất / Dịch Vụ:</label><select id="coDat_LandSelect"></select></div>
+                <div class="form-group"><label>2. Chọn Người Mua Đất:</label><select id="coDat_UserSelect"></select></div>
+                <button class="btn-action" style="background-color: #27ae60;" onclick="coDatThucHienGiaoDich()">THỰC HIỆN SANG TÊN SỔ ĐỎ & TRỪ TIỀN</button>
             </div>
 
             <div id="nhanSuPanel" class="role-panel">
                 <h3 style="color: #8e44ad; text-align: center;">👔 PHÒNG NHÂN SỰ TRUNG ƯƠNG</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Bổ nhiệm nghề nghiệp cho người chơi. (Chỉ áp dụng cho Thẻ ID 4 đến 8).</p>
-                <div class="form-group"><label>1. Chọn Người Cần Bổ Nhiệm:</label>
-                    <select id="nhanSu_UserSelect">
-                        <option value="The_Demo_4">Thẻ ID 4</option><option value="The_Demo_5">Thẻ ID 5</option>
-                        <option value="The_Demo_6">Thẻ ID 6</option><option value="The_Demo_7">Thẻ ID 7</option>
-                        <option value="The_Demo_8">Thẻ ID 8</option>
+                <p style="text-align: center; margin-bottom: 20px;">Bạn có quyền Bổ nhiệm nghề cho tất cả mọi người trong Game.</p>
+                <div class="form-group"><label>1. Chọn Người Cần Đổi Nghề:</label><select id="nhanSu_UserSelect"></select></div>
+                <div class="form-group"><label>2. Chọn Nghề Mới:</label>
+                    <select id="nhanSu_JobSelect">
+                        <option value="Cảnh Sát">Cảnh Sát</option>
+                        <option value="Bác Sĩ">Bác Sĩ</option>
+                        <option value="Thẩm Phán">Thẩm Phán</option>
+                        <option value="Kỹ Sư">Kỹ Sư</option>
+                        <option value="Thương Gia">Thương Gia</option>
+                        <option value="Phi Công">Phi Công</option>
+                        <option value="Nghệ Sĩ">Nghệ Sĩ</option>
+                        <option value="Ngân Hàng">Ngân Hàng</option>
+                        <option value="Cò Đất">Cò Đất</option>
+                        <option value="Nhân Sự">Nhân Sự</option>
+                        <option value="Vô công rồi Nghề">Vô công rồi Nghề</option>
                     </select>
                 </div>
-                <div class="form-group"><label>2. Nhập Chức Vụ Mới:</label><input type="text" id="nhanSu_JobInput" placeholder="Ví dụ: Bác sĩ, Ca sĩ..."></div>
                 <button class="btn-action" style="background-color: #8e44ad;" onclick="nhanSuBoNhiem()">QUYẾT ĐỊNH BỔ NHIỆM</button>
             </div>
 
@@ -212,7 +247,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        /* MẢNG DỮ LIỆU ĐẦY ĐỦ 100% CÁC KHU ĐẤT TỪ FILE EXCEL CỦA BẠN */
+        /* MẢNG DỮ LIỆU TOÀN BỘ 42 Ô ĐẤT VÀ TIỆN ÍCH (Gom gọn code) */
         const danhSachDat = [
           { id: "L1", stt: 1, ten: "Chợ nổi cái răng", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
           { id: "L2", stt: 2, ten: "Bến Ninh Kiều", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
@@ -226,31 +261,30 @@
           { id: "L10", stt: 10, ten: "Núi Bà Đen", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
           { id: "L11", stt: 11, ten: "Hồ Dầu Tiếng", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
           { id: "L12", stt: 12, ten: "Côn Đảo Resort", tinh: "BR-VT", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "BR-VT", mau: "#D4AC0D", nhom: "Vàng (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
-          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#D4AC0D", nhom: "Vàng (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "BR-VT", mau: "#D4AC0D", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
+          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#D4AC0D", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
           { id: "L15", stt: 15, ten: "Landmark 81", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
           { id: "L16", stt: 16, ten: "Phố Đi Bộ Nguyễn Huệ", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
           { id: "L17", stt: 17, ten: "Chợ Bến Thành", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
-          { id: "L18", stt: 18, ten: "Tiểu Vương Quốc Raumania", tinh: "Thanh Hóa", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
+          { id: "L18", stt: 18, ten: "Raumania", tinh: "Thanh Hóa", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
           { id: "L19", stt: 19, ten: "Buôn Ma Thuột", tinh: "Đắk Lắk", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
           { id: "L20", stt: 20, ten: "Tháp Chàm", tinh: "Ninh Thuận", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
           { id: "L21", stt: 21, ten: "Vịnh Vĩnh Hy", tinh: "Ninh Thuận", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
           { id: "L22", stt: 22, ten: "Tháp Bà Ponagar", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
-          { id: "L23", stt: 23, ten: "Vinpearl Nha Trang", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
+          { id: "L23", stt: 23, ten: "Vinpearl", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
           { id: "L24", stt: 24, ten: "Phố Cổ Hội An", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
           { id: "L25", stt: 25, ten: "Thánh Địa Mỹ Sơn", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
           { id: "L26", stt: 26, ten: "Tràng An", tinh: "Ninh Bình", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
           { id: "L27", stt: 27, ten: "Chùa Thiên Mụ", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
           { id: "L28", stt: 28, ten: "Cố Đô Huế", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L29", stt: 29, ten: "Cầu Hiền Lương", tinh: "Quảng Trị", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
-          { id: "L30", stt: 30, ten: "Chùa Tam Chúc", tinh: "Hà Nam", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
-          { id: "L31", stt: 31, ten: "Vịnh Hạ Long", tinh: "Quảng Ninh", mau: "#1E90FF", nhom: "Xanh Dương (Nhóm 11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L29", stt: 29, ten: "Cầu Hiền Lương", tinh: "Quảng Trị", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L30", stt: 30, ten: "Chùa Tam Chúc", tinh: "Hà Nam", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
+          { id: "L31", stt: 31, ten: "Vịnh Hạ Long", tinh: "Quảng Ninh", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
           { id: "L32", stt: 32, ten: "Đảo Cát Bà", tinh: "Hải Phòng", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
           { id: "L33", stt: 33, ten: "Đỉnh Fansipan", tinh: "Lào Cai", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
           { id: "L34", stt: 34, ten: "Văn Miếu Q.T.Giám", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           { id: "L35", stt: 35, ten: "Lăng Bác", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           { id: "L36", stt: 36, ten: "Hồ Gươm", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
-          
           { id: "T1", ten: "Bến Xe Miền Tây", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
           { id: "T2", ten: "Cảng Hải Phòng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚢", loai: "benxe" },
           { id: "T3", ten: "Ga Đà Nẵng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚆", loai: "benxe" },
@@ -259,9 +293,6 @@
           { id: "U2", ten: "Nhà Máy Nước", tinh: "Tiện Ích Công Cộng", mau: "#2980b9", nhom: "Tiện Ích", giaMua: 1500, icon: "💧", loai: "tienich" }
         ];
 
-        /* =======================================
-           CHẾ ĐỘ SÁNG TỐI
-        ======================================= */
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('themeToggleBtn');
@@ -270,44 +301,33 @@
         }
         if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeToggleBtn').innerText = '☀️ Nền Sáng'; }
 
-        /* =======================================
-           CẤU HÌNH FIREBASE
-        ======================================= */
-        const firebaseConfig = { 
-            databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" 
-        };
-        firebase.initializeApp(firebaseConfig); 
-        const database = firebase.database(); 
-        let theHienTai = ""; let bangDatToanCau = {};
+        // BẮT BUỘC ĐỂ LINK CỦA BẠN TẠI ĐÂY
+        const firebaseConfig = { databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" };
+        firebase.initializeApp(firebaseConfig); const database = firebase.database(); 
+        let theHienTai = ""; let bangDatToanCau = {}; let userListGlobal = {};
 
-        /* =======================================
-           CHỨC NĂNG ADMIN: RESET DỮ LIỆU
-        ======================================= */
         function khoiTaoDuLieuSach() {
-            let xacNhan = confirm("⚠️ ADMIN: Thao tác này sẽ XÓA SẠCH toàn bộ dữ liệu Cờ Tỷ Phú trên Firebase và tạo lại 8 ID mới. Bạn có chắc chắn?");
+            let xacNhan = confirm("⚠️ ADMIN: Xóa sạch dữ liệu và khởi tạo 8 ID mặc định với số vốn 15.000$ (Bank 5.000.000$). Chắc chắn?");
             if(!xacNhan) return;
             const now = new Date(); const timeStr = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes();
 
             const dataMoi = {
-                "NganHang": { "TongTien": 5000000, "QuanLy": "Hệ thống Trung Ương" },
+                "NganHang": { "TongTien": 5000000, "QuanLy": "Hệ thống" },
                 "Lands": { "Reset_Mock": "1" }, 
                 "Users": {
-                    "The_Demo_1": { "Ten": "ID 1", "CongViec": "Ngân Hàng", "Tien": 500000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Vốn điều hành", "Tien": 500000 } } },
-                    "The_Demo_2": { "Ten": "ID 2", "CongViec": "Cò Đất", "Tien": 20000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Vốn sàn giao dịch", "Tien": 20000 } } },
-                    "The_Demo_3": { "Ten": "ID 3", "CongViec": "Nhân Sự", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Quỹ hành chính", "Tien": 15000 } } },
-                    "The_Demo_4": { "Ten": "ID 4", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } },
-                    "The_Demo_5": { "Ten": "ID 5", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } },
-                    "The_Demo_6": { "Ten": "ID 6", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } },
-                    "The_Demo_7": { "Ten": "ID 7", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } },
-                    "The_Demo_8": { "Ten": "ID 8", "CongViec": "Vô công rồi Nghề", "Tien": 10000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Tiền trợ cấp", "Tien": 10000 } } }
+                    "The_Demo_1": { "Ten": "ID 1", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_2": { "Ten": "ID 2", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_3": { "Ten": "ID 3", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_4": { "Ten": "ID 4", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_5": { "Ten": "ID 5", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_6": { "Ten": "ID 6", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_7": { "Ten": "ID 7", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } },
+                    "The_Demo_8": { "Ten": "ID 8", "CongViec": "Chưa chọn nghề", "Tien": 15000, "LichSu": { "1": { "ThoiGian": timeStr, "MoTa": "Khởi tạo game", "Tien": 15000 } } }
                 }
             };
-            database.ref('/').set(dataMoi).then(() => { alert("✅ Tạo dữ liệu thành công! Hãy nhập tên và đăng nhập."); });
+            database.ref('/').set(dataMoi).then(() => { alert("✅ Tạo dữ liệu thành công! Hãy nhập Tên, chọn Nghề và Đăng nhập."); });
         }
 
-        /* =======================================
-           LOGIC CHUYỂN TRANG
-        ======================================= */
         function switchPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active'));
@@ -319,15 +339,22 @@
             if(pageId === 'pageRoles') document.getElementById('navRoles').classList.add('active');
         }
 
-        // Tải danh sách đất vào Select cho Cò Đất
         function loadDanhSachDatChoCoDat() {
             let select = document.getElementById("coDat_LandSelect"); select.innerHTML = '';
             danhSachDat.forEach(dat => { select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`; });
         }
 
-        /* =======================================
-           VẼ THẺ ĐẤT (SHOP & ĐẤT SỞ HỮU)
-        ======================================= */
+        // Tải danh sách User (Cho Tất cả các Menu Select)
+        function loadDanhSachUser() {
+            let options = '';
+            for(let key in userListGlobal) {
+                options += `<option value="${key}">${userListGlobal[key].Ten} (${key.replace('The_Demo_', 'ID ')}) - [${userListGlobal[key].CongViec}]</option>`;
+            }
+            document.getElementById("coDat_UserSelect").innerHTML = options;
+            document.getElementById("bank_UserSelect").innerHTML = options;
+            document.getElementById("nhanSu_UserSelect").innerHTML = options;
+        }
+
         function renderLands() {
             document.getElementById('shopGridLand').innerHTML = ''; document.getElementById('shopGridService').innerHTML = '';
             document.getElementById('myLandGridLand').innerHTML = ''; document.getElementById('myLandGridService').innerHTML = '';
@@ -344,71 +371,33 @@
                 let cardHTML = "";
 
                 if(dat.loai === "dat") {
-                    cardHTML = `
-                    <div class="${cardClass}">
-                        <div class="land-header" style="background: linear-gradient(135deg, ${dat.mau}, #34495e); justify-content:center; padding:15px 10px;"></div>
-                        <div style="text-align:center; margin-top:10px;"><span class="land-group" style="background:${dat.mau}; color: ${(dat.nhom.includes('Vàng') || dat.nhom.includes('Phấn')) ? '#333' : '#fff'};">${dat.nhom}</span></div>
-                        <div class="land-title">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="house-indicator"></div>
-                        <div class="land-body">
-                            <div class="land-prices">
-                                <div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div><div class="price-col"><strong>Xây Nhà</strong> ${dat.giaXay}$/Căn</div>
-                            </div>
-                            <div class="land-rent">
-                                <div style="text-align: left; padding-left: 5px;">Thuê đất: ${dat.thueDat}$<br>Thuê 1 căn: ${dat.thue1}$<br>Thuê 2 căn: ${dat.thue2}$</div>
-                                <div style="border-left: 1px solid var(--card-border); font-weight: bold; padding-top: 15px;">Khách Sạn<br>${dat.thueKS}$</div>
-                            </div>
-                        </div>
-                        ${stampHTML}
-                    </div>`;
+                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: linear-gradient(135deg, ${dat.mau}, #34495e); justify-content:center; padding:15px 10px;"></div><div style="text-align:center; margin-top:10px;"><span class="land-group" style="background:${dat.mau}; color: ${(dat.nhom.includes('Vàng') || dat.nhom.includes('Phấn')) ? '#333' : '#fff'};">${dat.nhom}</span></div><div class="land-title">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="house-indicator"></div><div class="land-body"><div class="land-prices"><div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div><div class="price-col"><strong>Xây Nhà</strong> ${dat.giaXay}$/Căn</div></div><div class="land-rent"><div style="text-align: left; padding-left: 5px;">Thuê đất: ${dat.thueDat}$<br>Thuê 1 căn: ${dat.thue1}$<br>Thuê 2 căn: ${dat.thue2}$</div><div style="border-left: 1px solid var(--card-border); font-weight: bold; padding-top: 15px;">Khách Sạn<br>${dat.thueKS}$</div></div></div>${stampHTML}</div>`;
                     document.getElementById('shopGridLand').innerHTML += cardHTML;
                     if(isMyLand) document.getElementById('myLandGridLand').innerHTML += cardHTML;
-                } 
-                else if (dat.loai === "benxe") {
-                    cardHTML = `
-                    <div class="${cardClass}">
-                        <div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div>
-                        <div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div>
-                        <div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div>
-                        <div class="land-body">
-                            <div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cảng/Bến</strong> ${dat.giaMua}$</div></div>
-                            <div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">
-                                Thuê 1 Bến: <strong>250$</strong><br>Thuê 2 Bến: <strong>500$</strong><br>Thuê 3 Bến: <strong>1000$</strong><br>Thuê 4 Bến: <strong>2000$</strong>
-                            </div>
-                        </div>
-                        ${stampHTML}
-                    </div>`;
+                } else if (dat.loai === "benxe") {
+                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div><div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div><div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="land-body"><div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cảng/Bến</strong> ${dat.giaMua}$</div></div><div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">Thuê 1 Bến: <strong>250$</strong><br>Thuê 2 Bến: <strong>500$</strong><br>Thuê 3 Bến: <strong>1000$</strong><br>Thuê 4 Bến: <strong>2000$</strong></div></div>${stampHTML}</div>`;
                     document.getElementById('shopGridService').innerHTML += cardHTML;
                     if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
                 } else {
-                    cardHTML = `
-                    <div class="${cardClass}">
-                        <div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div>
-                        <div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div>
-                        <div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div>
-                        <div class="land-body">
-                            <div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cổ Phần</strong> ${dat.giaMua}$</div></div>
-                            <div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">
-                                Có 1 Trạm: Trả <strong>100$ x (Số Xúc Xắc)</strong><br>Có 2 Trạm: Trả <strong>250$ x (Số Xúc Xắc)</strong>
-                            </div>
-                        </div>
-                        ${stampHTML}
-                    </div>`;
+                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div><div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div><div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="land-body"><div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cổ Phần</strong> ${dat.giaMua}$</div></div><div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">Có 1 Trạm: Trả <strong>100$ x (Số Xúc Xắc)</strong><br>Có 2 Trạm: Trả <strong>250$ x (Số Xúc Xắc)</strong></div></div>${stampHTML}</div>`;
                     document.getElementById('shopGridService').innerHTML += cardHTML;
                     if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
                 }
             });
         }
 
-        /* =======================================
-           ĐĂNG NHẬP VÀ ĐỒNG BỘ DỮ LIỆU
-        ======================================= */
+        // ĐĂNG NHẬP (Chuyển dữ liệu Tên & Nghề lên Firebase)
         function dangNhap() {
             let ten = document.getElementById("playerName").value;
             theHienTai = document.getElementById("cardSelect").value;
+            let ngheChon = document.getElementById("jobSelect").value;
+            
             if(ten.trim() === "") { alert("Vui lòng nhập tên!"); return; }
 
             document.getElementById("uiCardId").innerText = theHienTai; 
-            database.ref('/Users/' + theHienTai).update({ Ten: ten });
+            
+            // Ép chức năng cập nhật cả Tên và Nghề
+            database.ref('/Users/' + theHienTai).update({ Ten: ten, CongViec: ngheChon });
             
             document.getElementById("loginScreen").style.display = "none"; document.getElementById("topNavbar").style.display = "flex"; 
             
@@ -417,35 +406,43 @@
         }
 
         function batDauLangNgheDuLieu() {
-            // Nghe Ngân Hàng (MÃ BẢO VỆ CHỐNG LỖI NULL)
+            // Ngân hàng
             database.ref('/NganHang').on('value', (snap) => {
                 let data = snap.val();
                 if(data && typeof data === 'object' && data.TongTien !== undefined) {
                     document.getElementById('bankMoney').innerText = data.TongTien + " $";
-                } else {
-                    document.getElementById('bankMoney').innerText = "0 $"; // Tránh báo lỗi đỏ nếu DB rỗng
                 }
             });
 
-            // Nghe Đất
+            // Đất đai
             database.ref('/Lands').on('value', (snap) => {
-                bangDatToanCau = snap.val() || {};
-                renderLands(); 
+                bangDatToanCau = snap.val() || {}; renderLands(); 
             });
 
-            // Nghe Bảng Xếp Hạng (MÃ BẢO VỆ)
+            // Bảng Xếp Hạng & Danh sách người chơi
             database.ref('/Users').on('value', (snap) => {
                 let users = [];
+                userListGlobal = {}; 
+                let bankTableHTML = "";
+
                 snap.forEach((child) => { 
                     let d = child.val(); 
-                    if (d && d.Ten) users.push({ name: d.Ten, money: d.Tien !== undefined ? d.Tien : 0 }); 
+                    if (d && d.Ten) {
+                        users.push({ name: d.Ten, money: d.Tien !== undefined ? d.Tien : 0 }); 
+                        userListGlobal[child.key] = d;
+                        bankTableHTML += `<tr><td>${d.Ten} (${child.key.replace("The_Demo_","ID ")})</td><td>${d.CongViec}</td><td style="color:#27ae60; font-weight:bold;">${d.Tien}$</td></tr>`;
+                    }
                 });
+                
+                document.getElementById('bank_PlayerList').innerHTML = bankTableHTML;
+                loadDanhSachUser(); // Load cho Nhân Sự, Cò Đất, Ngân hàng
+
                 users.sort((a, b) => b.money - a.money);
                 const lb = document.getElementById('leaderboardContainer'); lb.innerHTML = ''; 
                 users.forEach((u, i) => { let icon = i===0 ? '👑' : (i===1 ? '🥈' : (i===2 ? '🥉' : '👤')); lb.innerHTML += `<div class="lb-item"><span>${icon} ${u.name}</span> <strong style="color: #27ae60;">${u.money} $</strong></div>`; });
             });
 
-            // Nghe dữ liệu cá nhân (MÃ BẢO VỆ)
+            // Lắng nghe chính ví của mình
             database.ref('/Users/' + theHienTai).on('value', (snap) => {
                 let data = snap.val();
                 if(data && typeof data === 'object') {
@@ -454,29 +451,34 @@
                     
                     let congViec = data.CongViec ? data.CongViec : "Vô công rồi Nghề";
                     document.getElementById('uiJob').innerText = congViec;
-                    document.getElementById('roleTitleBox').innerText = "CHỨC VỤ: " + congViec;
+                    document.getElementById('roleTitleBox').innerText = "CHỨC VỤ CỦA BẠN: " + congViec;
                     
-                    // PHÂN QUYỀN
+                    // Reset Panel
+                    document.getElementById('nganHangPanel').style.display = "none";
                     document.getElementById('coDatPanel').style.display = "none";
                     document.getElementById('nhanSuPanel').style.display = "none";
                     document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #7f8c8d, #95a5a6)";
+                    document.getElementById('roleDescBox').innerText = "Bạn là người chơi. Mua đất, thu tiền thuê để trở thành Tỷ Phú!";
 
-                    if(congViec.toLowerCase() === "cò đất" || theHienTai === "The_Demo_2") {
-                        document.getElementById('roleDescBox').innerText = "Bạn nắm giữ Sàn Giao Dịch. Bạn có quyền phân bổ đất đai cho mọi người.";
+                    if(congViec === "Ngân Hàng") {
+                        document.getElementById('roleDescBox').innerText = "Bạn là Thu Ngân. Bạn có quyền điều khiển Quỹ Ngân Hàng Trung Ương để phạt hoặc thưởng người chơi.";
+                        document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #3498db, #2980b9)";
+                        document.getElementById('nganHangPanel').style.display = "block";
+                    } 
+                    else if(congViec === "Cò Đất") {
+                        document.getElementById('roleDescBox').innerText = "Bạn nắm giữ Sàn Giao Dịch. Lựa chọn vùng đất và ép người chơi khác mua nó.";
                         document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #27ae60, #2ecc71)";
                         document.getElementById('coDatPanel').style.display = "block";
                     } 
-                    else if(congViec.toLowerCase() === "nhân sự" || theHienTai === "The_Demo_3") {
-                        document.getElementById('roleDescBox').innerText = "Bạn là Trưởng Phòng Nhân Sự. Bạn quyết định nghề nghiệp của người chơi ID 4 đến 8.";
+                    else if(congViec === "Nhân Sự") {
+                        document.getElementById('roleDescBox').innerText = "Bạn là Trưởng Phòng Nhân Sự. Hãy chọn tên người chơi bên dưới và cấp nghề cho họ.";
                         document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #8e44ad, #9b59b6)";
                         document.getElementById('nhanSuPanel').style.display = "block";
-                    } else {
-                        document.getElementById('roleDescBox').innerText = "Bạn là người chơi. Chờ Nhân Sự phát nghề và Cò Đất phát sổ đỏ nhé!";
                     }
                 }
             });
 
-            // Nghe Lịch sử
+            // Nghe lịch sử
             database.ref('/Users/' + theHienTai + '/LichSu').on('value', (snapshot) => {
                 const histContainer = document.getElementById('historyContainer'); histContainer.innerHTML = '';
                 if(snapshot.exists() && snapshot.val()) {
@@ -488,47 +490,72 @@
             });
         }
 
-        /* =======================================
-           CÒ ĐẤT GIAO DỊCH
-        ======================================= */
+        /* TÍNH NĂNG NGÂN HÀNG (Rút tiền từ Quỹ Bank) */
+        function nganHangGiaoDich(loai) {
+            let targetUID = document.getElementById("bank_UserSelect").value;
+            let amount = parseInt(document.getElementById("bank_AmountInput").value);
+            let reason = document.getElementById("bank_ReasonInput").value;
+
+            if(isNaN(amount) || amount <= 0) { alert("Vui lòng nhập số tiền hợp lệ!"); return; }
+            if(reason.trim() === "") { alert("Vui lòng nhập lý do giao dịch!"); return; }
+
+            database.ref('/NganHang/TongTien').once('value').then(bankSnap => {
+                let quyNganHang = bankSnap.val() || 0;
+                
+                database.ref('/Users/' + targetUID + '/Tien').once('value').then(userSnap => {
+                    let tienNguoiChoi = userSnap.val() || 0;
+                    
+                    let newBank = 0; let newUser = 0; let lichSuTien = 0;
+                    if(loai === 'add') {
+                        newBank = quyNganHang - amount; newUser = tienNguoiChoi + amount; lichSuTien = amount;
+                    } else if(loai === 'sub') {
+                        newBank = quyNganHang + amount; newUser = tienNguoiChoi - amount; lichSuTien = -amount;
+                    }
+
+                    database.ref('/NganHang/TongTien').set(newBank);
+                    database.ref('/Users/' + targetUID + '/Tien').set(newUser);
+                    
+                    let now = new Date();
+                    database.ref('/Users/' + targetUID + '/LichSu').push().set({
+                        ThoiGian: now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes(),
+                        MoTa: reason + " (Bank)", Tien: lichSuTien
+                    });
+
+                    alert("✅ Giao dịch quỹ Ngân Hàng thành công!");
+                    document.getElementById("bank_AmountInput").value = ""; document.getElementById("bank_ReasonInput").value = "";
+                });
+            });
+        }
+
+        /* TÍNH NĂNG CÒ ĐẤT */
         function coDatThucHienGiaoDich() {
             let landId = document.getElementById("coDat_LandSelect").value;
             let targetUID = document.getElementById("coDat_UserSelect").value;
             let landObj = danhSachDat.find(d => d.id === landId);
 
-            if(bangDatToanCau[landId] && bangDatToanCau[landId].Owner) {
-                alert("❌ Lỗi: Mảnh đất này đã có chủ (Đã Bán). Vui lòng chọn mảnh khác!");
-                return;
-            }
+            if(bangDatToanCau[landId] && bangDatToanCau[landId].Owner) { alert("❌ Lỗi: Mảnh đất này đã có chủ."); return; }
 
             database.ref('/Users/' + targetUID + '/Tien').once('value').then(snap => {
-                let tienHienTai = snap.val() || 0;
-                let tienMoi = tienHienTai - landObj.giaMua;
-
+                let tienMoi = (snap.val() || 0) - landObj.giaMua;
                 database.ref('/Users/' + targetUID + '/Tien').set(tienMoi);
                 database.ref('/Lands/' + landId).set({ Owner: targetUID });
                 
                 let now = new Date();
                 database.ref('/Users/' + targetUID + '/LichSu').push().set({
                     ThoiGian: now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes(),
-                    MoTa: "Mua " + landObj.ten + " (Cò Đất thao tác)",
-                    Tien: -landObj.giaMua
+                    MoTa: "Mua " + landObj.ten + " qua Cò Đất", Tien: -landObj.giaMua
                 });
-                alert("✅ Đã cấp sổ đỏ " + landObj.ten + " cho " + targetUID + " và trừ " + landObj.giaMua + "$");
+                alert("✅ Đã cấp sổ đỏ " + landObj.ten + " cho " + userListGlobal[targetUID].Ten);
             });
         }
 
-        /* =======================================
-           NHÂN SỰ BỔ NHIỆM
-        ======================================= */
+        /* TÍNH NĂNG NHÂN SỰ */
         function nhanSuBoNhiem() {
             let targetUID = document.getElementById("nhanSu_UserSelect").value;
-            let newJob = document.getElementById("nhanSu_JobInput").value;
-            if(newJob.trim() === "") { alert("Vui lòng nhập tên nghề nghiệp!"); return; }
-
+            let newJob = document.getElementById("nhanSu_JobSelect").value;
+            
             database.ref('/Users/' + targetUID + '/CongViec').set(newJob).then(() => {
-                alert("✅ Đã bổ nhiệm " + targetUID + " làm " + newJob);
-                document.getElementById("nhanSu_JobInput").value = "";
+                alert("✅ Đã bổ nhiệm " + userListGlobal[targetUID].Ten + " làm " + newJob);
             });
         }
     </script>
