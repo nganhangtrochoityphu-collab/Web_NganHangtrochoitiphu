@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Ngân Hàng - Cờ Tỷ Phú</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { color: #2c3e50; }
+        .dashboard {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+            width: 100%;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        .card h2 { margin-top: 0; color: #2980b9; font-size: 24px; }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+        }
+        .data-row:last-child { border-bottom: none; }
+        .money { font-size: 32px; font-weight: bold; color: #27ae60; margin: 15px 0; }
+        .log { color: #e74c3c; font-style: italic; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>🏦 HỆ THỐNG QUẢN LÝ NGÂN HÀNG</h1>
+    
+    <div class="dashboard">
+        <div class="card">
+            <h2>QUỸ NGÂN HÀNG CHUNG</h2>
+            <div class="money" id="tongTienNganHang">Đang tải...</div>
+            <p>Dữ liệu cập nhật theo thời gian thực từ máy chủ</p>
+        </div>
+
+        <div class="card">
+            <h2>THÔNG TIN NGƯỜI CHƠI</h2>
+            <div class="data-row">
+                <span>👤 Tên:</span>
+                <span id="tenNguoiChoi" style="font-weight: bold;">Đang tải...</span>
+            </div>
+            <div class="data-row">
+                <span>💼 Công việc:</span>
+                <span id="congViecNguoiChoi">Đang tải...</span>
+            </div>
+            <div class="data-row">
+                <span>💳 Thẻ ID:</span>
+                <span>The_Demo_1</span>
+            </div>
+            <div style="text-align: left; margin-top: 15px;">💰 Số dư hiện tại:</div>
+            <div class="money" id="tienNguoiChoi">Đang tải...</div>
+            
+            <div style="text-align: left; margin-top: 15px;">📜 Giao dịch gần nhất:</div>
+            <div class="log" id="giaoDichCuoi">Chưa có giao dịch</div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // Cấu hình Firebase bằng Link URL bạn đã tạo
+        const firebaseConfig = {
+            databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // 1. Lắng nghe dữ liệu Quỹ Ngân Hàng
+        database.ref('/NganHang/TongTien').on('value', (snapshot) => {
+            const tien = snapshot.val();
+            if(tien !== null) {
+                document.getElementById('tongTienNganHang').innerText = tien + " $";
+            }
+        });
+
+        // 2. Lắng nghe dữ liệu của Người chơi Demo 1
+        const userRef = database.ref('/Users/The_Demo_1');
+        
+        userRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if(data) {
+                // Cập nhật lên web nếu có dữ liệu
+                if(data.Ten) document.getElementById('tenNguoiChoi').innerText = data.Ten;
+                if(data.CongViec) document.getElementById('congViecNguoiChoi').innerText = data.CongViec;
+                if(data.Tien !== undefined) document.getElementById('tienNguoiChoi').innerText = data.Tien + " $";
+                if(data.GiaoDichCuoi) document.getElementById('giaoDichCuoi').innerText = data.GiaoDichCuoi;
+            }
+        });
+    </script>
+</body>
+</html>
