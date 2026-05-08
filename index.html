@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngân Hàng Cờ Tỷ Phú - V8.1 (Admin System)</title>
+    <title>Ngân Hàng Cờ Tỷ Phú - V8.2 (Hệ Thống Định Danh Tên)</title>
     <style>
         :root {
             --bg-body: #f0f2f5; --text-main: #333; --text-muted: #7f8c8d;
@@ -89,15 +89,21 @@
         .btn-action:hover { background-color: #2471a3;}
         .btn-success { background-color: #27ae60; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-success:hover { background-color: #219150;}
+        .btn-warning { background-color: #f39c12; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
+        .btn-warning:hover { background-color: #d68910;}
         .btn-danger { background-color: #e74c3c; color: white; border: none; padding: 14px 20px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;}
         .btn-danger:hover { background-color: #c0392b;}
 
-        /* Auth UI */
-        .login-box { width: 100%; max-width: 450px; margin-top: 50px; text-align: center;}
+        /* Auth UI Tabs */
+        .login-box { width: 100%; max-width: 480px; margin-top: 50px; text-align: center;}
         .auth-form { display: none; }
         .auth-form.active { display: block; animation: fadeIn 0.4s; }
-        .toggle-link { color: #3498db; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; display: inline-block; text-decoration: underline;}
+        .toggle-link { color: #3498db; cursor: pointer; font-weight: bold; font-size: 15px; margin-top: 15px; display: inline-block; text-decoration: underline; margin-bottom: 10px;}
         .toggle-link:hover { color: #2980b9; }
+
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid var(--card-border); }
+        .auth-tab { flex: 1; padding: 12px; font-weight: bold; cursor: pointer; color: var(--text-muted); transition: 0.3s; font-size: 14px;}
+        .auth-tab.active { color: #3498db; border-bottom: 3px solid #3498db; }
 
         .player-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .player-table th, .player-table td { padding: 10px; border-bottom: 1px solid var(--card-border); text-align: left; color: var(--text-main);}
@@ -120,75 +126,84 @@
     </nav>
 
     <div class="container login-box" id="loginScreen">
+        <h1 class="main-title">🏦 CỜ TỶ PHÚ ONLINE</h1>
         
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">ĐĂNG NHẬP</div>
+            <div class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">ĐĂNG KÝ MỚI</div>
+            <div class="auth-tab" id="tabAccount" onclick="switchAuthTab('account')">CÀI ĐẶT TÀI KHOẢN</div>
+        </div>
+
         <div id="formLogin" class="auth-form active">
-            <h1 class="main-title" style="font-size: 32px; color: #2980b9;">ĐĂNG NHẬP</h1>
-            <p style="color: var(--text-muted); margin-bottom: 25px;">Chào mừng trở lại Cờ Tỷ Phú Online</p>
-            
+            <h2 style="color: #2980b9; margin-top: 0;">ĐĂNG NHẬP</h2>
             <div class="form-group">
-                <label>Tài Khoản / Thẻ ID:</label>
-                <select id="login_id">
-                    <option value="Admin">Tài Khoản Admin Tối Cao</option>
-                    <option value="The_Demo_1">Thẻ ID 1</option>
-                    <option value="The_Demo_2">Thẻ ID 2</option>
-                    <option value="The_Demo_3">Thẻ ID 3</option>
-                    <option value="The_Demo_4">Thẻ ID 4</option>
-                    <option value="The_Demo_5">Thẻ ID 5</option>
-                    <option value="The_Demo_6">Thẻ ID 6</option>
-                    <option value="The_Demo_7">Thẻ ID 7</option>
-                    <option value="The_Demo_8">Thẻ ID 8</option>
-                </select>
+                <label>Tên Người Chơi (Hoặc 'Admin'):</label>
+                <input type="text" id="login_name" placeholder="Nhập tên bạn đã đăng ký...">
             </div>
             <div class="form-group">
                 <label>Mật Khẩu:</label>
                 <input type="password" id="login_pass" placeholder="Nhập mật khẩu...">
             </div>
-            <button class="btn-action" onclick="dangNhap()">VÀO GAME</button>
+            <button class="btn-action" onclick="dangNhapTheoTen()">VÀO GAME</button>
             <br>
-            <span class="toggle-link" onclick="toggleAuthForm('register')">Bạn chưa có tài khoản? Bấm vào đây để Đăng Ký</span>
+            <span class="toggle-link" onclick="switchAuthTab('register')">Chưa có tài khoản? Nhấn để Đăng Ký</span>
         </div>
 
         <div id="formRegister" class="auth-form">
-            <h1 class="main-title" style="font-size: 26px; color: #27ae60;">TẠO TÀI KHOẢN MỚI</h1>
-            
+            <h2 style="color: #27ae60; margin-top: 0;">TẠO TÀI KHOẢN MỚI</h2>
             <div class="form-group">
-                <label>1. Tên Hiển Thị (Trong Game):</label>
-                <input type="text" id="reg_name" placeholder="Ví dụ: Khang, Nam...">
+                <label>1. Tên Hiển Thị (Dùng để đăng nhập):</label>
+                <input type="text" id="reg_name" placeholder="Tên duy nhất, không trùng lặp...">
             </div>
             <div class="form-group">
-                <label>2. Chọn Thẻ ID của bạn:</label>
-                <select id="reg_id">
-                    <option value="The_Demo_1">Thẻ ID 1</option><option value="The_Demo_2">Thẻ ID 2</option>
-                    <option value="The_Demo_3">Thẻ ID 3</option><option value="The_Demo_4">Thẻ ID 4</option>
-                    <option value="The_Demo_5">Thẻ ID 5</option><option value="The_Demo_6">Thẻ ID 6</option>
-                    <option value="The_Demo_7">Thẻ ID 7</option><option value="The_Demo_8">Thẻ ID 8</option>
+                <label>2. Chọn Slot Thẻ / Nhập UID Thẻ:</label>
+                <input type="text" id="reg_id" placeholder="Ví dụ: The_Demo_4 hoặc ID: A1B2...">
+            </div>
+            <div class="form-group">
+                <label>3. Chọn Nghề Khởi Đầu:</label>
+                <select id="reg_job">
+                    <option value="Ngân Hàng">Ngân Hàng</option><option value="Cò Đất">Cò Đất</option>
+                    <option value="Nhân Sự">Nhân Sự</option><option value="Cảnh Sát">Cảnh Sát</option>
+                    <option value="Bác Sĩ">Bác Sĩ</option><option value="Vô công rồi Nghề" selected>Vô công rồi Nghề</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>3. Đặt Mật Khẩu (Để đăng nhập lần sau):</label>
+                <label>4. Đặt Mật Khẩu:</label>
                 <input type="password" id="reg_pass" placeholder="Tạo mật khẩu...">
             </div>
-            <div class="form-group">
-                <label>4. Xác Nhận Lại Mật Khẩu:</label>
-                <input type="password" id="reg_pass_confirm" placeholder="Nhập lại mật khẩu...">
+            <button class="btn-success" onclick="dangKyMoi()">XÁC NHẬN ĐĂNG KÝ</button>
+        </div>
+
+        <div id="formAccount" class="auth-form">
+            <h2 style="color: #f39c12; margin-top: 0;">CÀI ĐẶT TÀI KHOẢN</h2>
+            
+            <div style="border: 1px solid var(--card-border); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="margin-top: 0; color: #d35400;">A. XÁC NHẬN ĐỔI SANG THẺ ID KHÁC</h4>
+                <div class="form-group"><label>Tên Đăng Nhập Của Bạn:</label><input type="text" id="chg_name" placeholder="Tên hiện tại..."></div>
+                <div class="form-group"><label>Mật Khẩu Hiện Tại:</label><input type="password" id="chg_pass" placeholder="Xác nhận mật khẩu..."></div>
+                <div class="form-group"><label>Nhập ID Thẻ Mới (Chưa ai dùng):</label><input type="text" id="chg_newId" placeholder="Ví dụ: UID mới..."></div>
+                <button class="btn-warning" onclick="thayDoiIDThe()">CHUYỂN TOÀN BỘ DỮ LIỆU SANG THẺ MỚI</button>
             </div>
-            <button class="btn-success" onclick="dangKy()">XÁC NHẬN ĐĂNG KÝ</button>
-            <br>
-            <span class="toggle-link" style="color: #e74c3c;" onclick="toggleAuthForm('login')">⬅ Quay lại trang Đăng Nhập</span>
+
+            <div style="border: 1px solid var(--card-border); padding: 15px; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: #8e44ad;">B. TẠO MẬT KHẨU MỚI (DÀNH CHO QUÊN PASS)</h4>
+                <p style="font-size: 12px; color: var(--text-muted);">Yêu cầu: Phải nhờ Admin cấp quyền "Reset Pass" từ bên trong Game trước khi dùng chức năng này.</p>
+                <div class="form-group"><label>Tên Của Bạn:</label><input type="text" id="reset_name" placeholder="Nhập tên..."></div>
+                <div class="form-group"><label>Mật Khẩu Mới MONG MUỐN:</label><input type="password" id="reset_newPass" placeholder="Mật khẩu mới..."></div>
+                <button class="btn-action" style="background-color: #8e44ad;" onclick="capNhatMatKhauMoi()">XÁC NHẬN MẬT KHẨU MỚI</button>
+            </div>
         </div>
     </div>
 
     <div class="page-section" id="pageHome">
         <h1 class="main-title">BẢNG ĐIỀU KHIỂN TRUNG TÂM</h1>
         <div class="main-wrapper">
-            <div class="container left-panel"><h2>🏆 BẢNG VÀNG TỶ PHÚ</h2><div id="leaderboardContainer"><div style="text-align: center;">Đang tải...</div></div></div>
+            <div class="container left-panel"><h2>🏆 BẢNG VÀNG TỶ PHÚ</h2><div id="leaderboardContainer">Đang tải...</div></div>
             <div class="right-panel">
                 <div class="container card" style="border: 2px solid #3498db;">
                     <h2 style="color: #3498db;">🏦 QUỸ NGÂN HÀNG (DÙNG CHUNG)</h2>
-                    <div class="data-row"><span style="font-size: 14px; color: var(--text-muted);">Quỹ chung để phát thưởng hoặc thu phạt bằng máy POS.</span></div>
                     <div class="data-row"><span>Quỹ hiện tại:</span> <span class="money" id="bankMoney" style="color: #3498db;">0 $</span></div>
                 </div>
-
                 <div class="container card" id="myProfileCard">
                     <h2>👤 VÍ TIỀN CÁ NHÂN CỦA BẠN</h2>
                     <div class="data-row"><span>Tên:</span> <strong id="uiName" style="color: #2980b9;">...</strong></div>
@@ -214,103 +229,70 @@
 
     <div class="page-section" id="pageHistory">
         <h1 class="main-title">📜 NHẬT KÝ CÁ NHÂN</h1>
-        <div class="container" style="max-width: 800px; margin: 0 auto;">
-            <ul class="history-list" id="historyContainer"><li style="justify-content: center; color: var(--text-muted);">Chưa có dữ liệu...</li></ul>
-        </div>
+        <div class="container" style="max-width: 800px; margin: 0 auto;"><ul class="history-list" id="historyContainer"></ul></div>
     </div>
 
     <div class="page-section" id="pageRoles">
         <h1 class="main-title">💼 BẢNG ĐIỀU KHIỂN QUYỀN HẠN</h1>
         <div class="container" style="max-width: 800px; margin: 0 auto;">
-            
-            <div class="my-role-box" id="roleMainBox" style="background: linear-gradient(135deg, #7f8c8d, #95a5a6);">
+            <div class="my-role-box" id="roleMainBox" style="background: #7f8c8d;">
                 <div class="my-role-title" id="roleTitleBox">Đang xác định chức vụ...</div>
-                <div id="roleDescBox">Vui lòng chờ hệ thống tải dữ liệu.</div>
+                <div id="roleDescBox">Vui lòng chờ.</div>
             </div>
 
             <div id="nganHangPanel" class="role-panel">
                 <h3 style="color: #3498db; text-align: center;">🏦 TRUNG TÂM KIỂM SOÁT NGÂN HÀNG</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Bạn có quyền xem lén ví tiền của mọi người. Mọi giao dịch tiền bạc sẽ được thực hiện tự động qua máy POS.</p>
                 <table class="player-table">
                     <thead><tr><th>Tên Người Chơi</th><th>Nghề Nghiệp</th><th>Số Dư Hiện Tại</th></tr></thead>
-                    <tbody id="bank_PlayerList"><tr><td colspan="3">Đang tải...</td></tr></tbody>
+                    <tbody id="bank_PlayerList"></tbody>
                 </table>
             </div>
 
             <div id="coDatPanel" class="role-panel">
                 <h3 style="color: #27ae60; text-align: center;">🏡 SÀN GIAO DỊCH BẤT ĐỘNG SẢN</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Hãy chọn đất và chọn người mua. Hệ thống sẽ tự động trừ tiền ví cá nhân của họ và cấp sổ đỏ.</p>
-                <div class="form-group"><label>1. Chọn Khu Đất / Dịch Vụ:</label><select id="coDat_LandSelect"></select></div>
-                <div class="form-group"><label>2. Chọn Người Mua Đất:</label><select id="coDat_UserSelect"></select></div>
+                <div class="form-group"><label>1. Chọn Đất:</label><select id="coDat_LandSelect"></select></div>
+                <div class="form-group"><label>2. Chọn Người Mua:</label><select id="coDat_UserSelect"></select></div>
                 <button class="btn-success" onclick="coDatThucHienGiaoDich()">THỰC HIỆN SANG TÊN & TRỪ TIỀN</button>
             </div>
 
             <div id="nhanSuPanel" class="role-panel">
                 <h3 style="color: #8e44ad; text-align: center;">👔 PHÒNG NHÂN SỰ TRUNG ƯƠNG</h3>
-                <p style="text-align: center; margin-bottom: 20px;">Bạn có quyền Bổ nhiệm nghề cho tất cả mọi người trong Game.</p>
-                <div class="form-group"><label>1. Chọn Người Cần Đổi Nghề:</label><select id="nhanSu_UserSelect"></select></div>
+                <div class="form-group"><label>1. Chọn Người:</label><select id="nhanSu_UserSelect"></select></div>
                 <div class="form-group"><label>2. Chọn Nghề Mới:</label>
                     <select id="nhanSu_JobSelect">
-                        <option value="Ngân Hàng">Ngân Hàng (Nắm giữ Quỹ)</option>
-                        <option value="Cò Đất">Cò Đất (Cấp sổ đỏ)</option>
-                        <option value="Nhân Sự">Nhân Sự (Quản lý chức vụ)</option>
-                        <option value="Cảnh Sát">Cảnh Sát</option>
-                        <option value="Bác Sĩ">Bác Sĩ</option>
-                        <option value="Thẩm Phán">Thẩm Phán</option>
-                        <option value="Kỹ Sư">Kỹ Sư</option>
-                        <option value="Thương Gia">Thương Gia</option>
-                        <option value="Phi Công">Phi Công</option>
-                        <option value="Nghệ Sĩ">Nghệ Sĩ</option>
-                        <option value="Vô công rồi Nghề">Vô công rồi Nghề</option>
+                        <option value="Ngân Hàng">Ngân Hàng</option><option value="Cò Đất">Cò Đất</option>
+                        <option value="Nhân Sự">Nhân Sự</option><option value="Cảnh Sát">Cảnh Sát</option>
+                        <option value="Bác Sĩ">Bác Sĩ</option><option value="Vô công rồi Nghề">Vô công rồi Nghề</option>
                     </select>
                 </div>
-                <button class="btn-action" style="background-color: #8e44ad;" onclick="nhanSuBoNhiem()">QUYẾT ĐỊNH BỔ NHIỆM</button>
+                <button class="btn-action" style="background-color: #8e44ad;" onclick="nhanSuBoNhiem()">BỔ NHIỆM</button>
             </div>
         </div>
     </div>
 
     <div class="page-section" id="pageAdmin">
         <h1 class="main-title" style="color: #e74c3c;">⚙️ QUẢN TRỊ VIÊN TỐI CAO</h1>
-        <div class="container" style="border: 2px solid #e74c3c; box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 25px;">Khu vực này dành riêng cho Admin để kiểm soát toàn bộ thông số Game.</p>
-            
-            <h3 style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px;">1. SET TIỀN QUỸ NGÂN HÀNG</h3>
-            <div class="form-group">
-                <input type="number" id="admin_BankMoney" placeholder="Nhập số tiền Ngân hàng mới...">
-            </div>
-            <button class="btn-action" onclick="adminSetBank()">CẬP NHẬT QUỸ NGÂN HÀNG</button>
+        <div class="container" style="border: 2px solid #e74c3c;">
+            <h3>1. SET TIỀN QUỸ NGÂN HÀNG</h3>
+            <div class="form-group"><input type="number" id="admin_BankMoney" placeholder="Nhập số tiền..."></div>
+            <button class="btn-action" onclick="adminSetBank()">CẬP NHẬT QUỸ</button>
 
-            <h3 style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-top: 30px;">2. CHỈNH SỬA NGƯỜI CHƠI</h3>
-            <div class="form-group"><label>Chọn ID Người Chơi:</label><select id="admin_UserSelect"></select></div>
+            <h3 style="margin-top: 30px;">2. QUẢN LÝ NGƯỜI CHƠI</h3>
+            <div class="form-group"><label>Chọn Người Chơi:</label><select id="admin_UserSelect"></select></div>
             
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px;">
-                    <label>Set Tiền Mới:</label>
-                    <input type="number" id="admin_UserMoney" placeholder="Nhập số tiền..." style="margin-bottom: 10px; width: 100%;">
-                    <button class="btn-success" onclick="adminSetMoney()">CẬP NHẬT TIỀN</button>
-                </div>
-                <div style="flex: 1; min-width: 250px;">
-                    <label>Set Nghề Mới:</label>
-                    <select id="admin_UserJob" style="margin-bottom: 10px; width: 100%;">
-                        <option value="Ngân Hàng">Ngân Hàng</option>
-                        <option value="Cò Đất">Cò Đất</option>
-                        <option value="Nhân Sự">Nhân Sự</option>
-                        <option value="Cảnh Sát">Cảnh Sát</option>
-                        <option value="Bác Sĩ">Bác Sĩ</option>
-                        <option value="Thẩm Phán">Thẩm Phán</option>
-                        <option value="Kỹ Sư">Kỹ Sư</option>
-                        <option value="Thương Gia">Thương Gia</option>
-                        <option value="Phi Công">Phi Công</option>
-                        <option value="Nghệ Sĩ">Nghệ Sĩ</option>
-                        <option value="Vô công rồi Nghề">Vô công rồi Nghề</option>
-                    </select>
-                    <button class="btn-action" style="background-color: #8e44ad;" onclick="adminSetJob()">CẬP NHẬT NGHỀ</button>
-                </div>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="number" id="admin_UserMoney" placeholder="Số tiền..." style="flex:1;">
+                <button class="btn-success" onclick="adminSetMoney()">SET TIỀN</button>
             </div>
 
-            <h3 style="border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-top: 40px; color: #e74c3c;">3. DỌN DẸP SERVER</h3>
-            <p>Xóa sạch sổ đỏ, đưa 8 ID về trạng thái trống rỗng (Mật khẩu rỗng, Tiền 15000, Vô công rồi nghề).</p>
-            <button class="btn-danger" onclick="adminResetServer()">⚠️ RESET LẠI TOÀN BỘ GAME</button>
+            <div style="border: 1px dashed #e74c3c; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+                <h4 style="margin-top: 0; color: #c0392b;">BẢO MẬT: MỞ KHÓA ĐỔI MẬT KHẨU</h4>
+                <p style="font-size: 13px;">Nếu người chơi quên pass, hãy chọn tên họ ở trên và bấm nút này. Sau đó bảo họ ra ngoài trang đăng nhập để tạo Pass mới.</p>
+                <button class="btn-warning" onclick="adminDuyetResetPass()">CẤP QUYỀN CHO PHÉP ĐỔI PASS MỚI</button>
+            </div>
+
+            <h3 style="margin-top: 40px; color: #e74c3c;">3. DỌN DẸP SERVER</h3>
+            <button class="btn-danger" onclick="adminResetServer()">⚠️ RESET LẠI TOÀN BỘ GAME (XÓA SẠCH SẼ)</button>
         </div>
     </div>
 
@@ -318,53 +300,15 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        /* MẢNG DỮ LIỆU ĐẤT ĐAI ĐẦY ĐỦ 42 Ô */
+        /* MẢNG DỮ LIỆU ĐẤT ĐAI (GỌN) */
         const danhSachDat = [
           { id: "L1", stt: 1, ten: "Chợ nổi cái răng", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
-          { id: "L2", stt: 2, ten: "Bến Ninh Kiều", tinh: "Cần Thơ", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
-          { id: "L3", stt: 3, ten: "Làng Hoa Sa Đéc", tinh: "Đồng Tháp", mau: "#8B4513", nhom: "Nâu (Nhóm 1)", giaMua: 500, giaXay: 500, thueDat: 40, thue1: 200, thue2: 600, thueKS: 2000, loai: "dat" },
-          { id: "L4", stt: 4, ten: "Vườn QG Tràm Chim", tinh: "Đồng Tháp", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
-          { id: "L5", stt: 5, ten: "Rừng Tràm Trà Sư", tinh: "An Giang", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
-          { id: "L6", stt: 6, ten: "Chùa Dơi", tinh: "Sóc Trăng", mau: "#A9A9A9", nhom: "Xám (Nhóm 2)", giaMua: 900, giaXay: 500, thueDat: 80, thue1: 400, thue2: 1200, thueKS: 3500, loai: "dat" },
-          { id: "L7", stt: 7, ten: "Nhà Công Tử Bạc Liêu", tinh: "Bạc Liêu", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
-          { id: "L8", stt: 8, ten: "Đất Mũi", tinh: "Cà Mau", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
-          { id: "L9", stt: 9, ten: "Đảo Nam Du", tinh: "Kiên Giang", mau: "#FFB6C1", nhom: "Hồng Phấn (Nhóm 3)", giaMua: 1300, giaXay: 1000, thueDat: 120, thue1: 600, thue2: 1800, thueKS: 5500, loai: "dat" },
-          { id: "L10", stt: 10, ten: "Núi Bà Đen", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L11", stt: 11, ten: "Hồ Dầu Tiếng", tinh: "Tây Ninh", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L12", stt: 12, ten: "Côn Đảo Resort", tinh: "BR-VT", mau: "#FF8C00", nhom: "Cam (Nhóm 4)", giaMua: 1700, giaXay: 1000, thueDat: 160, thue1: 800, thue2: 2400, thueKS: 7500, loai: "dat" },
-          { id: "L13", stt: 13, ten: "Hồ Tràm Strip", tinh: "BR-VT", mau: "#D4AC0D", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
-          { id: "L14", stt: 14, ten: "Hầm Thủ Thiêm", tinh: "Việt Nam", mau: "#D4AC0D", nhom: "Vàng Chanh (Nhóm 5)", giaMua: 2100, giaXay: 1500, thueDat: 200, thue1: 1000, thue2: 3000, thueKS: 9500, loai: "dat" },
-          { id: "L15", stt: 15, ten: "Landmark 81", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
-          { id: "L16", stt: 16, ten: "Phố Đi Bộ Nguyễn Huệ", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
-          { id: "L17", stt: 17, ten: "Chợ Bến Thành", tinh: "TP.HCM", mau: "#FF1493", nhom: "Hồng Đậm (Nhóm 6)", giaMua: 2500, giaXay: 1500, thueDat: 240, thue1: 1200, thue2: 3600, thueKS: 11500, loai: "dat" },
-          { id: "L18", stt: 18, ten: "Tiểu Vương Quốc Raumania", tinh: "Thanh Hóa", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
-          { id: "L19", stt: 19, ten: "Buôn Ma Thuột", tinh: "Đắk Lắk", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
-          { id: "L20", stt: 20, ten: "Tháp Chàm", tinh: "Ninh Thuận", mau: "#00FFFF", nhom: "Xanh Lơ (Nhóm 7)", giaMua: 2900, giaXay: 2000, thueDat: 280, thue1: 1400, thue2: 4200, thueKS: 13500, loai: "dat" },
-          { id: "L21", stt: 21, ten: "Vịnh Vĩnh Hy", tinh: "Ninh Thuận", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
-          { id: "L22", stt: 22, ten: "Tháp Bà Ponagar", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
-          { id: "L23", stt: 23, ten: "Vinpearl", tinh: "Khánh Hòa", mau: "#FFD700", nhom: "Vàng Nghệ (Nhóm 8)", giaMua: 3300, giaXay: 2000, thueDat: 320, thue1: 1600, thue2: 4800, thueKS: 15500, loai: "dat" },
           { id: "L24", stt: 24, ten: "Phố Cổ Hội An", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
-          { id: "L25", stt: 25, ten: "Thánh Địa Mỹ Sơn", tinh: "Quảng Nam", mau: "#FF0000", nhom: "Đỏ (Nhóm 9)", giaMua: 3700, giaXay: 2500, thueDat: 360, thue1: 1800, thue2: 5400, thueKS: 17500, loai: "dat" },
-          { id: "L26", stt: 26, ten: "Tràng An", tinh: "Ninh Bình", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L27", stt: 27, ten: "Chùa Thiên Mụ", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L28", stt: 28, ten: "Cố Đô Huế", tinh: "Huế", mau: "#32CD32", nhom: "Xanh Lá (Nhóm 10)", giaMua: 4100, giaXay: 2500, thueDat: 400, thue1: 2000, thue2: 6000, thueKS: 19500, loai: "dat" },
-          { id: "L29", stt: 29, ten: "Cầu Hiền Lương", tinh: "Quảng Trị", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
-          { id: "L30", stt: 30, ten: "Chùa Tam Chúc", tinh: "Hà Nam", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
-          { id: "L31", stt: 31, ten: "Vịnh Hạ Long", tinh: "Quảng Ninh", mau: "#1E90FF", nhom: "Xanh Dương (11)", giaMua: 4500, giaXay: 3000, thueDat: 450, thue1: 2250, thue2: 6750, thueKS: 22000, loai: "dat" },
-          { id: "L32", stt: 32, ten: "Đảo Cát Bà", tinh: "Hải Phòng", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
-          { id: "L33", stt: 33, ten: "Đỉnh Fansipan", tinh: "Lào Cai", mau: "#8A2BE2", nhom: "Tím (Nhóm 12)", giaMua: 4900, giaXay: 3000, thueDat: 500, thue1: 2500, thue2: 7500, thueKS: 24500, loai: "dat" },
           { id: "L34", stt: 34, ten: "Văn Miếu Q.T.Giám", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
-          { id: "L35", stt: 35, ten: "Lăng Bác", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
-          { id: "L36", stt: 36, ten: "Hồ Gươm", tinh: "Hà Nội", mau: "#000080", nhom: "VIP", giaMua: 5500, giaXay: 3500, thueDat: 600, thue1: 3000, thue2: 9000, thueKS: 28000, loai: "dat" },
           { id: "T1", ten: "Bến Xe Miền Tây", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚌", loai: "benxe" },
-          { id: "T2", ten: "Cảng Hải Phòng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚢", loai: "benxe" },
-          { id: "T3", ten: "Ga Đà Nẵng", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "🚆", loai: "benxe" },
-          { id: "T4", ten: "Sân Bay Nội Bài", tinh: "Trạm Giao Thông", mau: "#34495e", nhom: "Giao Thông", giaMua: 2000, icon: "✈️", loai: "benxe" },
-          { id: "U1", ten: "Công Ty Điện Lực", tinh: "Tiện Ích", mau: "#8e44ad", nhom: "Tiện Ích", giaMua: 1500, icon: "⚡", loai: "tienich" },
-          { id: "U2", ten: "Nhà Máy Nước", tinh: "Tiện Ích", mau: "#2980b9", nhom: "Tiện Ích", giaMua: 1500, icon: "💧", loai: "tienich" }
-        ];
+          { id: "U1", ten: "Công Ty Điện Lực", tinh: "Tiện Ích", mau: "#8e44ad", nhom: "Tiện Ích", giaMua: 1500, icon: "⚡", loai: "tienich" }
+        ]; // Hãy dán Full 42 đất của bạn vào đây
 
-        /* SÁNG / TỐI */
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('themeToggleBtn');
@@ -373,18 +317,17 @@
         }
         if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeToggleBtn').innerText = '☀️ Nền Sáng'; }
 
-        /* LẬT TRANG ĐĂNG NHẬP / ĐĂNG KÝ */
-        function toggleAuthForm(type) {
-            if(type === 'register') {
-                document.getElementById('formLogin').classList.remove('active');
-                document.getElementById('formRegister').classList.add('active');
-            } else {
-                document.getElementById('formRegister').classList.remove('active');
-                document.getElementById('formLogin').classList.add('active');
-            }
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(e => e.classList.remove('active'));
+            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+            document.getElementById('form' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
         }
 
-        /* CHUYỂN TAB TRONG GAME */
+        const firebaseConfig = { databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" };
+        firebase.initializeApp(firebaseConfig); const database = firebase.database(); 
+        let theHienTai = ""; let bangDatToanCau = {}; let userListGlobal = {};
+
         function switchPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.navbar button').forEach(btn => btn.classList.remove('active'));
@@ -397,12 +340,20 @@
             if(pageId === 'pageAdmin') document.getElementById('navAdmin').classList.add('active');
         }
 
-        /* FIREBASE CẤU HÌNH */
-        const firebaseConfig = { databaseURL: "https://cotyphu-e25f6-default-rtdb.asia-southeast1.firebasedatabase.app/" };
-        firebase.initializeApp(firebaseConfig); const database = firebase.database(); 
-        let theHienTai = ""; let bangDatToanCau = {}; let userListGlobal = {};
+        function loadDanhSachDatChoCoDat() {
+            let select = document.getElementById("coDat_LandSelect"); select.innerHTML = '';
+            danhSachDat.forEach(dat => { select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`; });
+        }
+        function loadDanhSachUser() {
+            let options = '';
+            for(let key in userListGlobal) {
+                if(key !== "Admin") { options += `<option value="${key}">${userListGlobal[key].Ten} (${key}) - [${userListGlobal[key].CongViec}]</option>`; }
+            }
+            document.getElementById("coDat_UserSelect").innerHTML = options;
+            document.getElementById("nhanSu_UserSelect").innerHTML = options;
+            document.getElementById("admin_UserSelect").innerHTML = options;
+        }
 
-        // VẼ ĐẤT
         function renderLands() {
             document.getElementById('shopGridLand').innerHTML = ''; document.getElementById('shopGridService').innerHTML = '';
             document.getElementById('myLandGridLand').innerHTML = ''; document.getElementById('myLandGridService').innerHTML = '';
@@ -411,154 +362,202 @@
                 let ownerUID = bangDatToanCau[dat.id] ? bangDatToanCau[dat.id].Owner : null;
                 let isMyLand = (ownerUID === theHienTai);
                 let isOwnedByOthers = (ownerUID !== null && ownerUID !== theHienTai);
+                let cardClass = "land-card" + (isOwnedByOthers ? " sold" : "") + (isMyLand ? " owned-by-me" : "");
+                let stampHTML = isOwnedByOthers ? `<div class="stamp">ĐÃ BÁN</div>` : (isMyLand ? `<div class="stamp" style="color:#27ae60; border-color:#27ae60;">CỦA BẠN</div>` : "");
+
+                let cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px 10px;"></div><div class="land-title">${dat.ten}</div><div class="land-body"><div class="land-prices"><div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div></div></div>${stampHTML}</div>`;
                 
-                let cardClass = "land-card"; let stampHTML = "";
-                if (isOwnedByOthers) { cardClass += " sold"; stampHTML = `<div class="stamp">ĐÃ BÁN</div>`; } 
-                else if (isMyLand) { cardClass += " owned-by-me"; stampHTML = `<div class="stamp" style="color:#27ae60; border-color:#27ae60;">CỦA BẠN</div>`; }
-
-                let cardHTML = "";
-
                 if(dat.loai === "dat") {
-                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: linear-gradient(135deg, ${dat.mau}, #34495e); justify-content:center; padding:15px 10px;"></div><div style="text-align:center; margin-top:10px;"><span class="land-group" style="background:${dat.mau}; color: ${(dat.nhom.includes('Vàng') || dat.nhom.includes('Phấn')) ? '#333' : '#fff'};">${dat.nhom}</span></div><div class="land-title">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="house-indicator"></div><div class="land-body"><div class="land-prices"><div class="price-col"><strong>Giá Mua</strong> ${dat.giaMua}$</div><div class="price-col"><strong>Xây Nhà</strong> ${dat.giaXay}$/Căn</div></div><div class="land-rent"><div style="text-align: left; padding-left: 5px;">Thuê đất: ${dat.thueDat}$<br>Thuê 1 căn: ${dat.thue1}$<br>Thuê 2 căn: ${dat.thue2}$</div><div style="border-left: 1px solid var(--card-border); font-weight: bold; padding-top: 15px;">Khách Sạn<br>${dat.thueKS}$</div></div></div>${stampHTML}</div>`;
                     document.getElementById('shopGridLand').innerHTML += cardHTML;
                     if(isMyLand) document.getElementById('myLandGridLand').innerHTML += cardHTML;
-                } else if (dat.loai === "benxe") {
-                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div><div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div><div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="land-body"><div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cảng/Bến</strong> ${dat.giaMua}$</div></div><div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">Thuê 1 Bến: <strong>250$</strong><br>Thuê 2 Bến: <strong>500$</strong><br>Thuê 3 Bến: <strong>1000$</strong><br>Thuê 4 Bến: <strong>2000$</strong></div></div>${stampHTML}</div>`;
-                    document.getElementById('shopGridService').innerHTML += cardHTML;
-                    if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
                 } else {
-                    cardHTML = `<div class="${cardClass}"><div class="land-header" style="background: ${dat.mau}; justify-content:center; padding:15px;"></div><div class="house-indicator" style="font-size: 40px; margin-top: 10px;">${dat.icon}</div><div class="land-title" style="margin-top: 0;">${dat.ten}</div><div class="land-subtitle">${dat.tinh}</div><div class="land-body"><div class="land-prices"><div class="price-col" style="border:none;"><strong>Giá Mua Cổ Phần</strong> ${dat.giaMua}$</div></div><div class="land-rent" style="flex-direction: column; text-align:center; line-height: 1.8;">Có 1 Trạm: Trả <strong>100$ x (Số Xúc Xắc)</strong><br>Có 2 Trạm: Trả <strong>250$ x (Số Xúc Xắc)</strong></div></div>${stampHTML}</div>`;
                     document.getElementById('shopGridService').innerHTML += cardHTML;
                     if(isMyLand) document.getElementById('myLandGridService').innerHTML += cardHTML;
                 }
             });
         }
 
-        // TẢI USER VÀO CÁC DROPDOWN
-        function loadDanhSachUser() {
-            let options = '';
-            for(let key in userListGlobal) {
-                options += `<option value="${key}">${userListGlobal[key].Ten} (${key.replace('The_Demo_', 'ID ')}) - [${userListGlobal[key].CongViec}]</option>`;
-            }
-            document.getElementById("coDat_UserSelect").innerHTML = options;
-            document.getElementById("nhanSu_UserSelect").innerHTML = options;
-            document.getElementById("admin_UserSelect").innerHTML = options; // Của Admin
-        }
-        function loadDanhSachDatChoCoDat() {
-            let select = document.getElementById("coDat_LandSelect"); select.innerHTML = '';
-            danhSachDat.forEach(dat => { select.innerHTML += `<option value="${dat.id}">[Giá: ${dat.giaMua}$] - ${dat.ten}</option>`; });
+        /* =======================================
+           CORE: TÌM ID DỰA TRÊN TÊN
+        ======================================= */
+        function findUserByName(name) {
+            return new Promise((resolve) => {
+                database.ref('/Users').once('value').then(snap => {
+                    let foundId = null; let userData = null;
+                    snap.forEach(child => {
+                        let d = child.val();
+                        if(d && d.Ten && d.Ten.toLowerCase() === name.toLowerCase()) {
+                            foundId = child.key; userData = d;
+                        }
+                    });
+                    resolve({ id: foundId, data: userData });
+                });
+            });
         }
 
         /* =======================================
-           CHỨC NĂNG ĐĂNG KÝ
+           HỆ THỐNG AUTH: ĐĂNG NHẬP THEO TÊN
         ======================================= */
-        function dangKy() {
+        async function dangNhapTheoTen() {
+            let ten = document.getElementById("login_name").value.trim();
+            let pass = document.getElementById("login_pass").value;
+            if(!ten || !pass) { alert("Vui lòng nhập Tên và Mật khẩu!"); return; }
+
+            // Nếu là Admin
+            if(ten.toLowerCase() === "admin") {
+                if(pass === "Admin") {
+                    theHienTai = "Admin";
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("topNavbar").style.display = "flex";
+                    document.querySelectorAll('.menu-player').forEach(el => el.style.display = 'none');
+                    document.getElementById('navAdmin').style.display = 'block';
+                    switchPage('pageAdmin'); batDauLangNgheDuLieuAdmin();
+                    return;
+                } else { alert("❌ Sai Mật khẩu Admin!"); return; }
+            }
+
+            // Người chơi
+            let user = await findUserByName(ten);
+            if(!user.id) {
+                alert("❌ Tên người chơi này chưa được đăng ký!");
+            } else if(user.data.MatKhau !== pass) {
+                alert("❌ Sai Mật khẩu!");
+            } else {
+                theHienTai = user.id;
+                document.getElementById("uiCardId").innerText = theHienTai; 
+                document.getElementById("loginScreen").style.display = "none"; 
+                document.getElementById("topNavbar").style.display = "flex"; 
+                
+                loadDanhSachDatChoCoDat();
+                switchPage('pageHome'); 
+                batDauLangNgheDuLieu();
+            }
+        }
+
+        /* =======================================
+           ĐĂNG KÝ BẢO MẬT (CHỐNG TRÙNG TÊN & TRÙNG ID)
+        ======================================= */
+        async function dangKyMoi() {
             let ten = document.getElementById("reg_name").value.trim();
-            let id = document.getElementById("reg_id").value;
+            let id = document.getElementById("reg_id").value.trim();
+            let job = document.getElementById("reg_job").value;
             let pass = document.getElementById("reg_pass").value;
             let passConfirm = document.getElementById("reg_pass_confirm").value;
 
-            if(!ten || !pass || !passConfirm) { alert("Vui lòng nhập đủ thông tin!"); return; }
+            if(!ten || !id || !pass || !passConfirm) { alert("Vui lòng nhập đủ thông tin!"); return; }
             if(pass !== passConfirm) { alert("Mật khẩu xác nhận không khớp!"); return; }
+            if(ten.toLowerCase() === "admin") { alert("Không được dùng tên này!"); return; }
 
-            // Kiểm tra xem ID thẻ này đã có ai tạo mật khẩu chưa
+            // K.Tra trùng Tên
+            let checkName = await findUserByName(ten);
+            if(checkName.id) { alert("❌ Tên này đã có người sử dụng. Vui lòng chọn tên khác!"); return; }
+
+            // K.Tra trùng ID
             database.ref('/Users/' + id).once('value').then(snap => {
                 let data = snap.val();
                 if(data && data.MatKhau && data.MatKhau !== "") {
-                    alert("❌ Thẻ ID này đã có chủ! Vui lòng chọn thẻ ID khác.");
+                    alert("❌ Thẻ ID/UID này đã có người đăng ký! Vui lòng dùng thẻ khác.");
                 } else {
                     const now = new Date(); const timeStr = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes();
-                    database.ref('/Users/' + id).update({
-                        Ten: ten,
-                        MatKhau: pass,
-                        CongViec: "Vô công rồi Nghề", // Mặc định luôn là Vô công rồi nghề
-                        Tien: 15000,
-                        LichSu: { "1": { ThoiGian: timeStr, MoTa: "Đăng ký thành công", Tien: 15000 } }
+                    database.ref('/Users/' + id).set({
+                        Ten: ten, MatKhau: pass, CongViec: job, Tien: 15000,
+                        LichSu: { "1": { ThoiGian: timeStr, MoTa: "Tạo tài khoản thành công", Tien: 15000 } }
                     }).then(() => {
-                        alert("✅ Đăng ký thành công! Hãy chuyển sang trang Đăng nhập.");
-                        toggleAuthForm('login');
-                        document.getElementById("login_id").value = id;
+                        alert("✅ Đăng ký thành công! Hãy chuyển sang Đăng nhập.");
+                        switchAuthTab('login');
+                        document.getElementById("login_name").value = ten;
                     });
                 }
             });
         }
 
         /* =======================================
-           CHỨC NĂNG ĐĂNG NHẬP
+           ĐỔI ID THẺ (SANG TÊN)
         ======================================= */
-        function dangNhap() {
-            let id = document.getElementById("login_id").value;
-            let pass = document.getElementById("login_pass").value;
-            
-            if(!pass) { alert("Vui lòng nhập Mật khẩu!"); return; }
+        async function thayDoiIDThe() {
+            let ten = document.getElementById("chg_name").value.trim();
+            let pass = document.getElementById("chg_pass").value;
+            let newId = document.getElementById("chg_newId").value.trim();
 
-            // Nếu là Admin
-            if(id === "Admin") {
-                if(pass === "Admin") {
-                    theHienTai = "Admin";
-                    document.getElementById("loginScreen").style.display = "none";
-                    document.getElementById("topNavbar").style.display = "flex";
-                    
-                    // Ẩn menu người chơi, hiện menu admin
-                    document.querySelectorAll('.menu-player').forEach(el => el.style.display = 'none');
-                    document.getElementById('navAdmin').style.display = 'block';
-                    
-                    switchPage('pageAdmin');
-                    batDauLangNgheDuLieuAdmin();
-                    return;
-                } else {
-                    alert("❌ Sai Mật khẩu Admin!"); return;
-                }
-            }
+            if(!ten || !pass || !newId) { alert("Vui lòng điền đủ form Đổi thẻ!"); return; }
 
-            // Đăng nhập người thường
-            database.ref('/Users/' + id).once('value').then(snap => {
-                let data = snap.val();
-                if(!data || !data.MatKhau) {
-                    alert("❌ Tài khoản này chưa được Đăng ký!");
-                } else if(data.MatKhau !== pass) {
-                    alert("❌ Sai Mật khẩu!");
-                } else {
-                    // Thành công
-                    theHienTai = id;
-                    document.getElementById("uiCardId").innerText = theHienTai.replace("The_Demo_", "Thẻ ID "); 
-                    document.getElementById("loginScreen").style.display = "none"; 
-                    document.getElementById("topNavbar").style.display = "flex"; 
-                    
-                    loadDanhSachDatChoCoDat();
-                    switchPage('pageHome'); 
-                    batDauLangNgheDuLieu();
-                }
+            let user = await findUserByName(ten);
+            if(!user.id) { alert("Tên không tồn tại!"); return; }
+            if(user.data.MatKhau !== pass) { alert("Sai mật khẩu xác nhận!"); return; }
+            if(user.id === newId) { alert("Thẻ mới giống y hệt thẻ cũ!"); return; }
+
+            // Kiểm tra thẻ mới có rảnh không
+            database.ref('/Users/' + newId).once('value').then(snap => {
+                if(snap.exists()) { alert("❌ Thẻ ID MỚI này đang có người khác sử dụng. Không thể chuyển!"); return; }
+                
+                let oldId = user.id; let dataCu = user.data;
+
+                // 1. Ghi dữ liệu sang node Mới
+                database.ref('/Users/' + newId).set(dataCu).then(() => {
+                    // 2. Chuyển nhượng Sổ Đỏ trong /Lands
+                    database.ref('/Lands').once('value').then(landSnap => {
+                        let lands = landSnap.val() || {};
+                        for(let k in lands) {
+                            if(lands[k].Owner === oldId) { database.ref('/Lands/' + k + '/Owner').set(newId); }
+                        }
+                        
+                        // 3. Xóa node Cũ
+                        database.ref('/Users/' + oldId).remove().then(() => {
+                            alert("✅ Đã chuyển thành công tài khoản sang Thẻ Mới: " + newId);
+                            document.getElementById("chg_newId").value = "";
+                        });
+                    });
+                });
             });
         }
 
         /* =======================================
-           ĐỒNG BỘ DỮ LIỆU NGƯỜI CHƠI
+           RESET PASS & ADMIN DUYỆT
+        ======================================= */
+        function adminDuyetResetPass() {
+            let targetUID = document.getElementById("admin_UserSelect").value;
+            if(!targetUID) return;
+            database.ref('/Users/' + targetUID + '/MatKhau').set("RESET").then(() => {
+                alert("✅ Đã cấp quyền. Người chơi " + userListGlobal[targetUID].Ten + " bây giờ có thể ra ngoài đặt lại Pass.");
+            });
+        }
+
+        async function capNhatMatKhauMoi() {
+            let ten = document.getElementById("reset_name").value.trim();
+            let newPass = document.getElementById("reset_newPass").value;
+            if(!ten || !newPass) { alert("Vui lòng nhập đủ!"); return; }
+
+            let user = await findUserByName(ten);
+            if(!user.id) { alert("Tên không tồn tại!"); return; }
+            if(user.data.MatKhau !== "RESET") { alert("❌ Lỗi: Bạn chưa được Admin cấp quyền Reset mật khẩu. Vui lòng nhờ Admin bấm nút trong Game trước!"); return; }
+
+            database.ref('/Users/' + user.id + '/MatKhau').set(newPass).then(() => {
+                alert("✅ Đặt lại Mật Khẩu thành công! Vui lòng Đăng nhập lại.");
+                switchAuthTab('login');
+                document.getElementById("login_name").value = ten;
+            });
+        }
+
+        /* =======================================
+           ĐỒNG BỘ DỮ LIỆU
         ======================================= */
         function batDauLangNgheDuLieu() {
             database.ref('/NganHang').on('value', (snap) => {
-                let data = snap.val();
-                if(data && typeof data === 'object' && data.TongTien !== undefined) {
-                    document.getElementById('bankMoney').innerText = data.TongTien + " $";
-                }
+                let data = snap.val(); if(data && data.TongTien !== undefined) document.getElementById('bankMoney').innerText = data.TongTien + " $";
             });
-
             database.ref('/Lands').on('value', (snap) => { bangDatToanCau = snap.val() || {}; renderLands(); });
-
             database.ref('/Users').on('value', (snap) => {
                 let users = []; userListGlobal = {}; let bankTableHTML = "";
                 snap.forEach((child) => { 
                     let d = child.val(); 
-                    if (d && d.Ten && d.MatKhau && child.key !== "Admin") { // Chỉ lấy user đã đăng ký
+                    if (d && d.Ten && child.key !== "Admin") {
                         users.push({ name: d.Ten, money: d.Tien !== undefined ? d.Tien : 0 }); 
                         userListGlobal[child.key] = d;
-                        bankTableHTML += `<tr><td>${d.Ten} (${child.key.replace("The_Demo_","ID ")})</td><td>${d.CongViec}</td><td style="color:#27ae60; font-weight:bold;">${d.Tien}$</td></tr>`;
+                        bankTableHTML += `<tr><td>${d.Ten}</td><td>${d.CongViec}</td><td style="color:#27ae60; font-weight:bold;">${d.Tien}$</td></tr>`;
                     }
                 });
-                
-                document.getElementById('bank_PlayerList').innerHTML = bankTableHTML || "<tr><td colspan='3'>Chưa có người chơi nào đăng ký.</td></tr>";
+                document.getElementById('bank_PlayerList').innerHTML = bankTableHTML || "<tr><td colspan='3'>Trống</td></tr>";
                 loadDanhSachUser(); 
-
                 users.sort((a, b) => b.money - a.money);
                 const lb = document.getElementById('leaderboardContainer'); lb.innerHTML = ''; 
                 users.forEach((u, i) => { let icon = i===0 ? '👑' : (i===1 ? '🥈' : (i===2 ? '🥉' : '👤')); lb.innerHTML += `<div class="lb-item"><span>${icon} ${u.name}</span> <strong style="color: #27ae60;">${u.money} $</strong></div>`; });
@@ -569,7 +568,6 @@
                 if(data && typeof data === 'object') {
                     if(data.Ten) document.getElementById('uiName').innerText = data.Ten;
                     if(data.Tien !== undefined) document.getElementById('uiBalance').innerText = data.Tien + " $";
-                    
                     let congViec = data.CongViec ? data.CongViec : "Vô công rồi Nghề";
                     document.getElementById('uiJob').innerText = congViec;
                     document.getElementById('roleTitleBox').innerText = "CHỨC VỤ CỦA BẠN: " + congViec;
@@ -577,21 +575,18 @@
                     document.getElementById('nganHangPanel').style.display = "none";
                     document.getElementById('coDatPanel').style.display = "none";
                     document.getElementById('nhanSuPanel').style.display = "none";
-                    document.getElementById('myProfileCard').style.display = "block";
                     document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #7f8c8d, #95a5a6)";
                     document.getElementById('roleDescBox').innerText = "Bạn là người chơi. Mua đất, thu tiền thuê để trở thành Tỷ Phú!";
 
                     if(congViec === "Ngân Hàng") {
-                        document.getElementById('roleDescBox').innerText = "Bạn là Thu Ngân. Bạn có quyền xem lén số dư của tất cả người chơi trong game. Mọi giao dịch cộng/trừ tiền ngân hàng được thao tác qua máy POS.";
+                        document.getElementById('roleDescBox').innerText = "Bạn là Thu Ngân. Bạn có quyền xem lén số dư của tất cả người chơi trong game.";
                         document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #3498db, #2980b9)";
                         document.getElementById('nganHangPanel').style.display = "block";
-                    } 
-                    else if(congViec === "Cò Đất") {
+                    } else if(congViec === "Cò Đất") {
                         document.getElementById('roleDescBox').innerText = "Bạn nắm giữ Sàn Giao Dịch. Lựa chọn vùng đất và ép người chơi khác mua nó.";
                         document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #27ae60, #2ecc71)";
                         document.getElementById('coDatPanel').style.display = "block";
-                    } 
-                    else if(congViec === "Nhân Sự") {
+                    } else if(congViec === "Nhân Sự") {
                         document.getElementById('roleDescBox').innerText = "Bạn là Trưởng Phòng Nhân Sự. Hãy chọn tên người chơi bên dưới và cấp nghề cho họ.";
                         document.getElementById('roleMainBox').style.background = "linear-gradient(135deg, #8e44ad, #9b59b6)";
                         document.getElementById('nhanSuPanel').style.display = "block";
@@ -603,104 +598,53 @@
                 const histContainer = document.getElementById('historyContainer'); histContainer.innerHTML = '';
                 if(snapshot.exists() && snapshot.val()) {
                     snapshot.forEach(child => {
-                        let item = child.val(); let isMinus = item.Tien < 0;
-                        histContainer.innerHTML += `<li><span class="history-time">${item.ThoiGian||"Now"}</span><span class="history-desc">${item.MoTa}</span><span class="money ${isMinus?'minus':''}">${isMinus?'':'+'}${item.Tien}$</span></li>`;
+                        let item = child.val(); if(typeof item === 'object') {
+                            let isMinus = item.Tien < 0;
+                            histContainer.innerHTML += `<li><span class="history-time">${item.ThoiGian||"Now"}</span><span class="history-desc">${item.MoTa}</span><span class="money ${isMinus?'minus':''}">${isMinus?'':'+'}${item.Tien}$</span></li>`;
+                        }
                     });
                 } else { histContainer.innerHTML = `<li style="justify-content: center; color: var(--text-muted);">Chưa có giao dịch.</li>`; }
             });
         }
 
-        /* =======================================
-           ĐỒNG BỘ DỮ LIỆU ADMIN
-        ======================================= */
         function batDauLangNgheDuLieuAdmin() {
-            database.ref('/NganHang').on('value', (snap) => {
-                let data = snap.val();
-                if(data && data.TongTien !== undefined) {
-                    document.getElementById('admin_BankMoney').value = data.TongTien;
-                }
-            });
+            database.ref('/NganHang/TongTien').on('value', (snap) => { document.getElementById('admin_BankMoney').value = snap.val() || 0; });
             database.ref('/Users').on('value', (snap) => {
                 userListGlobal = {};
-                snap.forEach((child) => { 
-                    let d = child.val(); 
-                    if (d && d.Ten && child.key !== "Admin" && d.MatKhau) { userListGlobal[child.key] = d; }
-                });
+                snap.forEach((child) => { if (child.key !== "Admin") userListGlobal[child.key] = child.val(); });
                 loadDanhSachUser(); 
             });
         }
 
-        // CÁC HÀM CỦA ADMIN
-        function adminSetBank() {
-            let val = document.getElementById('admin_BankMoney').value;
-            if(val) {
-                database.ref('/NganHang/TongTien').set(parseInt(val)).then(() => alert("✅ Đã cập nhật Quỹ Ngân Hàng!"));
-            }
-        }
-        function adminSetMoney() {
-            let uid = document.getElementById('admin_UserSelect').value;
-            let val = document.getElementById('admin_UserMoney').value;
-            if(uid && val) {
-                database.ref('/Users/' + uid + '/Tien').set(parseInt(val)).then(() => {
-                    alert("✅ Đã cập nhật tiền cho người chơi!");
-                    document.getElementById('admin_UserMoney').value = "";
-                });
-            }
-        }
-        function adminSetJob() {
-            let uid = document.getElementById('admin_UserSelect').value;
-            let job = document.getElementById('admin_UserJob').value;
-            if(uid && job) {
-                database.ref('/Users/' + uid + '/CongViec').set(job).then(() => alert("✅ Đã đổi nghề thành " + job));
-            }
-        }
+        // ADMIN FUNCTIONS
+        function adminSetBank() { let val = document.getElementById('admin_BankMoney').value; if(val) database.ref('/NganHang/TongTien').set(parseInt(val)).then(()=>alert("Đã cập nhật!")); }
+        function adminSetMoney() { let uid = document.getElementById('admin_UserSelect').value; let val = document.getElementById('admin_UserMoney').value; if(uid && val) database.ref('/Users/'+uid+'/Tien').set(parseInt(val)).then(()=>alert("Đã cấp tiền!")); }
+        
         function adminResetServer() {
-            let xacNhan = confirm("⚠️ BẠN CÓ CHẮC CHẮN MUỐN XÓA SẠCH SERVER? Tất cả tài khoản, sổ đỏ và tiền bạc sẽ về số 0.");
-            if(!xacNhan) return;
-            const dataMoi = {
+            if(!confirm("⚠️ Xóa SẠCH toàn bộ người chơi và Đất. Chắc chắn?")) return;
+            database.ref('/').set({
                 "NganHang": { "TongTien": 5000000, "QuanLy": "Hệ thống" },
-                "Lands": { "Reset_Mock": "1" }, 
-                "Users": {
-                    "Admin": { "Ten": "Admin", "MatKhau": "Admin" }, // Giữ lại Admin
-                    "The_Demo_1": { "Ten": "", "MatKhau": "" }, "The_Demo_2": { "Ten": "", "MatKhau": "" },
-                    "The_Demo_3": { "Ten": "", "MatKhau": "" }, "The_Demo_4": { "Ten": "", "MatKhau": "" },
-                    "The_Demo_5": { "Ten": "", "MatKhau": "" }, "The_Demo_6": { "Ten": "", "MatKhau": "" },
-                    "The_Demo_7": { "Ten": "", "MatKhau": "" }, "The_Demo_8": { "Ten": "", "MatKhau": "" }
-                }
-            };
-            database.ref('/').set(dataMoi).then(() => { alert("✅ Đã reset toàn bộ Server!"); location.reload(); });
+                "Lands": { "Reset": 1 }, 
+                "Users": { "Admin": { "Ten": "Admin", "MatKhau": "Admin" } }
+            }).then(() => { alert("✅ Đã reset toàn bộ Server!"); location.reload(); });
         }
 
-        /* =======================================
-           CÁC CHỨC NĂNG NGƯỜI CHƠI (CÒ ĐẤT, NHÂN SỰ)
-        ======================================= */
+        // ROLE FUNCTIONS
         function coDatThucHienGiaoDich() {
-            let landId = document.getElementById("coDat_LandSelect").value;
-            let targetUID = document.getElementById("coDat_UserSelect").value;
+            let landId = document.getElementById("coDat_LandSelect").value; let targetUID = document.getElementById("coDat_UserSelect").value;
             let landObj = danhSachDat.find(d => d.id === landId);
-
-            if(bangDatToanCau[landId] && bangDatToanCau[landId].Owner) { alert("❌ Lỗi: Mảnh đất này đã có chủ."); return; }
-
+            if(bangDatToanCau[landId] && bangDatToanCau[landId].Owner) { alert("❌ Đất đã có chủ."); return; }
             database.ref('/Users/' + targetUID + '/Tien').once('value').then(snap => {
-                let tienMoi = (snap.val() || 0) - landObj.giaMua;
-                database.ref('/Users/' + targetUID + '/Tien').set(tienMoi);
+                database.ref('/Users/' + targetUID + '/Tien').set((snap.val() || 0) - landObj.giaMua);
                 database.ref('/Lands/' + landId).set({ Owner: targetUID });
-                
                 let now = new Date();
-                database.ref('/Users/' + targetUID + '/LichSu').push().set({
-                    ThoiGian: now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes(),
-                    MoTa: "Mua " + landObj.ten + " qua Cò Đất", Tien: -landObj.giaMua
-                });
-                alert("✅ Đã cấp sổ đỏ " + landObj.ten + " cho " + userListGlobal[targetUID].Ten);
+                database.ref('/Users/' + targetUID + '/LichSu').push().set({ ThoiGian: now.getHours() + ":" + now.getMinutes(), MoTa: "Mua " + landObj.ten, Tien: -landObj.giaMua });
+                alert("✅ Đã cấp sổ đỏ thành công!");
             });
         }
-
         function nhanSuBoNhiem() {
-            let targetUID = document.getElementById("nhanSu_UserSelect").value;
-            let newJob = document.getElementById("nhanSu_JobSelect").value;
-            database.ref('/Users/' + targetUID + '/CongViec').set(newJob).then(() => {
-                alert("✅ Đã bổ nhiệm " + userListGlobal[targetUID].Ten + " làm " + newJob);
-            });
+            let targetUID = document.getElementById("nhanSu_UserSelect").value; let newJob = document.getElementById("nhanSu_JobSelect").value;
+            database.ref('/Users/' + targetUID + '/CongViec').set(newJob).then(() => alert("✅ Bổ nhiệm thành công!"));
         }
     </script>
 </body>
